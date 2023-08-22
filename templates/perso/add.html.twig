@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un Personnage{% endblock %}
+
+{% block body %}
+    {{ form_start(formAddPerso) }}
+    {{ form_end(formAddPerso) }}
+    <div>
+    {% if perso.nom != null %}
+        <p>Caractéristique:</p>
+        {{ form_start(formAddCaracteristiquePerso) }}
+        {{ form_end(formAddCaracteristiquePerso) }}
+        </div>
+
+        <div>
+        <p>Compétence:</p>
+        {{ form_start(formAddCompetencePerso) }}
+        {{ form_end(formAddCompetencePerso) }}
+        </div>
+        <div>
+        <p>Objets:</p>
+        {{ form_start(formAddObjet) }}
+        {{ form_end(formAddObjet) }}
+        </div>
+        {{ include('perso/info.html.twig') }}
+    {% endif %}
+{% endblock %}

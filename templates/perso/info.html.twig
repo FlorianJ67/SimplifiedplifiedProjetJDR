@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}info Personnage{% endblock %}
+
+{% block body %}
+<div id="resumePerso">
+    <h3>{{ perso.nom }}</h3><a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité</a><a href="">Ajoutez au favori</a>
+    <div>
+    {% if perso.caracteristiquePersos|length >1 %}
+        <p>Caractéristiques:</p>
+    {% else %}
+        <p>Caractéristique:</p>
+    {% endif %}
+    
+    {% for caracteristiquePerso in perso.caracteristiquePersos %}
+        <p>{{ caracteristiquePerso.valeur ~ " " ~ caracteristiquePerso.caracteristique|capitalize }}</p>
+    {% endfor %}
+    </div>
+
+    <br>
+
+    <div>
+    {% if perso.competencePersos|length >1 %}
+    <p>Compétences:</p>
+    {% else %}
+    <p>Compétence:</p>
+    {% endif %}
+    
+    {% for competencePerso in perso.competencePersos %}
+        <p>{{ competencePerso.valeur ~ " " ~ competencePerso.competence|capitalize }}</p>
+    {% endfor %}
+    </div>
+
+    <br>
+
+    <div>
+    {% if perso.objets|length >1 %}
+    <p>Objets:</p>
+    {% else %}
+    <p>Objet:</p>
+    {% endif %}
+    
+    {% for objet in perso.objets %}
+        <p>{{ objet.nom|capitalize }}</p>
+        <p>{{"Dégats: " ~ objet.valeur }}</p>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

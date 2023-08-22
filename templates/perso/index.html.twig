@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PersoController!{% endblock %}
+
+{% block body %}
+    {% for perso in app.user.persos %}
+        <a href="{{ path('info_perso', {'id': perso.id}) }}">{{ perso|capitalize }}</a>
+    {% endfor %}
+{% endblock %}

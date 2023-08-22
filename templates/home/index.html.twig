@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    {% if app.user %}
+    <a href="{{ path('add_perso') }}">Créer un Personnage</a>
+        {% if app.user.persos %}
+            {% for perso in app.user.persos %}
+            <a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité {{perso.nom}}</a>
+            {% endfor %}
+        {% endif %}
+    {% else %}
+    <a href="{{ path('app_login') }}">Veuillez être connecter pour créez un personnage</a>
+    {% endif %}
+{% endblock %}
