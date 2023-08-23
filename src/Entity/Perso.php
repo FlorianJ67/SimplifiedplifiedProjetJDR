@@ -284,11 +284,7 @@ class Perso
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->nom;
-    }
-
+    
     /**
      * @return Collection<int, User>
      */
@@ -296,14 +292,14 @@ class Perso
     {
         return $this->usersFav;
     }
-
+    
     public function addUsersFav(User $usersFav): static
     {
         if (!$this->usersFav->contains($usersFav)) {
             $this->usersFav->add($usersFav);
             $usersFav->addPersoFav($this);
         }
-
+        
         return $this;
     }
 
@@ -312,10 +308,10 @@ class Perso
         if ($this->usersFav->removeElement($usersFav)) {
             $usersFav->removePersoFav($this);
         }
-
+        
         return $this;
     }
-
+    
     /**
      * @return Collection<int, Commentaire>
      */
@@ -323,17 +319,17 @@ class Perso
     {
         return $this->commentaires;
     }
-
+    
     public function addCommentaire(Commentaire $commentaire): static
     {
         if (!$this->commentaires->contains($commentaire)) {
             $this->commentaires->add($commentaire);
             $commentaire->setPerso($this);
         }
-
+        
         return $this;
     }
-
+    
     public function removeCommentaire(Commentaire $commentaire): static
     {
         if ($this->commentaires->removeElement($commentaire)) {
@@ -342,7 +338,13 @@ class Perso
                 $commentaire->setPerso(null);
             }
         }
-
+        
         return $this;
     }
+    
+    public function __toString()
+    {
+        return $this->nom;
+    }
+
 }

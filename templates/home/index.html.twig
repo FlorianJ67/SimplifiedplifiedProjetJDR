@@ -4,13 +4,15 @@
 
 {% block body %}
     {% if app.user %}
-    <a href="{{ path('add_perso') }}">Créer un Personnage</a>
-        {% if app.user.persos %}
-            {% for perso in app.user.persos %}
-            <a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité {{perso.nom}}</a>
-            {% endfor %}
-        {% endif %}
+    <div>
+        <a href="{{ path('add_perso') }}">Créer un Personnage</a>
+            {% if app.user.persos %}
+                {% for perso in app.user.persos %}
+                <a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité {{perso.nom}}</a>
+                {% endfor %}
+            {% endif %}
+        </div>
     {% else %}
-    <a href="{{ path('app_login') }}">Veuillez être connecter pour créez un personnage</a>
+    <a href="{{ path('app_login') }}">Veuillez être connecté pour créer un personnage</a>
     {% endif %}
 {% endblock %}

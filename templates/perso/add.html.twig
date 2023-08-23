@@ -5,23 +5,30 @@
 {% block body %}
     {{ form_start(formAddPerso) }}
     {{ form_end(formAddPerso) }}
-    <div>
     {% if perso.nom != null %}
+    <div>
         <p>Caractéristique:</p>
         {{ form_start(formAddCaracteristiquePerso) }}
         {{ form_end(formAddCaracteristiquePerso) }}
-        </div>
-
-        <div>
+        <p>Ajoutez une caractéristique</p>
+        {{ form_start(formAddCaracteristique) }}
+        {{ form_end(formAddCaracteristique) }}
+    </div>
+    <div>
         <p>Compétence:</p>
         {{ form_start(formAddCompetencePerso) }}
         {{ form_end(formAddCompetencePerso) }}
-        </div>
-        <div>
+        <p>Ajoutez une compétence</p>
+        {{ form_start(formAddCompetence) }}
+        {{ form_end(formAddCompetence) }}
+    </div>
+    <div>
         <p>Objets:</p>
         {{ form_start(formAddObjet) }}
         {{ form_end(formAddObjet) }}
-        </div>
+    </div>
+    <div>
         {{ include('perso/info.html.twig') }}
+    </div>
     {% endif %}
 {% endblock %}
