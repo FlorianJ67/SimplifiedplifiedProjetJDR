@@ -3,6 +3,7 @@
 {% block title %}info Personnage{% endblock %}
 
 {% block body %}
+<h2>Info Personnage</h2>
 <div id="resumePerso">
     <h3>{{ perso.nom }}</h3><a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité</a>
     {% set FavCheck = 0 %}
@@ -26,7 +27,9 @@
     
     {% for caracteristiquePerso in perso.caracteristiquePersos %}
         <div>
-            <p>{{ caracteristiquePerso.valeur ~ " " ~ caracteristiquePerso.caracteristique|capitalize }}</p>
+            <p>{{ caracteristiquePerso.caracteristique|capitalize }}</p>
+            <input type"number" value="{{ caracteristiquePerso.valeur }}"></input>
+            <a class="change" href="{{ path('changeCaracteristique_perso', {'perso': perso.id, 'caracteristiqueperso': caracteristiquePerso.id }) }}"><i class="fa-solid fa-pen"></i></a>
             <a class="remove" href="{{ path('removeCaracteristique_perso', {'perso': perso.id, 'caracteristiqueperso': caracteristiquePerso.id }) }}"><i class="fa-solid fa-trash"></i></a>
         </div>
     {% endfor %}

@@ -150,7 +150,7 @@ class PersoController extends AbstractController
             if ($entityManager->getRepository(Objet::class)->findOneBy(['nom'=>$objet->getNom()]) && $entityManager->getRepository(Objet::class)->findOneBy(['valeur'=>$objet->getValeur()])){
                 $objet = $entityManager->getRepository(Objet::class)->findOneBy(['nom'=>$objet->getNom()]);
             }
-            
+
             $entityManager->persist($objet);
             $objet->addPerso($perso);
             
@@ -181,6 +181,17 @@ class PersoController extends AbstractController
         return $this->redirectToRoute('info_perso', ['id'=>$perso->getId()]);
     }
 
+    #[Route('/perso/{perso}/changeCaracteristique/{caracteristiqueperso}/', name: 'changeCaracteristique_perso')]
+    public function changeCaracPerso(ManagerRegistry $doctrine, Perso $perso, CaracteristiquePerso $caracteristiquePerso): Response
+    {     
+        $entityManager = $doctrine->getManager();
+        $value = ;
+        $caracteristiquePerso->setValeur($value);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
+    }
+
     #[Route('/perso/{perso}/removeCaracteristique/{caracteristiqueperso}/', name: 'removeCaracteristique_perso')]
     public function removeCaracPerso(ManagerRegistry $doctrine, Perso $perso, CaracteristiquePerso $caracteristiquePerso): Response
     {     
@@ -188,7 +199,7 @@ class PersoController extends AbstractController
         $perso->removeCaracteristiquePerso($caracteristiquePerso);
         $entityManager->flush();
 
-        return $this->redirectToRoute('info_perso', ['id'=>$perso->getId()]);
+        return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
     }
 
     #[Route('/perso/{perso}/removeCompetence/{competenceperso}/', name: 'removeCompetence_perso')]
@@ -198,7 +209,7 @@ class PersoController extends AbstractController
         $perso->removeCompetencePerso($competencePerso);
         $entityManager->flush();
 
-        return $this->redirectToRoute('info_perso', ['id'=>$perso->getId()]);
+        return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
     }
 
     #[Route('/perso/{id}/removeFav/', name: 'removeFav_perso')]
@@ -214,6 +225,8 @@ class PersoController extends AbstractController
     #[Route('/perso/{id}/', name: 'info_perso')]
     public function info(ManagerRegistry $doctrine, Perso $perso): Response
     {     
+
+
         return $this->render('perso/info.html.twig', [
             'perso' => $perso
         ]);
