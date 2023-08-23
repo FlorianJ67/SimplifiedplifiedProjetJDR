@@ -25,7 +25,10 @@
     {% endif %}
     
     {% for caracteristiquePerso in perso.caracteristiquePersos %}
-        <p>{{ caracteristiquePerso.valeur ~ " " ~ caracteristiquePerso.caracteristique|capitalize }}</p>
+        <div>
+            <p>{{ caracteristiquePerso.valeur ~ " " ~ caracteristiquePerso.caracteristique|capitalize }}</p>
+            <a class="remove" href="{{ path('removeCaracteristique_perso', {'perso': perso.id, 'caracteristiqueperso': caracteristiquePerso.id }) }}"><i class="fa-solid fa-trash"></i></a>
+        </div>
     {% endfor %}
     </div>
 
@@ -39,7 +42,10 @@
     {% endif %}
     
     {% for competencePerso in perso.competencePersos %}
-        <p>{{ competencePerso.valeur ~ " " ~ competencePerso.competence|capitalize }}</p>
+        <div>
+            <p>{{ competencePerso.valeur ~ " " ~ competencePerso.competence|capitalize }}</p>
+            <a class="remove" href="{{ path('removeCompetence_perso', {'perso': perso.id, 'competenceperso': competencePerso.id }) }}"><i class="fa-solid fa-trash"></i></a>
+        </div>
     {% endfor %}
     </div>
 
@@ -53,8 +59,11 @@
     {% endif %}
     
     {% for objet in perso.objets %}
-        <p>{{ objet.nom|capitalize }}</p>
-        <p>{{"Dégats: " ~ objet.valeur }}</p>
+        <div>
+            <p>{{ objet.nom|capitalize }}</p>
+            <p>{{"Dégats: " ~ objet.valeur }}</p>
+            {# <a class="remove" href="{{ path('removeObjet_perso', {'id': perso.id}) }}"><i class="fa-solid fa-trash"></i></a> #}
+        </div>
     {% endfor %}
     </div>
 </div>

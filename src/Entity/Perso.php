@@ -48,9 +48,6 @@ class Perso
     #[ORM\OneToMany(mappedBy: 'perso', targetEntity: CaracteristiquePerso::class)]
     private Collection $caracteristiquePersos;
 
-    #[ORM\OneToMany(mappedBy: 'perso', targetEntity: Objet::class)]
-    private Collection $objets;
-
     #[ORM\ManyToOne(inversedBy: 'persos')]
     private ?User $user = null;
 
@@ -60,13 +57,16 @@ class Perso
     #[ORM\OneToMany(mappedBy: 'perso', targetEntity: Commentaire::class, orphanRemoval: true)]
     private Collection $commentaires;
 
+    #[ORM\ManyToMany(targetEntity: Objet::class, inversedBy: 'persos')]
+    private Collection $objets;
+
     public function __construct()
     {
         $this->competencePersos = new ArrayCollection();
         $this->caracteristiquePersos = new ArrayCollection();
-        $this->objets = new ArrayCollection();
         $this->usersFav = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
+        $this->objets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -242,36 +242,6 @@ class Perso
         return $this;
     }
 
-    /**
-     * @return Collection<int, Objet>
-     */
-    public function getObjets(): Collection
-    {
-        return $this->objets;
-    }
-
-    public function addObjet(Objet $objet): static
-    {
-        if (!$this->objets->contains($objet)) {
-            $this->objets->add($objet);
-            $objet->setPerso($this);
-        }
-
-        return $this;
-    }
-
-    public function removeObjet(Objet $objet): static
-    {
-        if ($this->objets->removeElement($objet)) {
-            // set the owning side to null (unless already changed)
-            if ($objet->getPerso() === $this) {
-                $objet->setPerso(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -341,10 +311,34 @@ class Perso
         
         return $this;
     }
-    
+
     public function __toString()
     {
         return $this->nom;
+    }
+
+    /**
+     * @return Collection<int, objet>
+     */
+    public function getObjets(): Collection
+    {
+        return $this->objets;
+    }
+
+    public function addObjet(objet $objet): static
+    {
+        if (!$this->objets->contains($objet)) {
+            $this->objets->add($objet);
+        }
+
+        return $this;
+    }
+
+    public function removeObjet(objet $objet): static
+    {
+        $this->objets->removeElement($objet);
+
+        return $this;
     }
 
 }

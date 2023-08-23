@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ObjetRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ObjetRepository::class)]
@@ -19,8 +21,13 @@ class Objet
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $valeur = null;
 
-    #[ORM\ManyToOne(inversedBy: 'objets')]
-    private ?Perso $perso = null;
+    #[ORM\ManyToMany(targetEntity: Perso::class, mappedBy: 'objets')]
+    private Collection $persos;
+
+    public function __construct()
+    {
+        $this->persos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,15 +58,31 @@ class Objet
         return $this;
     }
 
-    public function getPerso(): ?Perso
+    /**
+     * @return Collection<int, Perso>
+     */
+    public function getPersos(): Collection
     {
-        return $this->perso;
+        return $this->persos;
     }
 
-    public function setPerso(?Perso $perso): static
+    public function addPerso(Perso $perso): static
     {
-        $this->perso = $perso;
+        if (!$this->persos->contains($perso)) {
+            $this->persos->add($perso);
+            $perso->addObjet($this);
+        }
 
         return $this;
     }
+
+    public function removePerso(Perso $perso): static
+    {
+        if ($this->persos->removeElement($perso)) {
+            $perso->removeObjet($this);
+        }
+
+        return $this;
+    }
+
 }
