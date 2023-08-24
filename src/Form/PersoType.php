@@ -3,10 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Perso;
+use App\Form\CompetencePersoType;
+use App\Entity\CaracteristiquePerso;
+use App\Form\CaracteristiquePersoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class PersoType extends AbstractType
 {
@@ -22,6 +26,24 @@ class PersoType extends AbstractType
             ->add('taille')
             ->add('poids')
             ->add('sex')
+
+            ->add('caracteristiquePersos', CollectionType::class, [
+                'entry_type' =>CaracteristiquePersoType::class,
+                'label' => 'Caractéristique',
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false
+            ])
+            ->add('competencePersos', CollectionType::class, [
+                'entry_type' =>CompetencePersoType::class,
+                'label' => 'Compétence',
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false
+            ])
+
             ->add('submit', SubmitType::class, [
                 'label' => 'Créer'
             ])

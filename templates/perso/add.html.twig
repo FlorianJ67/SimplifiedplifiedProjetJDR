@@ -4,6 +4,18 @@
 
 {% block body %}
     {{ form_start(formAddPerso) }}
+        {{ form_row(formAddPerso.nom) }}
+        {{ form_row(formAddPerso.espece) }}
+        {{ form_row(formAddPerso.origine) }}
+        {{ form_row(formAddPerso.age) }}
+        {{ form_row(formAddPerso.sante) }}
+        {{ form_row(formAddPerso.santeMax) }}
+        {{ form_row(formAddPerso.taille) }}
+        {{ form_row(formAddPerso.poids) }}
+        {{ form_row(formAddPerso.sex) }}
+        <div id="caracteristiquePerso" data-prototype="{{ form_row(formAddPerso.caracteristiquePersos.vars.prototype)|e('html_attr') }}">
+            <span></span>
+        </div>
     {{ form_end(formAddPerso) }}
     {% if perso.nom != null %}
     <div>
@@ -17,8 +29,8 @@
         </div>
         <div>
             <h3>Caractéristique:</h3>
-            {{ form_start(formAddCaracteristiquePerso) }}
-            {{ form_end(formAddCaracteristiquePerso) }}
+            {# {{ form_start(formAddCaracteristiquePerso) }}
+            {{ form_end(formAddCaracteristiquePerso) }} #}
             <h3>Ajoutez une caractéristique</h3>
             {{ form_start(formAddCaracteristique) }}
             {{ form_end(formAddCaracteristique) }}
@@ -32,7 +44,49 @@
             {{ form_end(formAddCompetence) }}
         </div>
     </div>
-    
-
     {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        let collection, boutonAjout, span;
+        window.onload = () => {
+            collection = document.querySelector("#caracteristiquePerso");
+            span = collection.querySelector("span");
+            boutonAjout = document.createElement("button");
+            boutonAjout.className = "ajout-caracteristiquePerso"
+            boutonAjout.innerText= "Ajouter une caractéristique";
+
+            let nouveauBouton = span.append(boutonAjout);
+
+            collection.dataset.index = collection.querySelectorAll("input").length;
+
+            boutonAjout.addEventListener("click", function(){
+                addButton(collection, nouveauBouton);
+            });
+        }
+        function addButton(collection, nouveauBouton){
+            let prototype = collection.dataset.prototype;
+            let index = collection.dataset.index;
+            prototype = prototype.replace(/__name__/g, index);
+            let content = document.createElement("html");
+            content.innerHTML = prototype;
+            let newForm = content.querySelector("div");
+            let boutonSuppr = document.createElement("button");
+            boutonSuppr.type = "button";
+            boutonSuppr.id = "delete-caracteristiquePerso-" + index;
+            boutonSuppr.innerText = "Supprimer la caractéristique";
+
+            newForm.append(boutonSuppr);
+
+            collection.dataset.index++;
+
+            let boutonAjout = collection.querySelector(".ajout-caracteristiquePerso");
+            span.insertBefore(newForm, boutonAjout);
+
+            boutonSuppr.addEventListener("click", function(){
+                this.previousElementSibling.parentElement.remove();
+            });
+        }
+    </script>
 {% endblock %}

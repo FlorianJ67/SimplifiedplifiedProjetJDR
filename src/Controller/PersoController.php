@@ -58,30 +58,30 @@ class PersoController extends AbstractController
 
         // Ajoutez une caractéristique au personnage
         $caracteristiquePersoForm = $this->createForm(CaracteristiquePersoType::class);
-        $caracteristiquePersoForm->handleRequest($request);
+        // $caracteristiquePersoForm->handleRequest($request);
         
-        if ($caracteristiquePersoForm->isSubmitted() && $caracteristiquePersoForm->isValid()) {
-            $caracPerso = $caracteristiquePersoForm->getData();
-            $entityManager = $doctrine->getManager();
-            $caracPerso->setPerso($perso);
+        // if ($caracteristiquePersoForm->isSubmitted() && $caracteristiquePersoForm->isValid()) {
+        //     $caracPerso = $caracteristiquePersoForm->getData();
+        //     $entityManager = $doctrine->getManager();
+        //     $caracPerso->setPerso($perso);
 
-            $editMode = false;
+            // $editMode = false;
 
-            // Si la caractéristique est déjà présente sur le personnage modifie sa valeur avec la nouvelle entrée
-            foreach ($perso->getCaracteristiquePersos() as $CaracteristiquePersos ) {
-                if ($CaracteristiquePersos->getCaracteristique() == $caracPerso->getCaracteristique()) {
-                    $CaracteristiquePersos->setValeur($caracPerso->getValeur());
-                    $editMode = true;
-                }
-            }
-            // Si la caractéristique n'était pas déjà présente
-            if (!$editMode) {
-                $entityManager->persist($caracPerso);
-            }
+            // // Si la caractéristique est déjà présente sur le personnage modifie sa valeur avec la nouvelle entrée
+            // foreach ($perso->getCaracteristiquePersos() as $CaracteristiquePersos ) {
+            //     if ($CaracteristiquePersos->getCaracteristique() == $caracPerso->getCaracteristique()) {
+            //         $CaracteristiquePersos->setValeur($caracPerso->getValeur());
+            //         $editMode = true;
+            //     }
+            // }
+            // // Si la caractéristique n'était pas déjà présente
+            // if (!$editMode) {
+            //     $entityManager->persist($caracPerso);
+            // }
 
-            $entityManager->flush();
-            return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
-        }
+            // $entityManager->flush();
+            // return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
+        // }
 
         // Ajoutez une caractéristique
         $caracteristiqueForm = $this->createForm(CaracteristiqueType::class);
@@ -161,11 +161,11 @@ class PersoController extends AbstractController
 
         return $this->render('perso/add.html.twig', [
             'formAddPerso' => $persoForm->createView(),
-            'formAddCaracteristiquePerso' => $caracteristiquePersoForm->createView(),
             'formAddCompetencePerso' => $competencePersoForm->createView(),
             'formAddCaracteristique' => $caracteristiqueForm->createView(),
             'formAddCompetence' => $competenceForm->createView(),
             'formAddObjetOnPerso' => $addObjetOnPersoForm->createView(),
+            "form" => $caracteristiquePersoForm->createView(),
             'perso' => $perso,
             'edit' => $perso->getId()
         ]);
@@ -181,16 +181,16 @@ class PersoController extends AbstractController
         return $this->redirectToRoute('info_perso', ['id'=>$perso->getId()]);
     }
 
-    #[Route('/perso/{perso}/changeCaracteristique/{caracteristiqueperso}/', name: 'changeCaracteristique_perso')]
-    public function changeCaracPerso(ManagerRegistry $doctrine, Perso $perso, CaracteristiquePerso $caracteristiquePerso): Response
-    {     
-        $entityManager = $doctrine->getManager();
-        $value = ;
-        $caracteristiquePerso->setValeur($value);
-        $entityManager->flush();
+    // #[Route('/perso/{perso}/changeCaracteristique/{caracteristiqueperso}/', name: 'changeCaracteristique_perso')]
+    // public function changeCaracPerso(ManagerRegistry $doctrine, Perso $perso, CaracteristiquePerso $caracteristiquePerso): Response
+    // {     
+    //     $entityManager = $doctrine->getManager();
+    //     $value = ;
+    //     $caracteristiquePerso->setValeur($value);
+    //     $entityManager->flush();
 
-        return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
-    }
+    //     return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
+    // }
 
     #[Route('/perso/{perso}/removeCaracteristique/{caracteristiqueperso}/', name: 'removeCaracteristique_perso')]
     public function removeCaracPerso(ManagerRegistry $doctrine, Perso $perso, CaracteristiquePerso $caracteristiquePerso): Response
@@ -223,12 +223,11 @@ class PersoController extends AbstractController
     }
 
     #[Route('/perso/{id}/', name: 'info_perso')]
-    public function info(ManagerRegistry $doctrine, Perso $perso): Response
+    public function info(ManagerRegistry $doctrine, Perso $perso, Request $request): Response
     {     
 
-
         return $this->render('perso/info.html.twig', [
-            'perso' => $perso
+            'perso' => $perso,
         ]);
     }
 }

@@ -15,9 +15,6 @@ class CompetencePersoType extends AbstractType
         $builder
             ->add('valeur')
             ->add('competence')
-            ->add('submit', SubmitType::class, [
-                'label' => 'Créer'
-            ])
         ;
     }
 

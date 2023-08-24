@@ -12,12 +12,15 @@
             {% if persoF == perso %}
                 <a href="{{ path('removeFav_perso', {'id': perso.id}) }}" title="Retirer des favoris"><i class="fa-solid fa-star"></i></a>
                 {% set FavCheck = 1 %}
+            {% else %}
+                {% set FavCheck = 0 %}
             {% endif %}
         {% endfor %}
     {% endif %}
     {% if FavCheck == 0 %}
         <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajoutez au favoris"><i class="fa-regular fa-star"></i></a>
     {% endif %}
+
     <div>
     {% if perso.caracteristiquePersos|length >1 %}
         <p>Caractéristiques:</p>
@@ -25,14 +28,6 @@
         <p>Caractéristique:</p>
     {% endif %}
     
-    {% for caracteristiquePerso in perso.caracteristiquePersos %}
-        <div>
-            <p>{{ caracteristiquePerso.caracteristique|capitalize }}</p>
-            <input type"number" value="{{ caracteristiquePerso.valeur }}"></input>
-            <a class="change" href="{{ path('changeCaracteristique_perso', {'perso': perso.id, 'caracteristiqueperso': caracteristiquePerso.id }) }}"><i class="fa-solid fa-pen"></i></a>
-            <a class="remove" href="{{ path('removeCaracteristique_perso', {'perso': perso.id, 'caracteristiqueperso': caracteristiquePerso.id }) }}"><i class="fa-solid fa-trash"></i></a>
-        </div>
-    {% endfor %}
     </div>
 
     <br>
@@ -65,7 +60,6 @@
         <div>
             <p>{{ objet.nom|capitalize }}</p>
             <p>{{"Dégats: " ~ objet.valeur }}</p>
-            {# <a class="remove" href="{{ path('removeObjet_perso', {'id': perso.id}) }}"><i class="fa-solid fa-trash"></i></a> #}
         </div>
     {% endfor %}
     </div>

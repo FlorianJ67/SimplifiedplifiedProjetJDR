@@ -15,12 +15,8 @@ class CaracteristiquePersoType extends AbstractType
         $builder
             ->add('valeur')
             ->add('caracteristique')
-            ->add('submit', SubmitType::class, [
-                'label' => 'Créer'
-            ])
         ;
     }
-
 
     public function configureOptions(OptionsResolver $resolver): void
     {
