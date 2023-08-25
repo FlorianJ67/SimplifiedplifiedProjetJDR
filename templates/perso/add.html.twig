@@ -16,6 +16,9 @@
         <div id="caracteristiquePerso" data-prototype="{{ form_row(formAddPerso.caracteristiquePersos.vars.prototype)|e('html_attr') }}">
             <span></span>
         </div>
+        <div id="competencePerso" data-prototype="{{ form_row(formAddPerso.competencePersos.vars.prototype)|e('html_attr') }}">
+            <span></span>
+        </div>
     {{ form_end(formAddPerso) }}
     {% if perso.nom != null %}
     <div>
@@ -28,17 +31,11 @@
             {{ form_end(formAddObjetOnPerso) }}
         </div>
         <div>
-            <h3>Caractéristique:</h3>
-            {# {{ form_start(formAddCaracteristiquePerso) }}
-            {{ form_end(formAddCaracteristiquePerso) }} #}
             <h3>Ajoutez une caractéristique</h3>
             {{ form_start(formAddCaracteristique) }}
             {{ form_end(formAddCaracteristique) }}
         </div>
         <div>
-            <h3>Compétence:</h3>
-            {{ form_start(formAddCompetencePerso) }}
-            {{ form_end(formAddCompetencePerso) }}
             <h3>Ajoutez une compétence</h3>
             {{ form_start(formAddCompetence) }}
             {{ form_end(formAddCompetence) }}
@@ -52,17 +49,35 @@
         let collection, boutonAjout, span;
         window.onload = () => {
             collection = document.querySelector("#caracteristiquePerso");
+            //----
+            collectionComp = document.querySelector("#competencePerso");
+
             span = collection.querySelector("span");
+            //----
+            spanComp = collectionComp.querySelector("span");
+
             boutonAjout = document.createElement("button");
             boutonAjout.className = "ajout-caracteristiquePerso"
             boutonAjout.innerText= "Ajouter une caractéristique";
+            //----
+            boutonAjoutComp = document.createElement("button");
+            boutonAjoutComp.className = "ajout-competencePerso"
+            boutonAjoutComp.innerText= "Ajouter une compétence";
 
             let nouveauBouton = span.append(boutonAjout);
+            //----
+            let nouveauBoutonComp = span.append(boutonAjoutComp);
 
             collection.dataset.index = collection.querySelectorAll("input").length;
+            //----
+            collectionComp.dataset.index = collectionComp.querySelectorAll("input").length;
 
             boutonAjout.addEventListener("click", function(){
                 addButton(collection, nouveauBouton);
+            });
+            //----
+            boutonAjoutComp.addEventListener("click", function(){
+                addButton(collectionComp, nouveauBoutonComp);
             });
         }
         function addButton(collection, nouveauBouton){

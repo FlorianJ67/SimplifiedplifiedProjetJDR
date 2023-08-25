@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Perso;
 use App\Form\CompetencePersoType;
-use App\Entity\CaracteristiquePerso;
+
 use App\Form\CaracteristiquePersoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

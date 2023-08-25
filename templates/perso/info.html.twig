@@ -27,6 +27,12 @@
     {% else %}
         <p>Caractéristique:</p>
     {% endif %}
+
+    {% for caracteristiquePerso in perso.caracteristiquePersos %}
+    <div>
+        <p>{{ caracteristiquePerso.valeur ~ " " ~ caracteristiquePerso.caracteristique|capitalize }}</p>
+    </div>
+{% endfor %}
     
     </div>
 
@@ -42,7 +48,6 @@
     {% for competencePerso in perso.competencePersos %}
         <div>
             <p>{{ competencePerso.valeur ~ " " ~ competencePerso.competence|capitalize }}</p>
-            <a class="remove" href="{{ path('removeCompetence_perso', {'perso': perso.id, 'competenceperso': competencePerso.id }) }}"><i class="fa-solid fa-trash"></i></a>
         </div>
     {% endfor %}
     </div>

@@ -62,4 +62,8 @@ class CompetencePerso
 
         return $this;
     }
+    public function __toString()
+    {
+        return $this->valeur;
+    }
 }

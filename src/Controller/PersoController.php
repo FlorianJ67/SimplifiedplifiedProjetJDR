@@ -47,10 +47,21 @@ class PersoController extends AbstractController
         
         if ($persoForm->isSubmitted() && $persoForm->isValid()) {
             $perso = $persoForm->getData();
+
             $entityManager = $doctrine->getManager();
             
             $perso->setUser($this->getUser());
+
             $entityManager->persist($perso);
+
+            foreach($perso->getCaracteristiquePersos() as $persoCarac){
+                $persoCarac->setPerso($perso);
+                $entityManager->persist($persoCarac);
+            }
+            foreach($perso->getCompetencePersos() as $persoComp){
+                $persoComp->setPerso($perso);
+                $entityManager->persist($persoComp);
+            }
             $entityManager->flush();
             
             return $this->redirectToRoute('info_perso', ['id' => $perso->getId()]);
@@ -58,30 +69,6 @@ class PersoController extends AbstractController
 
         // Ajoutez une caractéristique au personnage
         $caracteristiquePersoForm = $this->createForm(CaracteristiquePersoType::class);
-        // $caracteristiquePersoForm->handleRequest($request);
-        
-        // if ($caracteristiquePersoForm->isSubmitted() && $caracteristiquePersoForm->isValid()) {
-        //     $caracPerso = $caracteristiquePersoForm->getData();
-        //     $entityManager = $doctrine->getManager();
-        //     $caracPerso->setPerso($perso);
-
-            // $editMode = false;
-
-            // // Si la caractéristique est déjà présente sur le personnage modifie sa valeur avec la nouvelle entrée
-            // foreach ($perso->getCaracteristiquePersos() as $CaracteristiquePersos ) {
-            //     if ($CaracteristiquePersos->getCaracteristique() == $caracPerso->getCaracteristique()) {
-            //         $CaracteristiquePersos->setValeur($caracPerso->getValeur());
-            //         $editMode = true;
-            //     }
-            // }
-            // // Si la caractéristique n'était pas déjà présente
-            // if (!$editMode) {
-            //     $entityManager->persist($caracPerso);
-            // }
-
-            // $entityManager->flush();
-            // return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
-        // }
 
         // Ajoutez une caractéristique
         $caracteristiqueForm = $this->createForm(CaracteristiqueType::class);
@@ -98,31 +85,6 @@ class PersoController extends AbstractController
 
         // Ajoutez une competence au personnage
         $competencePersoForm = $this->createForm(CompetencePersoType::class);
-        $competencePersoForm->handleRequest($request);
-        
-        if ($competencePersoForm->isSubmitted() && $competencePersoForm->isValid()) {
-            $compPerso = $competencePersoForm->getData();
-            $entityManager = $doctrine->getManager();
-            $compPerso->setPerso($perso);
-
-            $editMode = false;
-
-            // Si la competence est déjà présente sur le personnage modifie sa valeur avec la nouvelle entrée
-            foreach ($perso->getCompetencePersos() as $competencePersos ) {
-                if ($competencePersos->getCompetence() == $compPerso->getCompetence()) {
-                    $competencePersos->setValeur($compPerso->getValeur());
-                    $editMode = true;
-                }
-            }
-            // Si la competence n'était pas déjà présente
-            if (!$editMode) {
-                $entityManager->persist($compPerso);
-            }
-
-            $entityManager->flush();
-            
-            return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
-        }
 
         // Ajoutez une competence
         $competenceForm = $this->createForm(CompetenceType::class);
@@ -179,37 +141,6 @@ class PersoController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('info_perso', ['id'=>$perso->getId()]);
-    }
-
-    // #[Route('/perso/{perso}/changeCaracteristique/{caracteristiqueperso}/', name: 'changeCaracteristique_perso')]
-    // public function changeCaracPerso(ManagerRegistry $doctrine, Perso $perso, CaracteristiquePerso $caracteristiquePerso): Response
-    // {     
-    //     $entityManager = $doctrine->getManager();
-    //     $value = ;
-    //     $caracteristiquePerso->setValeur($value);
-    //     $entityManager->flush();
-
-    //     return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
-    // }
-
-    #[Route('/perso/{perso}/removeCaracteristique/{caracteristiqueperso}/', name: 'removeCaracteristique_perso')]
-    public function removeCaracPerso(ManagerRegistry $doctrine, Perso $perso, CaracteristiquePerso $caracteristiquePerso): Response
-    {     
-        $entityManager = $doctrine->getManager();
-        $perso->removeCaracteristiquePerso($caracteristiquePerso);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
-    }
-
-    #[Route('/perso/{perso}/removeCompetence/{competenceperso}/', name: 'removeCompetence_perso')]
-    public function removeCompPerso(ManagerRegistry $doctrine, Perso $perso, CompetencePerso $competencePerso): Response
-    {     
-        $entityManager = $doctrine->getManager();
-        $perso->removeCompetencePerso($competencePerso);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
     }
 
     #[Route('/perso/{id}/removeFav/', name: 'removeFav_perso')]

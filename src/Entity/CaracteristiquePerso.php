@@ -65,6 +65,6 @@ class CaracteristiquePerso
 
     public function __toString()
     {
-        return $this->perso;
+        return $this->valeur;
     }
 }
