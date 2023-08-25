@@ -46,22 +46,47 @@ class PersoController extends AbstractController
         $persoForm->handleRequest($request);
         
         if ($persoForm->isSubmitted() && $persoForm->isValid()) {
-            $perso = $persoForm->getData();
 
+            $perso = $persoForm->getData();
+            $alreadyHave = [];
+            
             $entityManager = $doctrine->getManager();
             
             $perso->setUser($this->getUser());
 
-            $entityManager->persist($perso);
-
-            foreach($perso->getCaracteristiquePersos() as $persoCarac){
-                $persoCarac->setPerso($perso);
-                $entityManager->persist($persoCarac);
+            foreach($perso->getCaracteristiquePersos() as $persoCarac){ 
+                array_push($alreadyHave, $persoCarac);
             }
+            foreach($alreadyHave as $caracPersoHave ){
+                foreach($alreadyHave as $caracPersoHaveCheck) {
+                    if($caracPersoHave->getCaracteristique() == $caracPersoHaveCheck->getCaracteristique()){
+                        $caracPersoHave->setValeur($caracPersoHaveCheck->getValeur());
+                        $entityManager->remove($caracPersoHaveCheck);
+                        $entityManager->persist($caracPersoHave);
+                    } else {
+                        $caracPersoHaveCheck->setPerso($perso);
+                        $entityManager->persist($caracPersoHaveCheck);
+                    } 
+                }
+            }
+            $alreadyHave = [];
             foreach($perso->getCompetencePersos() as $persoComp){
-                $persoComp->setPerso($perso);
-                $entityManager->persist($persoComp);
+                array_push($alreadyHave, $persoComp);
             }
+            foreach($alreadyHave as $compPersoHave ){
+                foreach($alreadyHave as $compPersoHaveCheck) {
+                    if($compPersoHave->getCompetence() == $compPersoHaveCheck->getCompetence()){
+                        $compPersoHave->setValeur($compPersoHaveCheck->getValeur());
+                        $entityManager->remove($compPersoHaveCheck);
+                        $entityManager->persist($compPersoHave);
+                    } else {
+                        $compPersoHaveCheck->setPerso($perso);
+                        $entityManager->persist($compPersoHaveCheck);
+                    } 
+                }
+            }
+
+            $entityManager->persist($perso);
             $entityManager->flush();
             
             return $this->redirectToRoute('info_perso', ['id' => $perso->getId()]);
