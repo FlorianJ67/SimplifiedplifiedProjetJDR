@@ -14,9 +14,11 @@
         {{ form_row(formAddPerso.poids) }}
         {{ form_row(formAddPerso.sex) }}
         <div id="caracteristiquePerso" data-prototype="{{ form_row(formAddPerso.caracteristiquePersos.vars.prototype)|e('html_attr') }}">
+            {{ form_row(formAddPerso.caracteristiquePersos) }}
             <span id="spanCarac"></span>
         </div>
         <div id="competencePerso" data-prototype="{{ form_row(formAddPerso.competencePersos.vars.prototype)|e('html_attr') }}">
+            {{ form_row(formAddPerso.competencePersos) }}
             <span id="spanComp"></span>
         </div>
     {{ form_end(formAddPerso) }}

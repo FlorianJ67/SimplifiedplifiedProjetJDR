@@ -22,34 +22,33 @@
     {% endif %}
 
     <div>
-    {% if perso.caracteristiquePersos|length >1 %}
-        <p>Caractéristiques:</p>
-    {% else %}
-        <p>Caractéristique:</p>
-    {% endif %}
+        {% if perso.caracteristiquePersos|length >1 %}
+            <p>Caractéristiques:</p>
+        {% else %}
+            <p>Caractéristique:</p>
+        {% endif %}
 
-    {% for caracteristiquePerso in perso.caracteristiquePersos %}
-    <div>
-        <p>{{ caracteristiquePerso.valeur ~ " " ~ caracteristiquePerso.caracteristique|capitalize }}</p>
-    </div>
-{% endfor %}
-    
+        {% for caracteristiquePerso in perso.caracteristiquePersos %}
+            <div>
+                <p>{{ caracteristiquePerso.valeur ~ " " ~ caracteristiquePerso.caracteristique|capitalize }}</p>
+            </div>
+        {% endfor %}
     </div>
 
     <br>
 
     <div>
-    {% if perso.competencePersos|length >1 %}
-    <p>Compétences:</p>
-    {% else %}
-    <p>Compétence:</p>
-    {% endif %}
-    
-    {% for competencePerso in perso.competencePersos %}
-        <div>
-            <p>{{ competencePerso.valeur ~ " " ~ competencePerso.competence|capitalize }}</p>
-        </div>
-    {% endfor %}
+        {% if perso.competencePersos|length >1 %}
+            <p>Compétences:</p>
+        {% else %}
+            <p>Compétence:</p>
+        {% endif %}
+        
+        {% for competencePerso in perso.competencePersos %}
+            <div>
+                <p>{{ competencePerso.valeur ~ " " ~ competencePerso.competence|capitalize }}</p>
+            </div>
+        {% endfor %}
     </div>
 
     <br>
@@ -57,7 +56,7 @@
     <div>
     {% if perso.objets|length >1 %}
         <p>Objets:</p>
-        {% else %}
+    {% else %}
         <p>Objet:</p>
     {% endif %}
     
@@ -67,6 +66,14 @@
             <p>{{"Dégats: " ~ objet.valeur }}</p>
         </div>
     {% endfor %}
+    </div>
+    <div>
+        {% for commentaire in perso.commentaires %}
+            <div class="commentaire">
+                <p class="user">{{ commentaire.user.email }}</p>
+                <p>{{ commentaire.contenu }}</p>
+            </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
