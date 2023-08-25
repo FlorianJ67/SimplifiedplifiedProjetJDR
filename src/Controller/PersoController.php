@@ -6,6 +6,7 @@ use App\Entity\Objet;
 use App\Entity\Perso;
 use App\Form\ObjetType;
 use App\Form\PersoType;
+use App\Entity\Commentaire;
 use App\Form\CompetenceType;
 use App\Entity\CompetencePerso;
 use App\Form\CaracteristiqueType;
@@ -174,6 +175,26 @@ class PersoController extends AbstractController
         $entityManager = $doctrine->getManager();
         $this->getUser()->removePersoFav($perso);
         $entityManager->flush();
+
+        return $this->redirectToRoute('info_perso', ['id'=>$perso->getId()]);
+    }
+
+    #[Route('/perso/{id}/addComment/', name: 'add_comment')]
+    public function addComment(ManagerRegistry $doctrine, Commentaire $commentaire): Response
+    {
+        // Si aucun personnage n'existe: créer un moule
+        if (!$perso) {
+            $perso = new Perso();
+        }
+
+        // Créer/Modifier un commentaire  
+        $commentaireForm = $this->createForm(CommentaireType::class, $commentaire);
+        $commentaireForm->handleRequest($request);
+        
+        if ($commentaireForm->isSubmitted() && $commentaireForm->isValid()) {
+
+            $commentaire = $commentaireForm->getData();
+        }
 
         return $this->redirectToRoute('info_perso', ['id'=>$perso->getId()]);
     }
