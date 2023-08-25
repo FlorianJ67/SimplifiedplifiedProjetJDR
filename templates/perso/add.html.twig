@@ -14,10 +14,10 @@
         {{ form_row(formAddPerso.poids) }}
         {{ form_row(formAddPerso.sex) }}
         <div id="caracteristiquePerso" data-prototype="{{ form_row(formAddPerso.caracteristiquePersos.vars.prototype)|e('html_attr') }}">
-            <span></span>
+            <span id="spanCarac"></span>
         </div>
         <div id="competencePerso" data-prototype="{{ form_row(formAddPerso.competencePersos.vars.prototype)|e('html_attr') }}">
-            <span></span>
+            <span id="spanComp"></span>
         </div>
     {{ form_end(formAddPerso) }}
     {% if perso.nom != null %}
@@ -46,41 +46,41 @@
 
 {% block javascripts %}
     <script>
-        let collection, boutonAjout, span;
+        let collectionCarac, collectionComp, boutonAjoutCarac, boutonAjoutComp, spanCarac, spanComp;
         window.onload = () => {
-            collection = document.querySelector("#caracteristiquePerso");
+            collectionCarac = document.querySelector("#caracteristiquePerso");
             //----
             collectionComp = document.querySelector("#competencePerso");
 
-            span = collection.querySelector("span");
+            spanCarac = collectionCarac.querySelector("#spanCarac");
             //----
-            spanComp = collectionComp.querySelector("span");
+            spanComp = collectionComp.querySelector("#spanComp");
 
-            boutonAjout = document.createElement("button");
-            boutonAjout.className = "ajout-caracteristiquePerso"
-            boutonAjout.innerText= "Ajouter une caractéristique";
+            boutonAjoutCarac = document.createElement("button");
+            boutonAjoutCarac.className = "ajout-caracteristiquePerso"
+            boutonAjoutCarac.innerText= "Ajouter une caractéristique";
             //----
             boutonAjoutComp = document.createElement("button");
             boutonAjoutComp.className = "ajout-competencePerso"
             boutonAjoutComp.innerText= "Ajouter une compétence";
 
-            let nouveauBouton = span.append(boutonAjout);
+            let nouveauBoutonCarac = spanCarac.append(boutonAjoutCarac);
             //----
-            let nouveauBoutonComp = span.append(boutonAjoutComp);
+            let nouveauBoutonComp = spanComp.append(boutonAjoutComp);
 
-            collection.dataset.index = collection.querySelectorAll("input").length;
+            collectionCarac.dataset.index = collectionCarac.querySelectorAll("input").length;
             //----
             collectionComp.dataset.index = collectionComp.querySelectorAll("input").length;
 
-            boutonAjout.addEventListener("click", function(){
-                addButton(collection, nouveauBouton);
+            boutonAjoutCarac.addEventListener("click", function(){
+                addButton(collectionCarac, nouveauBoutonCarac, spanCarac, "caractéristique");
             });
             //----
             boutonAjoutComp.addEventListener("click", function(){
-                addButton(collectionComp, nouveauBoutonComp);
+                addButton(collectionComp, nouveauBoutonComp, spanComp, "compétence");
             });
         }
-        function addButton(collection, nouveauBouton){
+        function addButton(collection, nouveauBouton, span, stat){
             let prototype = collection.dataset.prototype;
             let index = collection.dataset.index;
             prototype = prototype.replace(/__name__/g, index);
@@ -89,14 +89,14 @@
             let newForm = content.querySelector("div");
             let boutonSuppr = document.createElement("button");
             boutonSuppr.type = "button";
-            boutonSuppr.id = "delete-caracteristiquePerso-" + index;
-            boutonSuppr.innerText = "Supprimer la caractéristique";
+            boutonSuppr.id = "delete-"+ stat + "Perso-" + index;
+            boutonSuppr.innerText = "Supprimer la " + stat;
 
             newForm.append(boutonSuppr);
 
             collection.dataset.index++;
 
-            let boutonAjout = collection.querySelector(".ajout-caracteristiquePerso");
+            let boutonAjout = collection.querySelector(".ajout-" + stat + "Perso");
             span.insertBefore(newForm, boutonAjout);
 
             boutonSuppr.addEventListener("click", function(){
