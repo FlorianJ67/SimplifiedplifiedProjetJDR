@@ -118,6 +118,6 @@ class Objet
 
     public function __toString()
     {
-        return $this->nom . "(Dgt mult. " . $this->valeur . ")";
+        return ucfirst($this->nom . "(Dgt mult. " . $this->valeur . ")");
     }
 }

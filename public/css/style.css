@@ -23,7 +23,7 @@ h1{
 .userForm>form>div>input,.persoForm>form>div>input {
     margin-left: 5px;
 }
-
+/* Tableau associatif de PersoForm */
 #caracteristiquePerso, #competencePerso, #inventaire {
     border-top: 1px solid black;
     margin-top: 20px;
@@ -47,6 +47,20 @@ h1{
 #spanCarac>div>div>div,#spanComp>div>div>div,#spanInv>div>div>div {
     margin: 0 2px;
 }
+#caracteristiquePerso>div>div>div>div, #competencePerso>div>div>div>div, #inventaire>div>div>div>div {
+    display: flex;
+    justify-content: space-between;
+    margin: 4px 0;
+}
+#caracteristiquePerso>div>div>div>div>div:not(:first-child),#competencePerso>div>div>div>div>div:not(:first-child),#inventaire>div>div>div>div>div:not(:first-child) {
+    margin-left: 5px;
+}
+#caracteristiquePerso>div>div>div>div>div>select,#caracteristiquePerso>div>div>div>div>div>input,
+#competencePerso>div>div>div>div>div>select,#competencePerso>div>div>div>div>div>input,
+#inventaire>div>div>div>div>div>select,#inventaire>div>div>div>div>div>input {
+    margin-left: 5px;
+}
+
 /* resumePerso */
 #resumePerso {
     display: flex;
@@ -89,15 +103,9 @@ h1{
     align-items: flex-end;
 }
 
-/*  */
-#caracteristiquePerso>div>div>div>div, #competencePerso>div>div>div>div, #inventaire>div>div>div>div {
-    display: flex;
-    justify-content: space-between;
-    margin: 4px 0;
-}
 
 /* comp/carac button */
-.ajout-caracteristiquePerso, .ajout-competencePerso, .ajout-objet {
+.ajout-caracteristiquePerso, .ajout-competencePerso, .ajout-objetPerso {
     background-color: rgb(15, 105, 15);
     color: white;
     border: none;

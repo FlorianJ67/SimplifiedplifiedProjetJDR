@@ -26,6 +26,13 @@ class PersoController extends AbstractController
     #[Route('/perso', name: 'app_perso')]
     public function index(): Response
     {
+        // Si il n'y pas d'utilisateur connecté 
+        if(!$this->getUser()){
+            // Redirige vers la page de connexion
+            return $this->redirectToRoute('app_login');
+        }
+        
+
         return $this->render('perso/index.html.twig', [
             'controller_name' => 'PersoController',
         ]);
@@ -40,7 +47,6 @@ class PersoController extends AbstractController
             // Redirige vers la page de connexion
             return $this->redirectToRoute('app_login');
         }
-
         // Si aucun personnage n'existe
         if (!$perso) {
             // Créer un moule
@@ -118,6 +124,9 @@ class PersoController extends AbstractController
             return $this->redirectToRoute('info_perso', ['id' => $perso->getId()]);
         }
 
+
+
+
         // Ajouté une Caractéristique
         $caracteristiqueForm = $this->createForm(CaracteristiqueType::class);
         $caracteristiqueForm->handleRequest($request);
@@ -163,6 +172,9 @@ class PersoController extends AbstractController
             
             return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
         }
+
+
+
 
         // Créer un Commentaire  
         $commentaireForm = $this->createForm(CommentaireType::class);
@@ -215,20 +227,24 @@ class PersoController extends AbstractController
     #[Route('/perso/{id}/', name: 'info_perso')]
     public function info(ManagerRegistry $doctrine, Perso $perso, Request $request): Response
     {    
-        // Créer un commentaire  
+        // On créer le formulaire d'un commentaire  
         $commentaireForm = $this->createForm(CommentaireType::class);
         $commentaireForm->handleRequest($request);
-
+        // On récupère l'entity Manager
         $entityManager = $doctrine->getManager();
 
         if ($commentaireForm->isSubmitted() && $commentaireForm->isValid()) {
-
+            // On récupère les information du formulaire remplit
             $commentaire = $commentaireForm->getData();
+            // On récupère & définie le Perso sur lequel le commentaire sera poster
             $commentaire->setPerso($perso);
+            // On récupère & définie l'utilisateur du commentaire
             $commentaire->setUser($this->getUser());
+            // On définie la date de création du commentaire (date actuelle au moment du traitement du formulaire)
             $commentaire->setCreatedAt(new DateTime());
-
+            // On génère l'entité
             $entityManager->persist($commentaire);
+            // On valide les modifications
             $entityManager->flush();
         }
 

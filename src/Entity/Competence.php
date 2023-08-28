@@ -109,6 +109,6 @@ class Competence
 
     public function __toString()
     {
-        return $this->nom;
+        return ucfirst($this->nom);
     }
 }
