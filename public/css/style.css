@@ -17,6 +17,18 @@ h1{
     align-items: flex-end;
     min-width: 30%;
 }
+.persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire) {
+    width: -webkit-fill-available;
+    display: flex;
+    justify-content: space-between;
+}
+.persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire)>label {
+    width: 50%;
+    text-align: right;
+}
+.persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire)>input {
+    width: 45%;
+}
 .userForm>form>div {
     margin: 1% 0;
 }
@@ -72,7 +84,7 @@ h1{
     padding: 1%;
     position: relative;
 }
-#resumePerso>.editOrFav {
+.editOrFav {
     position: absolute;
     top: 2%;
     right: 2%;
@@ -80,7 +92,44 @@ h1{
 #resumePerso>div:not(:nth-child(2)) {
     border-top: 1px solid black;
 }
-
+/* listPerso */
+.persoList h2>a {
+    text-decoration: none;
+    color: black;
+    padding-left: 0.3rem;
+}
+.persoList>div {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 20%;
+    max-height: 25%;
+    overflow: overlay;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+.persoList>div>div:last-child {
+    display: flex;
+    justify-content: space-between;
+}
+.persoList>div>div:last-child>div {
+    width: -webkit-fill-available;
+}
+.persoList>div>div:last-child>div>h3 {
+    text-align: center;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    margin: 0;
+    padding: 0.6rem 0;
+}
+.persoList>div>div:last-child>div:not(:last-child) {
+    border-right: 1px solid black;
+}
+.persoList>div>div:last-child>div>div {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+}
 /* commentForm */
 .commentForm {
     display: flex;

@@ -3,7 +3,138 @@
 {% block title %}Hello PersoController!{% endblock %}
 
 {% block body %}
-    {% for perso in app.user.persos %}
-        <a href="{{ path('info_perso', {'id': perso.id}) }}">{{ perso|capitalize }}</a>
+<div class="persoList">
+    <h1>Mes Personnages</h1>
+    {% for perso in perso %}
+    <div>
+        <h2><a title="Afficher la fiche du personnage {{ perso }}" href="{{ path('info_perso', {'id': perso.id}) }}">{{ perso|capitalize }}</a></h2>
+        <div class="editOrFav">
+            <a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité</a>
+            {% set FavCheck = 0 %}
+            <!-- Si l'utilisateur a une liste de perso favorie -->
+            {% if app.user.persoFav %}
+                <!-- On vérifie si le perso est dans cette liste -->
+                {% for persoF in app.user.persoFav %}
+                    <!-- Si oui on affiche le bouton pour le Retirer des favoris -->
+                    {% if persoF == perso %}
+                        <a href="{{ path('removeFav_perso', {'id': perso.id}) }}" title="Retirer des favoris"><i class="fa-solid fa-star"></i></a>
+                        <!-- On enregistre le fait qu'il soit en favoris -->
+                        {% set FavCheck = 1 %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            <!-- Si le Perso n'est pas dans la liste des Favoris, on affiche le bouton "Ajoutez au favoris" -->
+            {% if FavCheck == 0 %}
+                <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajoutez au favoris"><i class="fa-regular fa-star"></i></a>
+            {% endif %}
+        </div>
+        <div>
+            <div>
+                <h3>Carac</h3>
+                {% for carac in perso.caracteristiquePersos %}
+                    <div>
+                        <p title="{{ carac.caracteristique }}">{{ carac.caracteristique| slice(0,3) }}</p>
+                        <p>{{ carac.valeur }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                <h3>Comp</h3>
+                {% for comp in perso.competencePersos %}
+                    <div>
+                        <!-- Si le nom comporte plus de 5 caractère -->
+                        {% if comp.competence.nom|length > 5 %}
+                            <p title="{{ comp.competence}}">{{ comp.competence| slice(0,5) }}...</p>
+                        {% else %}
+                            <p>{{ comp.competence}}</p>
+                        {% endif %}
+                        <p>{{ comp.valeur }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                <h3>Objet</h3>
+                {% for inventaire in perso.inventaires %}
+                <div>
+                    <!-- Si le nom comporte plus de 5 caractère -->
+                    {% if inventaire.objets.nom|length > 5 %}
+                        <p title="{{ inventaire.objets }}">{{ inventaire.objets| slice(0,5) }}...</p>
+                    {% else %}
+                        <p>{{ inventaire.objets }}</p>
+                    {% endif %}
+                    <p>{{ inventaire.quantite }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
     {% endfor %}
+</div>
+<div class="persoList">
+    <h2>Mes Favoris</h2>
+    {% for perso in persoFav %}
+    <div>
+        <h2><a title="Afficher la fiche du personnage {{ perso }}" href="{{ path('info_perso', {'id': perso.id}) }}">{{ perso|capitalize }}</a></h2>
+        <div class="editOrFav">
+            <a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité</a>
+            {% set FavCheck = 0 %}
+            <!-- Si l'utilisateur a une liste de perso favorie -->
+            {% if app.user.persoFav %}
+                <!-- On vérifie si le perso est dans cette liste -->
+                {% for persoF in app.user.persoFav %}
+                    <!-- Si oui on affiche le bouton pour le Retirer des favoris -->
+                    {% if persoF == perso %}
+                        <a href="{{ path('removeFav_perso', {'id': perso.id}) }}" title="Retirer des favoris"><i class="fa-solid fa-star"></i></a>
+                        <!-- On enregistre le fait qu'il soit en favoris -->
+                        {% set FavCheck = 1 %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            <!-- Si le Perso n'est pas dans la liste des Favoris, on affiche le bouton "Ajoutez au favoris" -->
+            {% if FavCheck == 0 %}
+                <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajoutez au favoris"><i class="fa-regular fa-star"></i></a>
+            {% endif %}
+        </div>
+        <div>
+            <div>
+                <h3>Carac</h3>
+                {% for carac in perso.caracteristiquePersos %}
+                    <div>
+                        <p title="{{ carac.caracteristique }}">{{ carac.caracteristique| slice(0,3) }}</p>
+                        <p>{{ carac.valeur }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                <h3>Comp</h3>
+                {% for comp in perso.competencePersos %}
+                    <div>
+                        <!-- Si le nom comporte plus de 5 caractère -->
+                        {% if comp.competence.nom|length > 5 %}
+                            <p title="{{ comp.competence}}">{{ comp.competence| slice(0,5) }}...</p>
+                        {% else %}
+                            <p>{{ comp.competence}}</p>
+                        {% endif %}
+                        <p>{{ comp.valeur }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                <h3>Objet</h3>
+                {% for inventaire in perso.inventaires %}
+                <div>
+                    <!-- Si le nom comporte plus de 5 caractère -->
+                    {% if inventaire.objets.nom|length > 5 %}
+                        <p title="{{ inventaire.objets }}">{{ inventaire.objets| slice(0,5) }}...</p>
+                    {% else %}
+                        <p>{{ inventaire.objets }}</p>
+                    {% endif %}
+                    <p>{{ inventaire.quantite }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

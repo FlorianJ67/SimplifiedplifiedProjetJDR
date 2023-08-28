@@ -24,17 +24,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PersoController extends AbstractController
 {
     #[Route('/perso', name: 'app_perso')]
-    public function index(): Response
+    public function index(ManagerRegistry $doctrine): Response
     {
         // Si il n'y pas d'utilisateur connecté 
         if(!$this->getUser()){
             // Redirige vers la page de connexion
             return $this->redirectToRoute('app_login');
         }
-        
+        // On prépare l'entity Manager
+        $entityManager = $doctrine->getManager();
+        // On récupère l'utilisateur
+        $user = $this->getUser();
+        // On récupère la liste des personnage de l'utilisateur
+        $persoUser = $entityManager->getRepository(Perso::class)->findBy(['user'=>$user]);
+        // On récupère la liste des personnage favoris de l'utilisateur
+        $persoFavUser = $user->getPersoFav();
 
         return $this->render('perso/index.html.twig', [
-            'controller_name' => 'PersoController',
+            'perso' => $persoUser,
+            'persoFav' =>$persoFavUser
         ]);
     }
 
@@ -127,6 +135,10 @@ class PersoController extends AbstractController
 
 
 
+
+
+
+
         // Ajouté une Caractéristique
         $caracteristiqueForm = $this->createForm(CaracteristiqueType::class);
         $caracteristiqueForm->handleRequest($request);
@@ -176,6 +188,10 @@ class PersoController extends AbstractController
 
 
 
+
+
+
+
         // Créer un Commentaire  
         $commentaireForm = $this->createForm(CommentaireType::class);
         $commentaireForm->handleRequest($request);
@@ -183,12 +199,15 @@ class PersoController extends AbstractController
         $entityManager = $doctrine->getManager();
 
         if ($commentaireForm->isSubmitted() && $commentaireForm->isValid()) {
-
+            // On récupère le contenu du Commentaire
             $commentaire = $commentaireForm->getData();
+            // On assigne le Perso au futur Commentaire
             $commentaire->setPerso($perso);
+            // ainsi que l'User
             $commentaire->setUser($this->getUser());
+            // et pour finir la Date&time actuelle lors du traitement du formulaire
             $commentaire->setCreatedAt(new DateTime());
-
+            // On créer l'entité
             $entityManager->persist($commentaire);
             $entityManager->flush();
         }
@@ -205,23 +224,25 @@ class PersoController extends AbstractController
     }
 
     #[Route('/perso/{id}/addToFav/', name: 'addToFav_perso')]
-    public function addPersoToFav(ManagerRegistry $doctrine, Perso $perso): Response
+    public function addPersoToFav(ManagerRegistry $doctrine, Perso $perso, Request $request): Response
     {     
         $entityManager = $doctrine->getManager();
         $perso->addUsersFav($this->getUser());
         $entityManager->flush();
-
-        return $this->redirectToRoute('info_perso', ['id'=>$perso->getId()]);
+        // On redirige sur la même page
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
     }
 
     #[Route('/perso/{id}/removeFav/', name: 'removeFav_perso')]
-    public function removePersoToFav(ManagerRegistry $doctrine, Perso $perso): Response
+    public function removePersoToFav(ManagerRegistry $doctrine, Perso $perso, Request $request): Response
     {     
         $entityManager = $doctrine->getManager();
         $this->getUser()->removePersoFav($perso);
         $entityManager->flush();
-
-        return $this->redirectToRoute('info_perso', ['id'=>$perso->getId()]);
+        // On redirige sur la même page
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
     }
 
     #[Route('/perso/{id}/', name: 'info_perso')]
