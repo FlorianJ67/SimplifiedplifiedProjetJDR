@@ -60,6 +60,9 @@ class Perso
     #[ORM\ManyToMany(targetEntity: Objet::class, inversedBy: 'persos')]
     private Collection $objets;
 
+    #[ORM\OneToMany(mappedBy: 'persos', targetEntity: Inventaire::class, orphanRemoval: true)]
+    private Collection $inventaires;
+
     public function __construct()
     {
         $this->competencePersos = new ArrayCollection();
@@ -67,6 +70,7 @@ class Perso
         $this->usersFav = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->objets = new ArrayCollection();
+        $this->inventaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -312,33 +316,40 @@ class Perso
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->nom;
-    }
-
+    
     /**
-     * @return Collection<int, objet>
+     * @return Collection<int, Inventaire>
      */
-    public function getObjets(): Collection
+    public function getInventaires(): Collection
     {
-        return $this->objets;
+        return $this->inventaires;
     }
 
-    public function addObjet(objet $objet): static
+    public function addInventaire(Inventaire $inventaire): static
     {
-        if (!$this->objets->contains($objet)) {
-            $this->objets->add($objet);
+        if (!$this->inventaires->contains($inventaire)) {
+            $this->inventaires->add($inventaire);
+            $inventaire->setPersos($this);
+        }
+        
+        return $this;
+    }
+    
+    public function removeInventaire(Inventaire $inventaire): static
+    {
+        if ($this->inventaires->removeElement($inventaire)) {
+            // set the owning side to null (unless already changed)
+            if ($inventaire->getPersos() === $this) {
+                $inventaire->setPersos(null);
+            }
         }
 
         return $this;
     }
-
-    public function removeObjet(objet $objet): static
+    
+    public function __toString()
     {
-        $this->objets->removeElement($objet);
-
-        return $this;
+        return $this->nom;
     }
-
+    
 }

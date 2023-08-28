@@ -5,21 +5,24 @@
 {% block body %}
 <h2>Info Personnage</h2>
 <div id="resumePerso">
-    <h3>{{ perso.nom }}</h3><a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité</a>
-    {% set FavCheck = 0 %}
-    {% if app.user.persoFav %}
-        {% for persoF in app.user.persoFav %}
-            {% if persoF == perso %}
-                <a href="{{ path('removeFav_perso', {'id': perso.id}) }}" title="Retirer des favoris"><i class="fa-solid fa-star"></i></a>
-                {% set FavCheck = 1 %}
-            {% else %}
-                {% set FavCheck = 0 %}
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-    {% if FavCheck == 0 %}
-        <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajoutez au favoris"><i class="fa-regular fa-star"></i></a>
-    {% endif %}
+    <h3>{{ perso.nom }}</h3>
+    <div class="editOrFav">
+        <a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité</a>
+        {% set FavCheck = 0 %}
+        {% if app.user.persoFav %}
+            {% for persoF in app.user.persoFav %}
+                {% if persoF == perso %}
+                    <a href="{{ path('removeFav_perso', {'id': perso.id}) }}" title="Retirer des favoris"><i class="fa-solid fa-star"></i></a>
+                    {% set FavCheck = 1 %}
+                {% else %}
+                    {% set FavCheck = 0 %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if FavCheck == 0 %}
+            <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajoutez au favoris"><i class="fa-regular fa-star"></i></a>
+        {% endif %}
+    </div>
 
     <div>
         {% if perso.caracteristiquePersos|length >1 %}
@@ -35,8 +38,6 @@
         {% endfor %}
     </div>
 
-    <br>
-
     <div>
         {% if perso.competencePersos|length >1 %}
             <p>Compétences:</p>
@@ -51,29 +52,32 @@
         {% endfor %}
     </div>
 
-    <br>
-
     <div>
-    {% if perso.objets|length >1 %}
+    {% if perso.inventaires|length >1 %}
         <p>Objets:</p>
     {% else %}
         <p>Objet:</p>
     {% endif %}
     
-    {% for objet in perso.objets %}
+    {% for objet in perso.inventaires %}
         <div>
             <p>{{ objet.nom|capitalize }}</p>
             <p>{{"Dégats: " ~ objet.valeur }}</p>
+            <p>{{"Quantité: " ~ objet.quantite }}</p>
         </div>
     {% endfor %}
     </div>
     <div>
-        {% for commentaire in perso.commentaires %}
-            <div class="commentaire">
-                <p class="user">{{ commentaire.user.email }}</p>
-                <p>{{ commentaire.contenu }}</p>
-            </div>
-        {% endfor %}
+        {% if perso.commentaires %}
+            {% for commentaire in perso.commentaires|sort((a, b) => a.createdAt <=> b.createdAt) %}
+                <div class="commentaire">
+                    <p class="user">{{ commentaire.user.email }}</p>
+                    <p>{{ commentaire.contenu|nl2br }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {{ form_start(commentForm, {'attr': {'class': 'commentForm'}}) }}
+        {{ form_end(commentForm) }}
     </div>
 </div>
 {% endblock %}

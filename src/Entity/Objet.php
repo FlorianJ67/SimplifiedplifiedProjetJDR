@@ -21,13 +21,14 @@ class Objet
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $valeur = null;
 
-    #[ORM\ManyToMany(targetEntity: Perso::class, mappedBy: 'objets')]
-    private Collection $persos;
+    #[ORM\OneToMany(mappedBy: 'objets', targetEntity: Inventaire::class)]
+    private Collection $inventaires;
 
     public function __construct()
     {
-        $this->persos = new ArrayCollection();
+        $this->inventaires = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -85,4 +86,38 @@ class Objet
         return $this;
     }
 
+    /**
+     * @return Collection<int, Inventaire>
+     */
+    public function getInventaires(): Collection
+    {
+        return $this->inventaires;
+    }
+
+    public function addInventaire(Inventaire $inventaire): static
+    {
+        if (!$this->inventaires->contains($inventaire)) {
+            $this->inventaires->add($inventaire);
+            $inventaire->setObjets($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventaire(Inventaire $inventaire): static
+    {
+        if ($this->inventaires->removeElement($inventaire)) {
+            // set the owning side to null (unless already changed)
+            if ($inventaire->getObjets() === $this) {
+                $inventaire->setObjets(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nom . "(Dgt mult. " . $this->valeur . ")";
+    }
 }

@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Objet;
 use App\Entity\Perso;
 use App\Form\ObjetType;
 use App\Form\PersoType;
 use App\Entity\Commentaire;
 use App\Form\CompetenceType;
+use App\Form\CommentaireType;
 use App\Entity\CompetencePerso;
 use App\Form\CaracteristiqueType;
 use App\Form\CompetencePersoType;
@@ -87,14 +89,16 @@ class PersoController extends AbstractController
                 }
             }
 
+            foreach($perso->getInventaires() as $objet) {
+                $objet->setPerso($perso);
+                $entityManager->persist($objet);
+            }
+
             $entityManager->persist($perso);
             $entityManager->flush();
             
             return $this->redirectToRoute('info_perso', ['id' => $perso->getId()]);
         }
-
-        // Ajoutez une caractéristique au personnage
-        $caracteristiquePersoForm = $this->createForm(CaracteristiquePersoType::class);
 
         // Ajoutez une caractéristique
         $caracteristiqueForm = $this->createForm(CaracteristiqueType::class);
@@ -108,9 +112,6 @@ class PersoController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
         }
-
-        // Ajoutez une competence au personnage
-        $competencePersoForm = $this->createForm(CompetencePersoType::class);
 
         // Ajoutez une competence
         $competenceForm = $this->createForm(CompetenceType::class);
@@ -126,12 +127,12 @@ class PersoController extends AbstractController
             return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
         }
 
-        // Ajoutez un objet au personnage
-        $addObjetOnPersoForm = $this->createForm(ObjetType::class);
-        $addObjetOnPersoForm->handleRequest($request);
+        // Ajoutez un objet 
+        $addObjetForm = $this->createForm(ObjetType::class);
+        $addObjetForm->handleRequest($request);
         
-        if ($addObjetOnPersoForm->isSubmitted() && $addObjetOnPersoForm->isValid()) {
-            $objet = $addObjetOnPersoForm->getData();
+        if ($addObjetForm->isSubmitted() && $addObjetForm->isValid()) {
+            $objet = $addObjetForm->getData();
             $entityManager = $doctrine->getManager();
 
             // Si l'objet existe déjà on le récupère
@@ -139,21 +140,35 @@ class PersoController extends AbstractController
                 $objet = $entityManager->getRepository(Objet::class)->findOneBy(['nom'=>$objet->getNom()]);
             }
 
-            $entityManager->persist($objet);
-            $objet->addPerso($perso);
-            
+            $entityManager->persist($objet);            
             $entityManager->flush();
             
             return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
         }
 
+        // Créer un commentaire  
+        $commentaireForm = $this->createForm(CommentaireType::class);
+        $commentaireForm->handleRequest($request);
+
+        $entityManager = $doctrine->getManager();
+
+        if ($commentaireForm->isSubmitted() && $commentaireForm->isValid()) {
+
+            $commentaire = $commentaireForm->getData();
+            $commentaire->setPerso($perso);
+            $commentaire->setUser($this->getUser());
+            $commentaire->setCreatedAt(new DateTime());
+
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
+        }
+
         return $this->render('perso/add.html.twig', [
             'formAddPerso' => $persoForm->createView(),
-            'formAddCompetencePerso' => $competencePersoForm->createView(),
             'formAddCaracteristique' => $caracteristiqueForm->createView(),
             'formAddCompetence' => $competenceForm->createView(),
-            'formAddObjetOnPerso' => $addObjetOnPersoForm->createView(),
-            "form" => $caracteristiquePersoForm->createView(),
+            'formAddObjet' => $addObjetForm->createView(),
+            'commentForm' => $commentaireForm,
             'perso' => $perso,
             'edit' => $perso->getId()
         ]);
@@ -179,32 +194,29 @@ class PersoController extends AbstractController
         return $this->redirectToRoute('info_perso', ['id'=>$perso->getId()]);
     }
 
-    #[Route('/perso/{id}/addComment/', name: 'add_comment')]
-    public function addComment(ManagerRegistry $doctrine, Commentaire $commentaire): Response
-    {
-        // Si aucun personnage n'existe: créer un moule
-        if (!$perso) {
-            $perso = new Perso();
-        }
-
-        // Créer/Modifier un commentaire  
-        $commentaireForm = $this->createForm(CommentaireType::class, $commentaire);
+    #[Route('/perso/{id}/', name: 'info_perso')]
+    public function info(ManagerRegistry $doctrine, Perso $perso, Request $request): Response
+    {    
+        // Créer un commentaire  
+        $commentaireForm = $this->createForm(CommentaireType::class);
         $commentaireForm->handleRequest($request);
-        
+
+        $entityManager = $doctrine->getManager();
+
         if ($commentaireForm->isSubmitted() && $commentaireForm->isValid()) {
 
             $commentaire = $commentaireForm->getData();
+            $commentaire->setPerso($perso);
+            $commentaire->setUser($this->getUser());
+            $commentaire->setCreatedAt(new DateTime());
+
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
         }
-
-        return $this->redirectToRoute('info_perso', ['id'=>$perso->getId()]);
-    }
-
-    #[Route('/perso/{id}/', name: 'info_perso')]
-    public function info(ManagerRegistry $doctrine, Perso $perso, Request $request): Response
-    {     
 
         return $this->render('perso/info.html.twig', [
             'perso' => $perso,
+            'commentForm' => $commentaireForm
         ]);
     }
 }

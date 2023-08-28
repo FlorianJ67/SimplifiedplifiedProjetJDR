@@ -3,8 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Perso;
-use App\Form\CompetencePersoType;
+use App\Form\InventaireType;
 
+use App\Form\CompetencePersoType;
 use App\Form\CaracteristiquePersoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,6 +39,14 @@ class PersoType extends AbstractType
             ->add('competencePersos', CollectionType::class, [
                 'entry_type' =>CompetencePersoType::class,
                 'label' => 'Compétence',
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false
+            ])
+            ->add('inventaires', CollectionType::class, [
+                'entry_type' =>InventaireType::class,
+                'label' => 'Inventaire',
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
