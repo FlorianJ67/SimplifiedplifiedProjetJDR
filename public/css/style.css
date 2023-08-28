@@ -29,11 +29,11 @@ h1{
     margin-top: 20px;
     width: 100%;
 }
-#spanCarac,#spanComp, #spanInv {
+#spanCarac, #spanComp, #spanInv {
     display: flex;
     flex-direction: column;
 }
-#spanCarac>div,#spanComp>div,#spanInv {
+#spanCarac>div,#spanComp>div,#spanInv>div {
     display: flex;
     justify-content: space-between;
     margin: 5px 0;

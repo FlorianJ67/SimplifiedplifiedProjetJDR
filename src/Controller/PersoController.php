@@ -35,54 +35,72 @@ class PersoController extends AbstractController
     #[Route('/perso/{id}/edit/', name: 'edit_perso')]
     public function add(ManagerRegistry $doctrine, Perso $perso = null, Request $request): Response
     {
-        // Si il n'y pas d'utilisateur connecté redirige vers la page de connexion
+        // Si il n'y pas d'utilisateur connecté 
         if(!$this->getUser()){
+            // Redirige vers la page de connexion
             return $this->redirectToRoute('app_login');
         }
 
-        // Si aucun personnage n'existe: créer un moule
+        // Si aucun personnage n'existe
         if (!$perso) {
+            // Créer un moule
             $perso = new Perso();
         }
         // Créer/Modifier un personnnage     
         $persoForm = $this->createForm(PersoType::class, $perso);
         $persoForm->handleRequest($request);
         
+        // Validation du formulaire:
         if ($persoForm->isSubmitted() && $persoForm->isValid()) {
 
             $perso = $persoForm->getData();
+            // On créer un tableau pour vérifié les associations déjà résente
             $alreadyHave = [];
-            
+            // On prépare l'entity Manager
             $entityManager = $doctrine->getManager();
-            
+            // On assossie l'utilisateur au personnage
             $perso->setUser($this->getUser());
-
+            // On met toutes les caractéristiques du personnage dans un tableau
             foreach($perso->getCaracteristiquePersos() as $persoCarac){ 
                 array_push($alreadyHave, $persoCarac);
             }
+            // On vérifie si le personnage à déjà une des Caractéristique qui a été enregistrer
             foreach($alreadyHave as $caracPersoHave ){
                 foreach($alreadyHave as $caracPersoHaveCheck) {
+                    // Si oui
                     if($caracPersoHave->getCaracteristique() == $caracPersoHaveCheck->getCaracteristique()){
+                        // On remplace la valeur de la caractéristique déjà présente par la valeur de celle en doublon
                         $caracPersoHave->setValeur($caracPersoHaveCheck->getValeur());
+                        // On supprime le doublon
                         $entityManager->remove($caracPersoHaveCheck);
                         $entityManager->persist($caracPersoHave);
+                    // Si non 
                     } else {
+                        // On lie le personnage a a nouvelle caractéristique
                         $caracPersoHaveCheck->setPerso($perso);
                         $entityManager->persist($caracPersoHaveCheck);
                     } 
                 }
             }
+            // On reset notre tableau
             $alreadyHave = [];
+            // On met toutes les Compétences du personnage dans ce tableau
             foreach($perso->getCompetencePersos() as $persoComp){
                 array_push($alreadyHave, $persoComp);
             }
+            // On vérifie si le personnage à déjà une des compétence qui a été enregistrer
             foreach($alreadyHave as $compPersoHave ){
                 foreach($alreadyHave as $compPersoHaveCheck) {
+                    // Si oui
                     if($compPersoHave->getCompetence() == $compPersoHaveCheck->getCompetence()){
+                        // On remplace la valeur de la compétence déjà présente par la valeur de celle en doublon
                         $compPersoHave->setValeur($compPersoHaveCheck->getValeur());
+                        // On supprime le doublon
                         $entityManager->remove($compPersoHaveCheck);
                         $entityManager->persist($compPersoHave);
+                    // Si non
                     } else {
+                        // On lie le personnage a a nouvelle compétence
                         $compPersoHaveCheck->setPerso($perso);
                         $entityManager->persist($compPersoHaveCheck);
                     } 
@@ -96,11 +114,11 @@ class PersoController extends AbstractController
 
             $entityManager->persist($perso);
             $entityManager->flush();
-            
+            // Redirection à la route Info Perso
             return $this->redirectToRoute('info_perso', ['id' => $perso->getId()]);
         }
 
-        // Ajoutez une caractéristique
+        // Ajouté une Caractéristique
         $caracteristiqueForm = $this->createForm(CaracteristiqueType::class);
         $caracteristiqueForm->handleRequest($request);
         
@@ -113,7 +131,7 @@ class PersoController extends AbstractController
             return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
         }
 
-        // Ajoutez une competence
+        // Ajouté une Compétence
         $competenceForm = $this->createForm(CompetenceType::class);
         $competenceForm->handleRequest($request);
 
@@ -127,7 +145,7 @@ class PersoController extends AbstractController
             return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
         }
 
-        // Ajoutez un objet 
+        // Ajouté un Objet 
         $addObjetForm = $this->createForm(ObjetType::class);
         $addObjetForm->handleRequest($request);
         
@@ -135,7 +153,7 @@ class PersoController extends AbstractController
             $objet = $addObjetForm->getData();
             $entityManager = $doctrine->getManager();
 
-            // Si l'objet existe déjà on le récupère
+            // Si l'Objet existe déjà on le récupère
             if ($entityManager->getRepository(Objet::class)->findOneBy(['nom'=>$objet->getNom()]) && $entityManager->getRepository(Objet::class)->findOneBy(['valeur'=>$objet->getValeur()])){
                 $objet = $entityManager->getRepository(Objet::class)->findOneBy(['nom'=>$objet->getNom()]);
             }
@@ -146,7 +164,7 @@ class PersoController extends AbstractController
             return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
         }
 
-        // Créer un commentaire  
+        // Créer un Commentaire  
         $commentaireForm = $this->createForm(CommentaireType::class);
         $commentaireForm->handleRequest($request);
 

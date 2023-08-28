@@ -15,7 +15,7 @@ class Inventaire
 
     #[ORM\ManyToOne(inversedBy: 'inventaires')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?objet $objets = null;
+    private ?Objet $objets = null;
 
     #[ORM\ManyToOne(inversedBy: 'inventaires')]
     #[ORM\JoinColumn(nullable: false)]
@@ -29,12 +29,12 @@ class Inventaire
         return $this->id;
     }
 
-    public function getObjets(): ?objet
+    public function getObjets(): ?Objet
     {
         return $this->objets;
     }
 
-    public function setObjets(?objet $objets): static
+    public function setObjets(?Objet $objets): static
     {
         $this->objets = $objets;
 

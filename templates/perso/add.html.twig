@@ -54,7 +54,9 @@
 
 {% block javascripts %}
     <script>
-        let collectionCarac, collectionComp,inventaire, boutonAjoutCarac, boutonAjoutComp,boutonAjoutObjet, spanCarac, spanComp, spanInv;
+        let collectionCarac, collectionComp, inventaire,
+            boutonAjoutCarac, boutonAjoutComp, boutonAjoutObjet,
+            spanCarac, spanComp, spanInv;
         window.onload = () => {
             //On récupère la section du formulaire de la table associatif des multiple formulaire
             collectionCarac = document.querySelector("#caracteristiquePerso");
