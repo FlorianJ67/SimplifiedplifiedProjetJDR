@@ -4,7 +4,6 @@
 
 {% block body %}
 <div class="persoList">
-    <h1>Mes Personnages</h1>
     {% for perso in perso %}
     <div>
         <h2><a title="Afficher la fiche du personnage {{ perso }}" href="{{ path('info_perso', {'id': perso.id}) }}">{{ perso|capitalize }}</a></h2>
@@ -29,18 +28,37 @@
             {% endif %}
         </div>
         <div>
+            <!-- Liste des caractéristiques -->
             <div>
                 <h3>Carac</h3>
-                {% for carac in perso.caracteristiquePersos %}
+                <!-- affiche les 3 première entité du tableau -->
+                {% for carac in perso.caracteristiquePersos | slice(0,3) %}
                     <div>
                         <p title="{{ carac.caracteristique }}">{{ carac.caracteristique| slice(0,3) }}</p>
                         <p>{{ carac.valeur }}</p>
                     </div>
                 {% endfor %}
+                <!-- si le tableau comporte + de 4 entité on affiche un paragraphe contenant "..." avec la liste des caractéristiques manquante en title de ce dernier -->
+                {% if perso.caracteristiquePersos|length > 4 %}
+                    <div>
+                        <p title="{% for carac in perso.caracteristiquePersos | slice(3) %}{{carac.caracteristique ~ " " ~ carac.valeur ~ "\n" }}{% endfor %}">...</p>
+                    </div>
+                <!-- sinon -->
+                {% else %}
+                    <!-- si le tableau comporte exactement 4 entité on affiche cette dernière -->
+                    {% if perso.caracteristiquePersos|length == 4 %}
+                    <div>
+                        <p title="{{ perso.caracteristiquePersos[3] }}">{{ perso.caracteristiquePersos[3].caracteristique| slice(0,3) }}</p>
+                        <p>{{ perso.caracteristiquePersos[3].valeur }}</p>
+                    </div> 
+                    {% endif %}      
+                {% endif %}
             </div>
+            <!-- Liste des compétences -->
             <div>
                 <h3>Comp</h3>
-                {% for comp in perso.competencePersos %}
+                <!-- affiche les 3 première entité du tableau -->
+                {% for comp in perso.competencePersos| slice(0,3) %}
                     <div>
                         <!-- Si le nom comporte plus de 5 caractère -->
                         {% if comp.competence.nom|length > 5 %}
@@ -51,27 +69,69 @@
                         <p>{{ comp.valeur }}</p>
                     </div>
                 {% endfor %}
+                <!-- si le tableau comporte + de 4 entité on affiche un paragraphe contenant "..." avec la liste des compétences manquante en title de ce dernier -->
+                {% if perso.competencePersos|length > 4 %}
+                    <div>
+                        <p title="{% for comp in perso.competencePersos | slice(3) %}{{comp.competence ~ " " ~ comp.valeur ~ "\n" }}{% endfor %}">...</p>
+                    </div>
+                <!-- sinon -->
+                {% else %}
+                    <!-- si le tableau comporte exactement 4 entité on affiche cette dernière -->
+                    {% if perso.competencePersos|length == 4 %}
+                        <div>
+                            <!-- Si le nom comporte plus de 5 caractère -->
+                            {% if perso.competencePersos[3].competence.nom|length > 5 %}
+                                <p title="{{ perso.competencePersos[3].competence}}">{{ perso.competencePersos[3].competence| slice(0,5) }}...</p>
+                            {% else %}
+                                <p>{{ perso.competencePersos[3].competence}}</p>
+                            {% endif %}
+                            <p>{{ comp.valeur }}</p>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
+            <!-- Liste des objets -->
             <div>
                 <h3>Objet</h3>
-                {% for inventaire in perso.inventaires %}
+                <!-- affiche les 3 première entité du tableau -->
+                {% for inventaire in perso.inventaires | slice(0,3)%}
                 <div>
                     <!-- Si le nom comporte plus de 5 caractère -->
                     {% if inventaire.objets.nom|length > 5 %}
-                        <p title="{{ inventaire.objets }}">{{ inventaire.objets| slice(0,5) }}...</p>
+                        <p title="{{ inventaire.objets.nom ~ " Dégats: x" ~ inventaire.objets.valeur }}">{{ inventaire.objets.nom| slice(0,5) }}...</p>
                     {% else %}
-                        <p>{{ inventaire.objets }}</p>
+                        <p title="{{ inventaire.objets.nom ~ " Dégats: x" ~ inventaire.objets.valeur }}">{{ inventaire.objets.nom }}</p>
                     {% endif %}
                     <p>{{ inventaire.quantite }}</p>
                 </div>
                 {% endfor %}
+                <!-- si le tableau comporte + de 4 entité on affiche un paragraphe contenant "..." avec la liste des objets manquant en title de ce dernier -->
+                {% if perso.inventaires |length > 4 %}
+                    <div>
+                        <p title="{% for inventaire in perso.inventaire | slice(3) %}{{inventaire.objet.nom ~ " x" ~ inventaire.quantite ~ "\n" }}{% endfor %}">...</p>
+                    </div>
+                <!-- sinon -->
+                {% else %}
+                    <!-- si le tableau comporte exactement 4 entité on affiche cette dernière -->
+                    {% if perso.inventaires |length == 4 %}
+                        <div>
+                            <!-- Si le nom comporte plus de 5 caractère -->
+                            {% if perso.inventaires[3].objets.nom|length > 5 %}
+                                <p title="{{ perso.inventaires[3].objets }}">{{ perso.inventaires[3].objets| slice(0,5) }}...</p>
+                            {% else %}
+                                <p>{{ perso.inventaires[3].objets }}</p>
+                            {% endif %}
+                            <p>{{ perso.inventaires[3].quantite }}</p>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
 <div class="persoList">
-    <h2>Mes Favoris</h2>
+    <h3>Favoris</h3>
     {% for perso in persoFav %}
     <div>
         <h2><a title="Afficher la fiche du personnage {{ perso }}" href="{{ path('info_perso', {'id': perso.id}) }}">{{ perso|capitalize }}</a></h2>
@@ -96,18 +156,37 @@
             {% endif %}
         </div>
         <div>
+            <!-- Liste des caractéristiques -->
             <div>
                 <h3>Carac</h3>
-                {% for carac in perso.caracteristiquePersos %}
+                <!-- affiche les 3 première entité du tableau -->
+                {% for carac in perso.caracteristiquePersos | slice(0,3) %}
                     <div>
                         <p title="{{ carac.caracteristique }}">{{ carac.caracteristique| slice(0,3) }}</p>
                         <p>{{ carac.valeur }}</p>
                     </div>
                 {% endfor %}
+                <!-- si le tableau comporte + de 4 entité on affiche un paragraphe contenant "..." avec la liste des caractéristiques manquante en title de ce dernier -->
+                {% if perso.caracteristiquePersos|length > 4 %}
+                    <div>
+                        <p title="{% for carac in perso.caracteristiquePersos | slice(3) %}{{carac.caracteristique ~ " " ~ carac.valeur ~ "\n" }}{% endfor %}">...</p>
+                    </div>
+                <!-- sinon -->
+                {% else %}
+                    <!-- si le tableau comporte exactement 4 entité on affiche cette dernière -->
+                    {% if perso.caracteristiquePersos|length == 4 %}
+                    <div>
+                        <p title="{{ perso.caracteristiquePersos[3] }}">{{ perso.caracteristiquePersos[3].caracteristique| slice(0,3) }}</p>
+                        <p>{{ perso.caracteristiquePersos[3].valeur }}</p>
+                    </div> 
+                    {% endif %}      
+                {% endif %}
             </div>
+            <!-- Liste des compétences -->
             <div>
                 <h3>Comp</h3>
-                {% for comp in perso.competencePersos %}
+                <!-- affiche les 3 première entité du tableau -->
+                {% for comp in perso.competencePersos| slice(0,3) %}
                     <div>
                         <!-- Si le nom comporte plus de 5 caractère -->
                         {% if comp.competence.nom|length > 5 %}
@@ -118,20 +197,62 @@
                         <p>{{ comp.valeur }}</p>
                     </div>
                 {% endfor %}
+                <!-- si le tableau comporte + de 4 entité on affiche un paragraphe contenant "..." avec la liste des compétences manquante en title de ce dernier -->
+                {% if perso.competencePersos|length > 4 %}
+                    <div>
+                        <p title="{% for comp in perso.competencePersos | slice(3) %}{{comp.competence ~ " " ~ comp.valeur ~ "\n" }}{% endfor %}">...</p>
+                    </div>
+                <!-- sinon -->
+                {% else %}
+                    <!-- si le tableau comporte exactement 4 entité on affiche cette dernière -->
+                    {% if perso.competencePersos|length == 4 %}
+                        <div>
+                            <!-- Si le nom comporte plus de 5 caractère -->
+                            {% if perso.competencePersos[3].competence.nom|length > 5 %}
+                                <p title="{{ perso.competencePersos[3].competence}}">{{ perso.competencePersos[3].competence| slice(0,5) }}...</p>
+                            {% else %}
+                                <p>{{ perso.competencePersos[3].competence}}</p>
+                            {% endif %}
+                            <p>{{ comp.valeur }}</p>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
+            <!-- Liste des objets -->
             <div>
                 <h3>Objet</h3>
-                {% for inventaire in perso.inventaires %}
+                <!-- affiche les 3 première entité du tableau -->
+                {% for inventaire in perso.inventaires | slice(0,3)%}
                 <div>
                     <!-- Si le nom comporte plus de 5 caractère -->
                     {% if inventaire.objets.nom|length > 5 %}
-                        <p title="{{ inventaire.objets }}">{{ inventaire.objets| slice(0,5) }}...</p>
+                        <p title="{{ inventaire.objets.nom ~ " Dégats: x" ~ inventaire.objets.valeur }}">{{ inventaire.objets.nom| slice(0,5) }}...</p>
                     {% else %}
-                        <p>{{ inventaire.objets }}</p>
+                        <p title="{{ inventaire.objets.nom ~ " Dégats: x" ~ inventaire.objets.valeur }}">{{ inventaire.objets.nom }}</p>
                     {% endif %}
                     <p>{{ inventaire.quantite }}</p>
                 </div>
                 {% endfor %}
+                <!-- si le tableau comporte + de 4 entité on affiche un paragraphe contenant "..." avec la liste des objets manquant en title de ce dernier -->
+                {% if perso.inventaires |length > 4 %}
+                    <div>
+                        <p title="{% for inventaire in perso.inventaire | slice(3) %}{{inventaire.objet.nom ~ " x" ~ inventaire.quantite ~ "\n" }}{% endfor %}">...</p>
+                    </div>
+                <!-- sinon -->
+                {% else %}
+                    <!-- si le tableau comporte exactement 4 entité on affiche cette dernière -->
+                    {% if perso.inventaires |length == 4 %}
+                        <div>
+                            <!-- Si le nom comporte plus de 5 caractère -->
+                            {% if perso.inventaires[3].objets.nom|length > 5 %}
+                                <p title="{{ perso.inventaires[3].objets }}">{{ perso.inventaires[3].objets| slice(0,5) }}...</p>
+                            {% else %}
+                                <p>{{ perso.inventaires[3].objets }}</p>
+                            {% endif %}
+                            <p>{{ perso.inventaires[3].quantite }}</p>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>

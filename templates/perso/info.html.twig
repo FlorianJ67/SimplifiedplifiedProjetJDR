@@ -5,7 +5,7 @@
 {% block body %}
 <h2>Info Personnage</h2>
 <div id="resumePerso">
-    <h3>{{ perso.nom }}</h3>
+    <h3>{{ perso.nom|capitalize }}</h3>
 
     <div class="editOrFav">
         <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Édité le personnage"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -92,8 +92,11 @@
         {% if perso.commentaires %}
             {% for commentaire in perso.commentaires|sort((a, b) => a.createdAt <=> b.createdAt) %}
                 <div class="commentaire">
-                    <a href="{{ path('removeComment_perso', {'id': commentaire.id}) }}" title="Supprimer le commentaire"><i class="fa-solid fa-circle-xmark"></i></a>
-                    <p class="user">{{ commentaire.user.email }}</p>
+                    <div>
+                        <p>Envoyé le {{ commentaire.createdAt|date("d/m/Y à h:m") }}</p>
+                        <a href="{{ path('removeComment_perso', {'id': commentaire.id}) }}" title="Supprimer le commentaire"><i class="fa-solid fa-circle-xmark"></i></a>
+                    </div>
+                    <a class="user" href="{{ path('info_user', {'id': commentaire.user.id}) }}">{{ commentaire.user.pseudo }}</a>
                     <p>{{ commentaire.contenu|nl2br }}</p>
                 </div>
             {% endfor %}

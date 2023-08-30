@@ -79,7 +79,7 @@ class PersoController extends AbstractController
             foreach($perso->getCaracteristiquePersos() as $persoCarac){ 
                 array_push($alreadyHave, $persoCarac);
             }
-            // On vérifie si le personnage à déjà une des Caractéristique qui a été enregistrer
+            // On vérifie si le personnage à déjà une des Caractéristiques qui a été enregistrer
             foreach($alreadyHave as $caracPersoHave ){
                 foreach($alreadyHave as $caracPersoHaveCheck) {
                     // Si oui

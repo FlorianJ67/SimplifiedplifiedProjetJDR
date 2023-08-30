@@ -31,7 +31,7 @@
         </div>
     {{ form_end(formAddPerso) }}
 </div>
-    <!-- Si une entité perso déjà existante a été charger alors on affiche son récapitulatif (info perso)) -->
+    <!-- Si une entité perso déjà existante a été charger alors on affiche son récapitulatif (info_perso) -->
     {% if perso.nom != null %}
     <div>
         {{ include('perso/info.html.twig') }}

@@ -5,6 +5,7 @@
 {% block body %}
     {% if app.user %}
     <div>
+        <h2>Bonjour {{ app.user.pseudo }}</h2>
         <a href="{{ path('add_perso') }}">Créer un Personnage</a>
             {% if app.user.persos %}
                 {% for perso in app.user.persos %}
