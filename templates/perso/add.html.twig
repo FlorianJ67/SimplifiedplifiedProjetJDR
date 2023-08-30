@@ -14,24 +14,30 @@
         {{ form_row(formAddPerso.taille) }}
         {{ form_row(formAddPerso.poids) }}
         {{ form_row(formAddPerso.sex) }}
+        <!-- MultiForm Caractéristique -->
         <div id="caracteristiquePerso" data-prototype="{{ form_row(formAddPerso.caracteristiquePersos.vars.prototype)|e('html_attr') }}">
             {{ form_row(formAddPerso.caracteristiquePersos) }}
             <span id="spanCarac"></span>
         </div>
+        <!-- MultiForm Compétence -->
         <div id="competencePerso" data-prototype="{{ form_row(formAddPerso.competencePersos.vars.prototype)|e('html_attr') }}">
             {{ form_row(formAddPerso.competencePersos) }}
             <span id="spanComp"></span>
         </div>
+        <!-- MultiForm Objet -->
         <div id="inventaire" data-prototype="{{ form_row(formAddPerso.inventaires.vars.prototype)|e('html_attr') }}">
             {{ form_row(formAddPerso.inventaires) }}
             <span id="spanInv"></span>
         </div>
     {{ form_end(formAddPerso) }}
 </div>
+    <!-- Si une entité perso déjà existante a été charger alors on affiche son récapitulatif (info perso)) -->
     {% if perso.nom != null %}
     <div>
         {{ include('perso/info.html.twig') }}
     </div>
+    {% endif %}
+
     <div>
         <div>
             <h3>Objets:</h3>
@@ -44,7 +50,7 @@
             {{ form_end(formAddCaracteristique) }}
         </div>
         <div>
-            <h3>Configurer une competence/caractéristique</h3>
+            <h3>Configurer un bonus de compétence sur caractéristique</h3>
             {{ form_start(formAddCompetenceInflueCarac) }}
             {{ form_end(formAddCompetenceInflueCarac) }}
         </div>
@@ -54,7 +60,6 @@
             {{ form_end(formAddCompetence) }}
         </div>
     </div>
-    {% endif %}
 {% endblock %}
 
 {% block javascripts %}
@@ -81,16 +86,19 @@
             boutonAjoutCarac = document.createElement("button");
             boutonAjoutCarac.className = "ajout-caracteristiquePerso"
             boutonAjoutCarac.innerText= "Ajouter une caractéristique";
+            boutonAjoutCarac.setAttribute("title", "Ajouter une caractéristique");
             //----
             boutonAjoutComp = document.createElement("button");
             boutonAjoutComp.className = "ajout-competencePerso"
             boutonAjoutComp.innerText= "Ajouter une compétence";
+            boutonAjoutComp.setAttribute("title", "Ajouter une compétence");
             //----
             boutonAjoutObjet = document.createElement("button");
             boutonAjoutObjet.className = "ajout-objetPerso"
             boutonAjoutObjet.innerText= "Ajouter un objet";
+            boutonAjoutObjet.setAttribute("title", "Ajouter un objet");
 
-            //
+            //On place les boutons sur la page
             let nouveauBoutonCarac = spanCarac.append(boutonAjoutCarac);
             //----
             let nouveauBoutonComp = spanComp.append(boutonAjoutComp);
@@ -117,6 +125,7 @@
                 addButton(inventaire, nouveauBoutonObjet, spanInv, "objet");
             }); 
         }
+        // Fonction de création de formulaire supplémentaire
         function addButton(collection, nouveauBouton, span, stat){
             let prototype = collection.dataset.prototype;
             let index = collection.dataset.index;
@@ -124,19 +133,24 @@
             let content = document.createElement("html");
             content.innerHTML = prototype;
             let newForm = content.querySelector("div");
+            // on génère le bouton de suppresion du formulaire
             let boutonSuppr = document.createElement("button");
+            // on définié son type
             boutonSuppr.type = "button";
+            // on définié son id
             boutonSuppr.id = "delete-"+ stat + "Perso-" + index;
-            boutonSuppr.className = "delete-"+ stat + "-button"
+            // on définié sa classe
+            boutonSuppr.className = "delete-"+ stat + "-button";
+            // on définié son text interne           
             boutonSuppr.innerText = "Supprimer";
-
+            // on place le bouton
             newForm.append(boutonSuppr);
-
+            // on incrémente le compteur
             collection.dataset.index++;
-
+            // on replace le bouton d'ajout
             let boutonAjout = collection.querySelector(".ajout-" + stat + "Perso");
             span.insertBefore(newForm, boutonAjout);
-
+            // fonction de suppression du bouton suppr
             boutonSuppr.addEventListener("click", function(){
                 this.previousElementSibling.parentElement.remove();
             });

@@ -62,4 +62,18 @@ class CompetenceInflueCarac
 
         return $this;
     }
+
+    public function __toString()
+    {
+        $bonus = str_replace(' ', '',$valueOnly);
+        $valueOnly = substr($bonus, 1);
+        $bonusType = substr($bonus, 0, 1);
+        if($bonusType == "x" || $bonusType == "*") {
+            $jsp = "fois";
+        }
+        if($bonusType == "+" ) {
+            $jsp = "plus";
+        }
+        return $this->caracteristique . " " .$jsp. " " . $valueOnly . $this->competence;
+    }
 }
