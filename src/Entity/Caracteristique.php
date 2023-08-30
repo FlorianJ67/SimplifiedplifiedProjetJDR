@@ -109,6 +109,7 @@ class Caracteristique
 
     public function __toString()
     {
-        return ucfirst($this->nom);
+        $ucNom = strtolower($this->nom);
+        return ucfirst($ucNom);
     }
 }

@@ -15,6 +15,7 @@ use App\Form\CaracteristiqueType;
 use App\Form\CompetencePersoType;
 use App\Entity\CaracteristiquePerso;
 use App\Form\CaracteristiquePersoType;
+use App\Form\CompetenceInflueCaracType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -122,7 +123,7 @@ class PersoController extends AbstractController
             }
 
             foreach($perso->getInventaires() as $objet) {
-                $objet->setPerso($perso);
+                $objet->setPersos($perso);
                 $entityManager->persist($objet);
             }
 
@@ -163,6 +164,19 @@ class PersoController extends AbstractController
             $entityManager->persist($comp);
             $entityManager->flush();
             
+            return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
+        }
+
+        // Configurer une Compétence sur la Caractéristique qui l'a boost
+        $competenceInflueCaracForm = $this->createForm(CompetenceInflueCaracType::class);
+        $competenceInflueCaracForm->handleRequest($request);
+                
+        if ($competenceInflueCaracForm->isSubmitted() && $competenceInflueCaracForm->isValid()) {
+            $competenceInflueCarac = $competenceInflueCaracForm->getData();
+            $entityManager = $doctrine->getManager();
+
+            $entityManager->persist($competenceInflueCarac);
+            $entityManager->flush();
             return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
         }
 
@@ -216,6 +230,7 @@ class PersoController extends AbstractController
             'formAddPerso' => $persoForm->createView(),
             'formAddCaracteristique' => $caracteristiqueForm->createView(),
             'formAddCompetence' => $competenceForm->createView(),
+            'formAddCompetenceInflueCarac' => $competenceInflueCaracForm->createView(),
             'formAddObjet' => $addObjetForm->createView(),
             'commentForm' => $commentaireForm,
             'perso' => $perso,
@@ -239,6 +254,17 @@ class PersoController extends AbstractController
     {     
         $entityManager = $doctrine->getManager();
         $this->getUser()->removePersoFav($perso);
+        $entityManager->flush();
+        // On redirige sur la même page
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
+    }
+
+    #[Route('/removeComment/{id}', name: 'removeComment_perso')]
+    public function removeCommentPerso(ManagerRegistry $doctrine, Commentaire $commentaire, Request $request): Response
+    {     
+        $entityManager = $doctrine->getManager();
+        $entityManager->remove($commentaire);
         $entityManager->flush();
         // On redirige sur la même page
         $route = $request->headers->get('referer');

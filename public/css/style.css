@@ -21,6 +21,7 @@ h1{
     width: -webkit-fill-available;
     display: flex;
     justify-content: space-between;
+    margin: 2px 0;
 }
 .persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire)>label {
     width: 50%;
@@ -83,14 +84,59 @@ h1{
     border-radius: 5px;
     padding: 1%;
     position: relative;
+    padding-top: 40px;
 }
 .editOrFav {
     position: absolute;
     top: 2%;
     right: 2%;
 }
+.editOrFav>a:first-child>i {
+    color: rgb(0, 155, 160);
+}
+.editOrFav>a:last-child>i {
+    color: rgb(202, 202, 0);
+}
 #resumePerso>div:not(:nth-child(2)) {
     border-top: 1px solid black;
+}
+.healtBar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-weight: bold;
+}
+.healtBar>i:first-child, .healtBar>i:nth-child(2) {
+    position: absolute;
+}
+.healtBar>i:first-child {
+    transform: scale(4.1);
+    color: rgb(238, 18, 84);
+}
+/* jauge de vie */
+.healtBar>i:first-child:after {
+    bottom: top;
+    content: "";
+    position: absolute;
+    background: #fff;
+    width: 100%;
+    /* partie vide de la bar de vie */
+    height: 20%;
+    left: 0;
+    right: 0;
+}
+.healtBar>i:nth-child(2){
+    transform: scale(5);
+}
+.healtBar>p {
+    position: absolute;
+}
+.healtBar>p:nth-child(3) {
+    top: -25px;
+    border-bottom: 1px solid black;
+}
+.healtBar>p:nth-child(4) {
+    top: -5px;
 }
 /* listPerso */
 .persoList h2>a {
@@ -151,7 +197,18 @@ h1{
     flex-direction: column;
     align-items: flex-end;
 }
-
+/* commentaire */
+.commentaire {
+    position: relative;
+}
+.commentaire>a:first-child {
+    position: absolute;
+    right: 0;
+    top: 0;   
+}
+.commentaire>a:first-child>i {
+    color: rgb(163, 1, 1);
+}
 
 /* comp/carac button */
 .ajout-caracteristiquePerso, .ajout-competencePerso, .ajout-objetPerso {

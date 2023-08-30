@@ -6,8 +6,9 @@
 <h2>Info Personnage</h2>
 <div id="resumePerso">
     <h3>{{ perso.nom }}</h3>
+
     <div class="editOrFav">
-        <a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité</a>
+        <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Édité le personnage"><i class="fa-solid fa-pen-to-square"></i></a>
         {% set FavCheck = 0 %}
         <!-- Si l'utilisateur a une liste de perso favorie -->
         {% if app.user.persoFav %}
@@ -25,6 +26,20 @@
         {% if FavCheck == 0 %}
             <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajoutez au favoris"><i class="fa-regular fa-star"></i></a>
         {% endif %}
+    </div>
+
+    {% set percentHealt = (100 - (perso.sante / perso.santeMax)*100) ~ "%" %}
+    <style>
+        /*  */
+        .healtBar>i:first-child:after {
+            height: {{ percentHealt }};
+        }
+    </style>
+    <div class="healtBar">
+        <i class="fa-solid fa-heart"></i>
+        <i class="fa-regular fa-heart"></i>
+        <p>{{ perso.sante }}</p>
+        <p>{{ perso.santeMax }}</p>
     </div>
 
     <div>
@@ -77,6 +92,7 @@
         {% if perso.commentaires %}
             {% for commentaire in perso.commentaires|sort((a, b) => a.createdAt <=> b.createdAt) %}
                 <div class="commentaire">
+                    <a href="{{ path('removeComment_perso', {'id': commentaire.id}) }}" title="Supprimer le commentaire"><i class="fa-solid fa-circle-xmark"></i></a>
                     <p class="user">{{ commentaire.user.email }}</p>
                     <p>{{ commentaire.contenu|nl2br }}</p>
                 </div>
