@@ -1,5 +1,8 @@
 {
     "recommendations": [
-        "bajdzis.vscode-twig-pack"
+        "bajdzis.vscode-twig-pack",
+        "mykhailokushnir.vscode-php-getter-setter",
+        "mehedidracula.php-namespace-resolver",
+        "tabnine.tabnine-vscode"
     ]
 }
