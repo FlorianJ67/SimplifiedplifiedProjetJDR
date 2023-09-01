@@ -1,8 +1,14 @@
 <header>
+    <a id="logo" href="{{ path('app_home') }}">
+        <img src="{{ asset('/img/d20-logo.png') }}" alt="logo">
+    </a>
     <ul>
         <li><a href="{{ path('app_perso') }}">Mes personnages</a></li>
         <li><a href="{{ path('add_perso') }}">Crée un personnage</a></li>
+    </ul>
+    <ul>
         {% if app.user %}
+            <li id="welcome">Bonjour {{ app.user.pseudo }}</li>
             <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
         {% else %}
             <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
