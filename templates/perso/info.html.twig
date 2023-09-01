@@ -10,7 +10,9 @@
     <h3>{{ perso.nom|capitalize }}</h3>
 
     <div class="editOrFav">
-        <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Édité le personnage"><i class="fa-solid fa-pen-to-square"></i></a>
+        {% if app.user == perso.user %}
+            <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Édité le personnage"><i class="fa-solid fa-pen-to-square"></i></a>      
+        {% endif %}
         {% set FavCheck = 0 %}
         <!-- Si l'utilisateur a une liste de perso favorie -->
         {% if app.user.persoFav %}

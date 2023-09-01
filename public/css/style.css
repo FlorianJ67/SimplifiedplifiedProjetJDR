@@ -2,16 +2,27 @@ html {
     font-family: 'Handjet', cursive;
     font-weight: bold;
     font-size: 1.3rem;
+
 }
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
     background-color: #666371;
+    margin: 0;
+    padding: 0;
 }
 input,button,select,option {
     font-family: 'Handjet', cursive;
     font-weight: bold;
+    background-color: #ffffffb0;
+    border: none;
 }
 input,select {
     font-size: 1rem;
+    margin-left: 5px;
+
 }
 option:checked, option:hover, option:active, option:focus {
     background-color: rgb(160, 107, 209);
@@ -19,13 +30,60 @@ option:checked, option:hover, option:active, option:focus {
 }
 button{
     font-size: 0.8rem;
+    border-radius: 40px 60px;
+    border: none;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+button[type='submit']:hover {
+    background-color: rgb(160, 107, 209);
+    color: white;
+}
+a {
+    color: #795aa1;
+    text-decoration: none;
+}
+a:hover {
+    color: white;
 }
 
 h1{
     text-align: center;
 }
+h3 {
+    margin-left: 5px;
+}
 button[type=submit]{
     cursor: pointer;
+}
+/* header */
+header {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #c7c7c7;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+header>ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+}
+header>ul>li {
+    background-color: white;
+    padding: 10px;
+    border-radius: 40px 60px;
+}
+header>ul>li:hover {
+    background-color: #795aa1;;
+}
+header>ul>li:hover>a {
+    color: white;
+}
+/* main */
+main>h2 {
+    margin-left: 10px;
 }
 /* UserForm */
 .userForm,.persoForm {
@@ -64,6 +122,8 @@ button[type=submit]{
 }
 .persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire)>input {
     width: 45%;
+    background-color: #ffffffb0;
+    border: none;
 }
 .userForm>form>div {
     margin: 1% 0;
@@ -85,15 +145,16 @@ button[type=submit]{
     display: flex;
     justify-content: space-between;
     margin: 5px 0;
+    flex-direction: column;
+    align-items: flex-end;
 }
 #spanCarac>div>div,#spanComp>div>div,#spanInv>div>div {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin: 10px 0;
-}
-#spanCarac>div>div>div,#spanComp>div>div>div,#spanInv>div>div>div {
-    margin: 0 2px;
+    width: 100%;
+    justify-content: space-between;
 }
 #caracteristiquePerso>div>div>div>div, #competencePerso>div>div>div>div, #inventaire>div>div>div>div {
     display: flex;
@@ -106,7 +167,8 @@ button[type=submit]{
 #caracteristiquePerso>div>div>div>div>div>select,#caracteristiquePerso>div>div>div>div>div>input,
 #competencePerso>div>div>div>div>div>select,#competencePerso>div>div>div>div>div>input,
 #inventaire>div>div>div>div>div>select,#inventaire>div>div>div>div>div>input {
-    margin-left: 5px;
+    background-color: #ffffffb0;
+    border: none;
 }
 
 /* resumePerso */
@@ -129,11 +191,11 @@ button[type=submit]{
     top: 2%;
     right: 2%;
 }
-.editOrFav>a:first-child>i {
-    color: rgb(218 254 255);
+.editOrFav>a>i {
+    color: #795aa1;
 }
-.editOrFav>a:last-child>i {
-    color: rgb(255 255 87);
+.editOrFav>a:hover>i {
+    opacity: 0.8;
 }
 #resumePerso>div:not(:nth-child(2)) {
     border-top: 1px solid black;
@@ -144,7 +206,7 @@ button[type=submit]{
     justify-content: center;
     position: absolute;
     top: 55px;
-    left: 55px;
+    left: 75px;
     font-weight: bold;
 }
 .healtBar>i:first-child, .healtBar>i:nth-child(2) {
@@ -183,9 +245,12 @@ button[type=submit]{
     top: -25px;
 }
 /* listPerso */
+.persoList {
+    display: flex;
+    flex-wrap: wrap;
+}
 .persoList h2>a {
     text-decoration: none;
-    color: black;
     padding-left: 0.3rem;
 }
 .persoList>div {
@@ -193,10 +258,14 @@ button[type=submit]{
     flex-direction: column;
     position: relative;
     width: 20%;
+    margin: 0 10px;
     max-height: 25%;
     overflow: overlay;
-    border: 1px solid black;
+    border: 5px solid rgb(255, 255, 255);
     border-radius: 4px;
+    background-color: #c7c7c7;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+
 }
 .persoList>div>div:last-child {
     display: flex;
@@ -207,18 +276,24 @@ button[type=submit]{
 }
 .persoList>div>div:last-child>div>h3 {
     text-align: center;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 2px solid rgb(255, 255, 255);
+    border-bottom: 2px solid rgb(255, 255, 255);
     margin: 0;
-    padding: 0.6rem 0;
+    padding: 0.4rem 0;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 .persoList>div>div:last-child>div:not(:last-child) {
-    border-right: 1px solid black;
+    border-right: 2px solid rgb(255, 255, 255);
 }
 .persoList>div>div:last-child>div>div {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 0 5px;
+    height: 2rem;
+}
+.persoList>div>div:last-child>div>div>p {
+    margin: 0;
 }
 /* commentForm */
 .commentForm {
@@ -232,9 +307,14 @@ button[type=submit]{
     margin: 1.5% 0;
 }
 .commentForm>div:first-child>textarea {
-    min-width: 95%;
-    max-width: 100%;
+    min-width: 97.5%;
+    max-width: 97.5%;
     min-height: 1rem;
+    background-color: rgba(255, 255, 255, 0.623);
+    font-family: 'Handjet', cursive;
+    color: black;
+    font-weight: bold;
+    font-size: 0.9rem;
 }
 .commentForm>div:nth-child(2) {
     display: flex;
@@ -245,9 +325,14 @@ button[type=submit]{
 .commentaire {
     position: relative;
     margin: 4px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.623);
     padding: 5px;
     border-radius: 5px;
+}
+.commentaire>p {
+    border-top: 1px solid black;
+    margin-top: 0;
+    padding-top: 5px;
 }
 .commentaire>div:first-child {
     position: absolute;
@@ -261,22 +346,50 @@ button[type=submit]{
 .commentaire>div:first-child>a>i {
     color: rgb(163, 1, 1);
 }
+.commentaire>div:first-child>a:hover>i {
+    opacity: 0.8;
+}
 
 /* comp/carac button */
 .ajout-caracteristiquePerso, .ajout-competencePerso, .ajout-objetPerso {
     background-color: rgb(15, 105, 15);
     color: white;
     border: none;
-    border-radius: 4px;
     padding: 5px;
     margin: 10px 0;
     cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.ajout-caracteristiquePerso:hover, .ajout-competencePerso:hover, .ajout-objetPerso:hover {
+    color: rgb(15, 105, 15);
+    background-color: white;
 }
 .delete-caracteristique-button, .delete-competence-button, .delete-objet-button {
     background-color: rgb(160, 27, 27);
     color: white;
     border: none;
-    border-radius: 8px 0 8px 0;
+    border-radius: 40px 60px;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.delete-caracteristique-button:hover, .delete-competence-button:hover, .delete-objet-button:hover {
+    color: rgb(160, 27, 27);
+    background-color: white;
+}
+
+/* footer */
+footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #c7c7c7;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+footer>ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+}
+
+.sf-toolbar {
+    position: absolute;
 }

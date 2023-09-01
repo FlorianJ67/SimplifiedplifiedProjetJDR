@@ -262,10 +262,13 @@ class PersoController extends AbstractController
 
     #[Route('/removeComment/{id}', name: 'removeComment_perso')]
     public function removeCommentPerso(ManagerRegistry $doctrine, Commentaire $commentaire, Request $request): Response
-    {     
-        $entityManager = $doctrine->getManager();
-        $entityManager->remove($commentaire);
-        $entityManager->flush();
+    {   
+        // on vérifie que le commentaire appartient bien à l'utilisateur connecter
+        if($this->getUser() == $commentaire->getUser()){
+            $entityManager = $doctrine->getManager();
+            $entityManager->remove($commentaire);
+            $entityManager->flush();
+        }
         // On redirige sur la même page
         $route = $request->headers->get('referer');
         return $this->redirect($route);

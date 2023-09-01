@@ -2,6 +2,10 @@
 
 {% block title %}Créer un Personnage{% endblock %}
 
+{% block header %}
+    {{ include('header.html.twig') }}
+{% endblock %} 
+
 {% block body %}
 <div class="persoForm">
     {{ form_start(formAddPerso) }}
@@ -29,6 +33,10 @@
             {{ form_row(formAddPerso.inventaires) }}
             <span id="spanInv"></span>
         </div>
+        <!-- Si le personnage existe déjà affiche 'Modifié' plutôt que 'Créer' sur le bouton submit -->
+        {% if perso.nom != null %}
+            {{ form_row(formAddPerso.submit, { 'label': 'Modifié' }) }}
+        {% endif %}
     {{ form_end(formAddPerso) }}
 </div>
     <!-- Si une entité perso déjà existante a été charger alors on affiche son récapitulatif (info_perso) -->
@@ -156,4 +164,7 @@
             });
         }
     </script>
+{% endblock %}
+{% block footer %}
+    {{ include('footer.html.twig') }} 
 {% endblock %}

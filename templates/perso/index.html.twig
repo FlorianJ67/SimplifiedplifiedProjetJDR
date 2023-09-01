@@ -2,13 +2,24 @@
 
 {% block title %}Hello PersoController!{% endblock %}
 
+{% block header %}
+    {{ include('header.html.twig') }}
+{% endblock %}
+
 {% block body %}
 <div class="persoList">
     {% for perso in perso %}
     <div>
-        <h2><a title="Afficher la fiche du personnage {{ perso }}" href="{{ path('info_perso', {'id': perso.id}) }}">{{ perso|capitalize }}</a></h2>
+        <h2><a title="Afficher la fiche du personnage {{ perso }}" href="{{ path('info_perso', {'id': perso.id}) }}">
+            {% if perso.sante == 0 %}
+                <i class="fa-solid fa-skull"></i>
+            {% endif %}
+            {{ perso|capitalize }}
+        </a></h2>
         <div class="editOrFav">
-            <a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité</a>
+            {% if app.user == perso.user %}
+                <a href="{{ path('edit_perso', {'id': perso.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+            {% endif %}
             {% set FavCheck = 0 %}
             <!-- Si l'utilisateur a une liste de perso favorie -->
             {% if app.user.persoFav %}
@@ -130,13 +141,20 @@
     </div>
     {% endfor %}
 </div>
+<h3>Favoris</h3>
 <div class="persoList">
-    <h3>Favoris</h3>
     {% for perso in persoFav %}
     <div>
-        <h2><a title="Afficher la fiche du personnage {{ perso }}" href="{{ path('info_perso', {'id': perso.id}) }}">{{ perso|capitalize }}</a></h2>
+        <h2><a title="Afficher la fiche du personnage {{ perso }}" href="{{ path('info_perso', {'id': perso.id}) }}">
+            {% if perso.sante == 0 %}
+                <i class="fa-solid fa-skull"></i>
+            {% endif %}
+            {{ perso|capitalize }}
+        </a></h2>
         <div class="editOrFav">
-            <a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité</a>
+            {% if app.user == perso.user %}
+                <a href="{{ path('edit_perso', {'id': perso.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+            {% endif %}
             {% set FavCheck = 0 %}
             <!-- Si l'utilisateur a une liste de perso favorie -->
             {% if app.user.persoFav %}
@@ -258,4 +276,7 @@
     </div>
     {% endfor %}
 </div>
+{% endblock %}
+{% block footer %}
+    {{ include('footer.html.twig') }} 
 {% endblock %}
