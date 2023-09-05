@@ -28,6 +28,28 @@ class PersoController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         // Si il n'y pas d'utilisateur connecté 
+        if($this->getUser()){
+            // On récupère l'utilisateur
+            $user = $this->getUser();
+            // On récupère la liste des personnage favoris de l'utilisateur
+            $persoFavUser = $user->getPersoFav();
+        } else {
+            $persoFavUser = [];
+        }
+        // On prépare l'entity Manager
+        $entityManager = $doctrine->getManager();
+        // On récupère la liste des personnage de l'utilisateur
+        $perso = $entityManager->getRepository(Perso::class)->findAll();
+
+        return $this->render('perso/index.html.twig', [
+            'perso' => $perso,
+            'persoFav' =>$persoFavUser
+        ]);
+    }
+    #[Route('/mesPerso', name: 'my_perso')]
+    public function myPerso(ManagerRegistry $doctrine): Response
+    {
+        // Si il n'y pas d'utilisateur connecté 
         if(!$this->getUser()){
             // Redirige vers la page de connexion
             return $this->redirectToRoute('app_login');
