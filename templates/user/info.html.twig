@@ -6,6 +6,6 @@
     <div id="infoUser">
         <h2>{{ user.pseudo }}</h2>
         <h3>Personnage de {{ user.pseudo }} </h3>
-        {{ include('perso/index.html.twig') }}
+        {{ block("body", "perso/index.html.twig") }}
     </div>
 {% endblock %}

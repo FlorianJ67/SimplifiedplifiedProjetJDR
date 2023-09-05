@@ -7,14 +7,26 @@
 {% endblock %} 
 
 {% block body %}
+{% set percentHealt = (100 - (perso.sante / perso.santeMax)*100) ~ "%" %}
+<style>
+    /*  */
+    .healtBar>i:first-child:after {
+        height: {{ percentHealt }};
+    }
+</style>
 <div class="persoForm">
     {{ form_start(formAddPerso) }}
+    <div class="healtBar">
+        <i class="fa-solid fa-heart"></i>
+        <i class="fa-regular fa-heart"></i>
+        {{ form_row(formAddPerso.sante) }}
+        {{ form_row(formAddPerso.santeMax) }}
+    </div>
         {{ form_row(formAddPerso.nom) }}
         {{ form_row(formAddPerso.espece) }}
         {{ form_row(formAddPerso.origine) }}
         {{ form_row(formAddPerso.age) }}
-        {{ form_row(formAddPerso.sante) }}
-        {{ form_row(formAddPerso.santeMax) }}
+
         {{ form_row(formAddPerso.taille) }}
         {{ form_row(formAddPerso.poids) }}
         {{ form_row(formAddPerso.sex) }}
@@ -42,7 +54,7 @@
     <!-- Si une entité perso déjà existante a été charger alors on affiche son récapitulatif (info_perso) -->
     {% if perso.nom != null %}
     <div>
-        {{ include('perso/info.html.twig') }}
+        {{ block("body", "perso/info.html.twig") }}
     </div>
     {% endif %}
 
@@ -162,6 +174,33 @@
             boutonSuppr.addEventListener("click", function(){
                 this.previousElementSibling.parentElement.remove();
             });
+        }
+        /* updating healt bar */
+        /* sante */
+        document.getElementById("perso_sante").onchange = function() {
+            var x = document.getElementById("perso_sante").value;
+            var y = document.getElementById("perso_santeMax").value;
+            var percentHealt = 100 - ((x/y)*100);
+            var HealtBarPercent = document.createElement("style");
+            
+            document.head.lastChild.remove();
+
+            HealtBarPercent.innerHTML =
+            ".persoForm>form>.healtBar>i:first-child:after { height: " + percentHealt + "%;}";
+            document.head.appendChild(HealtBarPercent);
+        }
+        /* santeMax */
+        document.getElementById("perso_santeMax").onchange = function() {
+            var x = document.getElementById("perso_sante").value;
+            var y = document.getElementById("perso_santeMax").value;
+            var percentHealt = 100 - ((x/y)*100);
+            var HealtBarPercent = document.createElement("style");
+
+            document.head.lastChild.remove();
+            
+            HealtBarPercent.innerHTML =
+            ".persoForm>form>.healtBar>i:first-child:after { height: " + percentHealt + "%;}";
+            document.head.appendChild(HealtBarPercent);
         }
     </script>
 {% endblock %}
