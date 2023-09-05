@@ -67,7 +67,9 @@ header {
 }
 header>#logo {
     position: relative;
-    width: 9vh;
+    width: 15vh;
+    overflow: hidden;
+
 }
 header>#logo>img {
     height: 10vh;
@@ -107,7 +109,7 @@ header>#logo:hover>img {
     }
 }
 @keyframes rollBack {
-    0% {transform: rotate(680deg);
+    0% {transform: rotate(500deg);
         margin-left: 5vh;}
     100%{        transform: rotate(0deg);
         margin-left: 0vh;}
@@ -125,10 +127,12 @@ header>ul>li>a {
     border-radius: 40px 60px;
     display: flex;
     align-items: center;
+    border: 2px solid white;
 }
 header>ul>li>a:hover {
     background-color: #795aa1;;
     color: white;
+    box-shadow: rgba(255, 255, 255, 0.3) 0px 19px 38px, rgba(255, 255, 255, 0.22) 0px 15px 12px;
 }
 header>ul:nth-child(2) {
     width: 70%;
@@ -166,9 +170,28 @@ main>h2 {
 .persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire) {
     width: -webkit-fill-available;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin: 2px 0;
+}
+.halfFormInput {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0!important;
+}
+.halfFormInput>div {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 0;
+}
+.halfFormInput>div>input {
+    width: 85%;
+}
+.halfFormInput>div>label {
+    width: 15%;
+    padding-left: 4px;
+    text-align: right;
 }
 /* bouton Créer du formulaire */
 .persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire):nth-last-child(2) {
@@ -180,7 +203,7 @@ main>h2 {
     text-align: right;
 }
 .persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire)>input {
-    width: 45%;
+    width: 41.25%;
     background-color: #ffffffb0;
     border: none;
 }
@@ -260,9 +283,6 @@ main>h2 {
     border-top: 1px solid black;
 }
 .healtBar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: absolute;
     top: 55px;
     left: 75px;
@@ -297,14 +317,19 @@ main>h2 {
     position: absolute;
 }
 .healtBar>p:nth-child(3) {
-    top: -50px;
+    top: -38px;
+    left: 2px;
     border-bottom: 1px solid black;
 }
 .healtBar>p:nth-child(4) {
-    top: -25px;
+    top: -12px;
+    left: 2px;
 }
 .persoForm .healtBar {
-    left: 125px;
+    left: 128px;
+}
+.persoForm .healtBar>i {
+    left: 8px;
 }
 .persoForm .healtBar>div>input {
     width: 40px;
@@ -319,20 +344,29 @@ main>h2 {
 .persoForm .healtBar>div>input {
     -moz-appearance: textfield;
 }
+.persoForm .healtBar>div {
+    width: 160px;
+    display: flex;
+    justify-content: space-between;
+}
 .persoForm .healtBar>div:nth-child(3) {
     top: -30px;
     left: -120px;
 }
 .persoForm .healtBar>div:nth-child(3)>input {
-    margin-left: 70px;
+
     border-bottom: 1px solid black;
+}
+.persoForm .healtBar>div:nth-child(3)>label,.persoForm .healtBar>div:nth-child(4)>label {
+    width: 48%;
+    text-align: end;
 }
 .persoForm .healtBar>div:nth-child(4) {
     top: -5px;
     left: -120px;
 }
 .persoForm .healtBar>div:nth-child(4)>input {
-    margin-left: 37px;
+
 }
 /* listPerso */
 .persoList {
@@ -360,6 +394,7 @@ main>h2 {
 .persoList>div>div:last-child {
     display: flex;
     justify-content: space-between;
+    height: -webkit-fill-available;
 }
 .persoList>div>div:last-child>div {
     width: -webkit-fill-available;

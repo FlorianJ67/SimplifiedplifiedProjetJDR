@@ -7,7 +7,11 @@
 {% endblock %} 
 
 {% block body %}
-{% set percentHealt = (100 - (perso.sante / perso.santeMax)*100) ~ "%" %}
+{% if perso.santeMax %}
+    {% set percentHealt = (100 - (perso.sante / perso.santeMax)*100) ~ "%" %}
+{% else %}
+    {% set percentHealt = 1 ~ "%" %}
+{% endif %}
 <style>
     /*  */
     .healtBar>i:first-child:after {
@@ -25,11 +29,12 @@
         {{ form_row(formAddPerso.nom) }}
         {{ form_row(formAddPerso.espece) }}
         {{ form_row(formAddPerso.origine) }}
-        {{ form_row(formAddPerso.age) }}
-
-        {{ form_row(formAddPerso.taille) }}
-        {{ form_row(formAddPerso.poids) }}
-        {{ form_row(formAddPerso.sex) }}
+        <div class="halfFormInput">
+            {{ form_row(formAddPerso.age) }}
+            {{ form_row(formAddPerso.taille) }}
+            {{ form_row(formAddPerso.poids) }}
+            {{ form_row(formAddPerso.sex) }}
+        </div>
         <!-- MultiForm Caractéristique -->
         <div id="caracteristiquePerso" data-prototype="{{ form_row(formAddPerso.caracteristiquePersos.vars.prototype)|e('html_attr') }}">
             {{ form_row(formAddPerso.caracteristiquePersos) }}
@@ -181,6 +186,7 @@
             var x = document.getElementById("perso_sante").value;
             var y = document.getElementById("perso_santeMax").value;
             var percentHealt = 100 - ((x/y)*100);
+
             var HealtBarPercent = document.createElement("style");
             
             document.head.lastChild.remove();
@@ -194,6 +200,7 @@
             var x = document.getElementById("perso_sante").value;
             var y = document.getElementById("perso_santeMax").value;
             var percentHealt = 100 - ((x/y)*100);
+            
             var HealtBarPercent = document.createElement("style");
 
             document.head.lastChild.remove();

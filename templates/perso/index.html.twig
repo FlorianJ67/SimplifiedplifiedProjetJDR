@@ -17,9 +17,6 @@
             {{ perso|capitalize }}
         </a></h2>
         <div class="editOrFav">
-            {% if app.user == perso.user %}
-                <a href="{{ path('edit_perso', {'id': perso.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-            {% endif %}
             {% set FavCheck = 0 %}
             <!-- Si l'utilisateur a une liste de perso favorie -->
             {% if app.user.persoFav %}
@@ -36,6 +33,10 @@
             <!-- Si le Perso n'est pas dans la liste des Favoris, on affiche le bouton "Ajoutez au favoris" -->
             {% if FavCheck == 0 %}
                 <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajoutez au favoris"><i class="fa-regular fa-star"></i></a>
+            {% endif %}
+            {% if app.user == perso.user %}
+            <a href="{{ path('edit_perso', {'id': perso.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a href="{{ path('delete_perso', {'id': perso.id}) }}"><i class="fa-solid fa-trash"></i></a>
             {% endif %}
         </div>
         <div>
@@ -152,9 +153,6 @@
             {{ perso|capitalize }}
         </a></h2>
         <div class="editOrFav">
-            {% if app.user == perso.user %}
-                <a href="{{ path('edit_perso', {'id': perso.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-            {% endif %}
             {% set FavCheck = 0 %}
             <!-- Si l'utilisateur a une liste de perso favorie -->
             {% if app.user.persoFav %}
@@ -171,6 +169,10 @@
             <!-- Si le Perso n'est pas dans la liste des Favoris, on affiche le bouton "Ajoutez au favoris" -->
             {% if FavCheck == 0 %}
                 <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajoutez au favoris"><i class="fa-regular fa-star"></i></a>
+            {% endif %}
+            {% if app.user == perso.user %}
+                <a href="{{ path('edit_perso', {'id': perso.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="{{ path('delete_perso', {'id': perso.id}) }}"><i class="fa-solid fa-trash"></i></a>
             {% endif %}
         </div>
         <div>

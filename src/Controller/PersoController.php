@@ -274,6 +274,25 @@ class PersoController extends AbstractController
         return $this->redirect($route);
     }
 
+    #[Route('/perso/{id}/delete', name: 'delete_perso')]
+    public function remove(ManagerRegistry $doctrine, Perso $perso): Response
+    {    
+        $entityManager = $doctrine->getManager();
+
+        if ($this->getUser() == $perso->getUser()) {
+            foreach($perso->getCompetencePersos() as $comp) {
+                $perso->removeCompetencePerso($comp);
+            }
+            foreach($perso->getCaracteristiquePersos() as $carac) {
+                $perso->removeCaracteristiquePerso($carac);
+            }
+            $entityManager->remove($perso);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute("app_perso");
+    }
+
     #[Route('/perso/{id}/', name: 'info_perso')]
     public function info(ManagerRegistry $doctrine, Perso $perso, Request $request): Response
     {    
