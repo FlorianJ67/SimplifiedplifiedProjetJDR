@@ -2,6 +2,10 @@
 
 {% block title %}S'inscrire{% endblock %}
 
+{% block header %}
+    {{ include('header.html.twig') }}
+{% endblock %}
+
 {% block body %}
     <h1>S'inscrire</h1>
     <div class="userForm">
@@ -17,4 +21,7 @@
             <button type="submit" class="btn">Register</button>
         {{ form_end(registrationForm) }}
     </div>
+{% endblock %}
+{% block footer %}
+    {{ include('footer.html.twig') }} 
 {% endblock %}

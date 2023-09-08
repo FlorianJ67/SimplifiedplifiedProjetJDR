@@ -46,62 +46,90 @@
     <div class="healtBar">
         <i class="fa-solid fa-heart"></i>
         <i class="fa-regular fa-heart"></i>
-        <p>{{ perso.sante }}</p>
-        <p>{{ perso.santeMax }}</p>
+        <div>
+            <p>{{ perso.sante }}</p>
+            <p>{{ perso.santeMax }}</p>
+        </div>
     </div>
-
-    <div>
-        <!-- Si la liste des Caractéristique est supérieur à 1 ajoute un "s" -->
-        {% if perso.caracteristiquePersos|length >1 %}
-            <p>Caractéristiques:</p>
-        {% else %}
-            <p>Caractéristique:</p>
-        {% endif %}
-        <!-- Liste les Caractéristiques -->
-        {% for caracteristiquePerso in perso.caracteristiquePersos %}
+    <div class="caracCompDiv">
+        <div>
             <div>
-                <p>{{ caracteristiquePerso.valeur ~ " " ~ caracteristiquePerso.caracteristique|capitalize }}</p>
+                <!-- Si la liste des Caractéristique est supérieur à 1 ajoute un "s" -->
+                {% if perso.caracteristiquePersos|length >1 %}
+                    <p>Caractéristiques:</p>
+                {% else %}
+                    <p>Caractéristique:</p>
+                {% endif %}
             </div>
-        {% endfor %}
-    </div>
-
-    <div>
-        <!-- Si la liste des Compétences est supérieur à 1 ajoute un "s" -->
-        {% if perso.competencePersos|length >1 %}
-            <p>Compétences:</p>
-        {% else %}
-            <p>Compétence:</p>
-        {% endif %}
-        <!-- Liste les Compétence -->
-        {% for competencePerso in perso.competencePersos %}
+            <!-- Liste les Caractéristiques -->
+            {% for caracteristiquePerso in perso.caracteristiquePersos %}
+                <div>
+                    <p>{{ caracteristiquePerso.caracteristique|capitalize }}</p>
+                    <p>{{ caracteristiquePerso.valeur|capitalize }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    
+        <div>
             <div>
-                <p>{{ competencePerso.valeur ~ " " ~ competencePerso.competence|capitalize }}</p>
+                <!-- Si la liste des Compétences est supérieur à 1 ajoute un "s" -->
+                {% if perso.competencePersos|length >1 %}
+                    <p>Compétences:</p>
+                {% else %}
+                    <p>Compétence:</p>
+                {% endif %}
             </div>
-        {% endfor %}
+            <!-- Liste les Compétence -->
+            {% for competencePerso in perso.competencePersos %}
+                <div>
+                    <p>{{ competencePerso.competence|capitalize }}</p>
+                    <p>{{ competencePerso.valeur|capitalize }}</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
-    <div>
+    <div class="inventaire">
         <!-- Si la liste des Objets est supérieur à 1 ajoute un "s" -->
         {% if perso.inventaires|length >1 %}
             <p>Objets:</p>
         {% else %}
             <p>Objet:</p>
         {% endif %}
-        <!-- Liste les Objets -->
-        {% for objet in perso.inventaires %}
+        <!-- sangle 'sac a dos' -->
+        <div class="sangle" onclick="toggleInventory()">
             <div>
-                <p>{{ objet.objets.nom|capitalize }}</p>
-                <p>{{"Dégats: " ~ objet.objets.valeur }}</p>
-                <p>{{"Quantité: " ~ objet.quantite }}</p>
+                <p>.</p>
+                <p class="test2">.</p>
+                <div>
+                    <div></div>
+                </div>
             </div>
-    {% endfor %}
+            <div>
+                <p>.</p>
+                <p class="test2">.</p>
+                <div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        <div id="objetList" style="opacity: 1;">
+        <!-- Liste les Objets -->
+            {% for objet in perso.inventaires %}
+                <div>
+                    <p>{{ objet.objets.nom|capitalize }}</p>
+                    <p>{{"Dégats: " ~ objet.objets.valeur }}</p>
+                    <p>{{"Quantité: " ~ objet.quantite }}</p>
+                </div>
+            {% endfor %}             
+        </div>
     </div>
-    <div>
+    <div class="commentaire">
         {% if perso.commentaires %}
             {% for commentaire in perso.commentaires|sort((a, b) => a.createdAt <=> b.createdAt) %}
-                <div class="commentaire">
+                <div >
                     <div>
-                        <p>Envoyé le {{ commentaire.createdAt|date("d/m/Y à h:m") }}</p>
+                        <p>Envoyé le {{ commentaire.createdAt|date("d/m/Y à h:i") }}</p>
                         <a href="{{ path('removeComment_perso', {'id': commentaire.id}) }}" title="Supprimer le commentaire"><i class="fa-solid fa-circle-xmark"></i></a>
                     </div>
                     <a class="user" href="{{ path('info_user', {'id': commentaire.user.id}) }}">{{ commentaire.user.pseudo }}</a>
@@ -109,8 +137,30 @@
                 </div>
             {% endfor %}
         {% endif %}
-        {{ form_start(commentForm, {'attr': {'class': 'commentForm'}}) }}
-        {{ form_end(commentForm) }}
     </div>
+    {{ form_start(commentForm, {'attr': {'class': 'commentForm'}}) }}
+    {{ form_end(commentForm) }}
 </div>
+{% endblock %}
+{% block javascripts %}
+<script>
+    var i = 1;
+    var listeObjet = document.getElementById("objetList");
+    var test2 = document.getElementsByClassName("test2");
+    height = listeObjet.clientHeight;
+    function toggleInventory() {
+        if (i == 1 ) {
+            listeObjet.style.opacity = 0;
+            listeObjet.style.height = 0;
+            i = 0;
+        } else {
+            listeObjet.style.opacity = 1;
+            listeObjet.style.height = height + "px";
+            i = 1;
+        }
+    }
+</script>
+{% endblock %}
+{% block footer %}
+    {{ include('footer.html.twig') }} 
 {% endblock %}

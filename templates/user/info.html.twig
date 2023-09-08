@@ -2,10 +2,18 @@
 
 {% block title %}info de l'utilisateur {{ user }}{% endblock %}
 
+{% block header %}
+    {{ include('header.html.twig') }}
+{% endblock %}
+
 {% block body %}
     <div id="infoUser">
         <h2>{{ user.pseudo }}</h2>
         <h3>Personnage de {{ user.pseudo }} </h3>
         {{ block("body", "perso/index.html.twig") }}
     </div>
+{% endblock %}
+
+{% block footer %}
+    {{ include('footer.html.twig') }} 
 {% endblock %}

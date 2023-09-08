@@ -22,7 +22,9 @@ input,button,select,option {
 input,select {
     font-size: 1rem;
     margin-left: 5px;
-
+}
+input:focus,select:focus {
+    outline: none;
 }
 option:checked, option:hover, option:active, option:focus {
     background-color: rgb(160, 107, 209);
@@ -123,7 +125,7 @@ header>ul {
 }
 header>ul>li>a {
     background-color: white;
-    padding: 15px;
+    padding: 10px;
     border-radius: 40px 60px;
     display: flex;
     align-items: center;
@@ -143,7 +145,26 @@ header>ul:nth-child(3) {
 header>ul>#welcome {
     background-color: unset;
 }
+
+/* something */
+.something {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    max-height: 25%;
+    border: 5px solid rgb(255, 255, 255);
+    border-radius: 4px;
+    background-color: #c7c7c7;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    align-items: center;
+}
 /* main */
+main {
+    display: flex;
+    flex-direction: column;
+    min-height: 81vh;
+}
 main>h2 {
     margin-left: 10px;
 }
@@ -170,7 +191,7 @@ main>h2 {
 .persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire) {
     width: -webkit-fill-available;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     margin: 2px 0;
 }
@@ -180,31 +201,67 @@ main>h2 {
     margin: 0!important;
 }
 .halfFormInput>div {
-    width: 50%;
-    display: flex;
+    width: 49%;
     justify-content: space-between;
+    background-color: grey;
+    border-radius: 50px;
+    padding: 3px;
     margin: 2px 0;
+    display: flex;
 }
 .halfFormInput>div>input {
-    width: 85%;
+    width: 75%;
+    -webkit-clip-path: polygon(15% 0, 100% 0%, 100% 100%, 0% 100%);
+    clip-path: polygon(2.2% 0, 100% 0%, 100% 100%, 0% 100%);
+    background-color: white;
+    border-radius: 0 15px 15px 0;
+    padding: 1px 8px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    text-align: end;
+    border: none;
 }
 .halfFormInput>div>label {
-    width: 15%;
-    padding-left: 4px;
-    text-align: right;
+    -webkit-clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
+    clip-path: polygon(0 0, 100% 0%, 94% 100%, 0% 100%);
+    width: 25%;
+    background-color: black;
+    color: white;
+    padding: 1px 10px;
+    border-radius: 15px 0 0 15px;
 }
 /* bouton Créer du formulaire */
 .persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire):nth-last-child(2) {
     justify-content: flex-end;
 }
-
-.persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire)>label {
-    width: 50%;
-    text-align: right;
+.persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire,.halfFormInput,.healtBar,:nth-last-child(2)){
+    width: 49%;
+    justify-content: space-between;
+    background-color: grey;
+    border-radius: 50px;
+    padding: 3px;
 }
-.persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire)>input {
-    width: 41.25%;
-    background-color: #ffffffb0;
+.persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire,.halfFormInput)>label {
+    -webkit-clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
+    clip-path: polygon(0 0, 100% 0%, 94% 100%, 0% 100%);
+    width: 25%;
+    background-color: black;
+    color: white;
+    padding: 1px 10px;
+    border-radius: 15px 0 0 15px;
+}
+.persoForm>form>div:not(#caracteristiquePerso,#competencePerso,#inventaire,.halfFormInput)>input {
+    width: 75%;
+    -webkit-clip-path: polygon(15% 0, 100% 0%, 100% 100%, 0% 100%);
+    clip-path: polygon(2.2% 0, 100% 0%, 100% 100%, 0% 100%);
+    background-color: white;
+    border-radius: 0 15px 15px 0;
+    padding: 1px 8px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    text-align: end;
     border: none;
 }
 .userForm>form>div {
@@ -222,6 +279,36 @@ main>h2 {
 #spanCarac, #spanComp, #spanInv {
     display: flex;
     flex-direction: column;
+}
+#spanCarac>div>div>div, #spanComp>div>div>div, #spanInv>div>div>div {
+    width: 49%;
+    justify-content: space-between;
+    background-color: grey;
+    border-radius: 50px;
+    padding: 3px;
+    display: flex;
+}
+#spanCarac>div>div>div>label, #spanComp>div>div>div>label, #spanInv>div>div>div>label {
+    -webkit-clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
+    clip-path: polygon(0 0, 100% 0%, 94% 100%, 0% 100%);
+    width: 25%;
+    background-color: black;
+    color: white;
+    padding: 1px 10px;
+    border-radius: 15px 0 0 15px;
+}
+#spanCarac>div>div>div>input, #spanComp>div>div>div>input, #spanInv>div>div>div>input,#spanCarac>div>div>div>select, #spanComp>div>div>div>select, #spanInv>div>div>div>select {
+    width: 75%;
+    -webkit-clip-path: polygon(15% 0, 100% 0%, 100% 100%, 0% 100%);
+    clip-path: polygon(2.2% 0, 100% 0%, 100% 100%, 0% 100%);
+    background-color: white;
+    border-radius: 0 15px 15px 0;
+    padding: 1px 8px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    text-align: end;
+    border: none;
 }
 #spanCarac>div,#spanComp>div,#spanInv>div {
     display: flex;
@@ -279,14 +366,156 @@ main>h2 {
 .editOrFav>a:hover>i {
     opacity: 0.8;
 }
+#resumePerso>h3 {
+    background-color: black;
+    color: white;
+    width: fit-content;
+    padding: 6px 14px;
+    -webkit-clip-path: polygon(0 0, 7% 100%, 100% 100%, 93% 0);
+    clip-path: polygon(0 0, 17% 100%, 100% 100%, 83% 0);
+    border-radius: 7px 25px;
+    margin: 32px 0 2px 2px;
+}
+#resumePerso>.caracCompDiv {
+    display: flex;
+}
+#resumePerso>.caracCompDiv>div {
+    width: 50%;
+    padding-left: 4px;
+}
+#resumePerso>.caracCompDiv>div>div:not(:first-child) {
+    display: flex;
+    justify-content: space-between;
+    background-color: grey;
+    border-radius: 50px;
+    padding: 0 3px;
+    margin: 3px;
+}
+#resumePerso>.caracCompDiv>div>div>p {
+    margin: 3px 0;
+}
+#resumePerso>.caracCompDiv>div>div:not(:first-child)>p:nth-child(1) {
+    -webkit-clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
+    clip-path: polygon(0 0, 100% 0%, 96.5% 100%, 0% 100%);
+    width: 80%;
+    background-color: black;
+    color: white;
+    padding: 1px 10px;
+    border-radius: 15px 0 0 15px;
+}
+#resumePerso>.caracCompDiv>div>div>p:nth-child(2) {
+    -webkit-clip-path: polygon(15% 0, 100% 0%, 100% 100%, 0% 100%);
+    clip-path: polygon(15% 0, 100% 0%, 100% 100%, 0% 100%);
+    background-color: white;
+    width: 20%;
+    border-radius: 0 15px 15px 0;
+    padding: 1px;
+    display: flex;
+    justify-content: center;
+}
+#resumePerso>.caracCompDiv>div:first-child:not(:last-child) {
+    border-right: 1px solid black;
+}
 #resumePerso>div:not(:nth-child(2)) {
     border-top: 1px solid black;
+    margin-top: 5px;
+}
+.inventaire {
+    background-color: #7f4423f5;
+    border: 1px solid black;
+    border-radius: 12px;
+    position: relative;
+}
+.inventaire>p {
+    margin-left: 5px;
+    margin-bottom: 32px;
+}
+.inventaire>div {
+    display: flex;
+}
+.inventaire>div>div {
+    position: relative;
+    padding: 10px;
+    width: 44%;
+    margin: 1%;
+    background-color: rgba(0, 0, 0, 0.089);
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.inventaire>div:not(.sangle)>div {
+    background-color: #9be0ff5c;
+}
+.inventaire>div:not(.sangle)>div:hover {
+    top: 2px;
+}
+.inventaire>div>div>p {
+    margin: unset;
+}
+.inventaire>div>div>p:last-child {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.inventaire .sangle {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+}
+.inventaire .sangle>div {
+    width: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0 0 5px 5px;
+    margin: 0 9%;
+    padding: 0;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    border-left: 1px solid #00000045;
+    border-right: 1px solid #00000045;
+}
+.inventaire .sangle:hover>div {
+    background-color: #0000004a;
+}
+.inventaire .sangle>div>div:last-child {
+    width: 100%;
+    height: 20px;
+    border: 2px solid #d3cc09b2;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    box-shadow: rgb(0 0 0 / 26%) 3px 3px 9px 0px inset, rgb(0 0 0 / 51%) -3px -3px 6px 1px inset;
+}
+.inventaire .sangle>div>div:last-child>div {
+    width: 3px;
+    height: 15px;
+    background-color: rgba(255, 255, 0, 0.637);
+    position: absolute;
+    bottom: -5px;
+    border-radius: 18px;
+}
+.inventaire #objetList {
+    transition: .9s;
+    overflow: hidden;
 }
 .healtBar {
     position: absolute;
     top: 55px;
     left: 75px;
     font-weight: bold;
+}
+.healtBar ::placeholder {
+    color: white;
+}
+:not(form)>.healtBar {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 17px;
+    left: 30px;
 }
 .healtBar>i:first-child, .healtBar>i:nth-child(2) {
     position: absolute;
@@ -308,13 +537,23 @@ main>h2 {
     left: 0;
     right: 0;
 }
-
-
 .healtBar>i:nth-child(2){
     transform: scale(5);
 }
 .healtBar>p,.healtBar>div {
     position: absolute;
+}
+:not(form)>.healtBar>div {
+    top: -3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 75px;
+    height: 75px;
+}
+:not(form)>.healtBar>div>p {
+    margin: unset;
 }
 .healtBar>p:nth-child(3) {
     top: -38px;
@@ -370,6 +609,7 @@ main>h2 {
 }
 /* listPerso */
 .persoList {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
 }
@@ -448,30 +688,54 @@ main>h2 {
 }
 /* commentaire */
 .commentaire {
+    max-height: 250px;
+    overflow: overlay;
+    padding-bottom: 5px;
+}
+/* scroll bar */
+.commentaire::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.315);
+    border: 1px solid rgba(0, 0, 0, 0.356);
+    border-radius: 2px;
+    
+}
+.commentaire::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.356);
+    border-color: rgba(255, 255, 255, 0.555);
+}
+.commentaire::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.164);
+    border-radius: 5px;
+}
+.commentaire::-webkit-scrollbar {
+    width: 10px;
+}
+
+.commentaire>div {
     position: relative;
     margin: 4px;
     background-color: rgba(255, 255, 255, 0.623);
     padding: 5px;
     border-radius: 5px;
 }
-.commentaire>p {
+.commentaire>div>p {
     border-top: 1px solid black;
     margin-top: 0;
     padding-top: 5px;
 }
-.commentaire>div:first-child {
+.commentaire>div>div:first-child {
     position: absolute;
     right: 5px;
     top: 5px;
     display: flex;
 }
-.commentaire>div:first-child>p {
+.commentaire>div>div:first-child>p {
     margin: 0 2px;
 }
-.commentaire>div:first-child>a>i {
+.commentaire>div>div:first-child>a>i {
     color: rgb(163, 1, 1);
 }
-.commentaire>div:first-child>a:hover>i {
+.commentaire>div>div:first-child>a:hover>i {
     opacity: 0.8;
 }
 

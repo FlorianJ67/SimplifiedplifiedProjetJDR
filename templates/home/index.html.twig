@@ -2,18 +2,27 @@
 
 {% block title %}Hello HomeController!{% endblock %}
 
+{% block header %}
+    {{ include('header.html.twig') }}
+{% endblock %}
+
 {% block body %}
+
     {% if app.user %}
-    <div>
-        <h2>Bonjour {{ app.user.pseudo }}</h2>
-        <a href="{{ path('add_perso') }}">Créer un Personnage</a>
+        <div class="something">
+            <h2>Bonjour {{ app.user.pseudo }}</h2>
+            <a href="{{ path('add_perso') }}">Créer un Personnage</a>
             {% if app.user.persos %}
                 {% for perso in app.user.persos %}
-                <a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité {{perso.nom}}</a>
+                    <a href="{{ path('edit_perso', {'id': perso.id}) }}">Édité {{perso.nom}}</a>
                 {% endfor %}
             {% endif %}
         </div>
     {% else %}
-    <a href="{{ path('app_login') }}">Veuillez être connecté pour créer un personnage</a>
+        <a href="{{ path('app_login') }}">Veuillez être connecté pour créer un personnage</a>
     {% endif %}
+{% endblock %}
+
+{% block footer %}
+    {{ include('footer.html.twig') }} 
 {% endblock %}

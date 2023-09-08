@@ -2,6 +2,10 @@
 
 {% block title %}Log in!{% endblock %}
 
+{% block header %}
+    {{ include('header.html.twig') }}
+{% endblock %}
+
 {% block body %}
 <div class="userForm">
     <form method="post">
@@ -32,4 +36,7 @@
         <button class="btn btn-lg btn-primary" type="submit">Se connecter</button>
     </form>
 </div>
+{% endblock %}
+{% block footer %}
+    {{ include('footer.html.twig') }} 
 {% endblock %}

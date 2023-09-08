@@ -23,8 +23,8 @@
     <div class="healtBar">
         <i class="fa-solid fa-heart"></i>
         <i class="fa-regular fa-heart"></i>
-        {{ form_row(formAddPerso.sante) }}
-        {{ form_row(formAddPerso.santeMax) }}
+        {{ form_row(formAddPerso.sante, {'attr': {'placeholder': 'santé'}}) }}
+        {{ form_row(formAddPerso.santeMax, {'attr': {'placeholder': 'max'}}) }}
     </div>
         {{ form_row(formAddPerso.nom) }}
         {{ form_row(formAddPerso.espece) }}
