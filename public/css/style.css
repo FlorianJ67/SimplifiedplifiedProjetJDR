@@ -370,7 +370,7 @@ main>h2 {
     background-color: black;
     color: white;
     width: fit-content;
-    padding: 6px 14px;
+    padding: 6px 37px;
     -webkit-clip-path: polygon(0 0, 7% 100%, 100% 100%, 93% 0);
     clip-path: polygon(0 0, 17% 100%, 100% 100%, 83% 0);
     border-radius: 7px 25px;
