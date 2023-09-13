@@ -14,7 +14,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     justify-content: space-between;
-    background-color: #666371;
+    background-color: #c7c7c7;
     margin: 0;
     padding: 0;
 }
@@ -109,7 +109,7 @@ header>#logo:hover>img {
         top: 0px;
     }
     78% {
-        top: -13px;
+        top: -10px;
     }
     82% {
         top: 0px;
@@ -138,15 +138,18 @@ header>ul>li>a {
     background-color: var(--color2);
     color: var(--color3);
     padding: 10px;
-    border-radius: 40px 60px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
-    border: 3px solid var(--color1);
+    border: 2px solid var(--color3);
+    transition: 0.5s;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(255, 255, 255, 0.3) 0px 18px 36px -18px inset;
 }
 header>ul>li>a:hover {
     background-color: var(--color3);;
     color: var(--color2);
+    border-radius: 1px;
+    border-color: #795aa1;
 }
 .logout {
     background-color: rgb(151, 36, 36);
@@ -362,6 +365,7 @@ main>h2 {
 
 /* resumePerso */
 #resumePerso {
+    border-top:2px solid #795aa1;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -372,12 +376,14 @@ main>h2 {
     margin-left: 15px;
     position: relative;
     background-color: var(--color3);
-    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 .editOrFav {
     position: absolute;
     top: 2%;
     right: 2%;
+}
+.editOrFav>a:hover {
+    color: var(--color1)!important;
 }
 .editOrFav>a>i {
     color: #795aa1;
@@ -389,11 +395,9 @@ main>h2 {
     background-color: var(--color2);
     color: var(--color3);
     width: fit-content;
-    padding: 6px 37px;
-    -webkit-clip-path: polygon(0 0, 7% 100%, 100% 100%, 93% 0);
-    clip-path: polygon(0 0, 17% 100%, 100% 100%, 83% 0);
-    border-radius: 35px 25px;
-    margin: 32px 0 5px 2px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin: 32px 0 5px 8px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(255, 255, 255, 0.3) 0px 18px 36px -18px inset;
 }
 #resumePerso>.caracCompDiv {
@@ -463,7 +467,7 @@ main>h2 {
     box-shadow: rgba(24, 24, 24, 0.35) 25px 35px 50px -18px inset;
 }
 .inventaire>p {
-    margin-left: 5px;
+    margin-left: 12px;
     margin-bottom: 32px;
 }
 .inventaire>div {
@@ -498,14 +502,21 @@ main>h2 {
     justify-content: center;
     position: absolute;
     top: 0;
+    overflow: hidden;
+    padding-bottom: 5px;
+}
+.inventaire .sangle:hover {
+    cursor: pointer;
 }
 .inventaire .sangle>div {
     width: 25px;
+    height: 140px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-end;
     border-radius: 0 0 5px 5px;
-    margin: 0 9%;
+    margin: -70px 9% 0 9%;
     padding: 0;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     border-left: 1px solid var(--color2);
@@ -513,6 +524,24 @@ main>h2 {
 }
 .inventaire .sangle:hover>div {
     background-color: rgba(14, 14, 14, 0.247);
+}
+.sangleLeftAnim {
+    animation: sangleLeft 1s linear forwards;
+}
+@keyframes sangleLeft {
+    20% {transform: rotate(5deg);}
+    50% {transform: rotate(-5deg);}
+    80% {transform: rotate(5deg);}
+    100% {transform: rotate(0deg);}
+}
+.sangleRightAnim {
+    animation: sangleRight 1s linear forwards;
+}
+@keyframes sangleRight {
+    20% {transform: rotate(-5deg);}
+    50% {transform: rotate(5deg);}
+    80% {transform: rotate(-5deg);}
+    100% {transform: rotate(0deg);}
 }
 .inventaire .sangle>div>div:last-child {
     width: 100%;
@@ -534,6 +563,7 @@ main>h2 {
 .inventaire #objetList {
     transition: .9s;
     overflow: hidden;
+    background-color: #0000003f;
 }
 .healtBar {
     position: absolute;
@@ -660,6 +690,7 @@ main>h2 {
 .persoList h2>a {
     text-decoration: none;
     padding-left: 0.3rem;
+    color: var(--color3);
 }
 .persoList>div {
     display: flex;
@@ -671,9 +702,9 @@ main>h2 {
     max-height: 25%;
     overflow: overlay;
     border-radius: 4px;
+    border-top: 2px solid #795aa1;
     background-color: var(--color3);
-    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
-
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 .persoList>div>div:last-child {
     display: flex;

@@ -16,6 +16,8 @@
     <div class="editOrFav">
         {% if app.user == perso.user %}
             <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Édité le personnage"><i class="fa-solid fa-pen-to-square"></i></a>      
+        {% else %}
+            <a href="{{ path('info_user', {'id': perso.user.id}) }}">Créateur : {{ perso.user.pseudo|capitalize }}</a>
         {% endif %}
         {% set FavCheck = 0 %}
         <!-- Si l'utilisateur a une liste de perso favorie -->
@@ -98,14 +100,14 @@
         {% endif %}
         <!-- sangle 'sac a dos' -->
         <div class="sangle" onclick="toggleInventory()">
-            <div>
+            <div class="sangleLeft">
                 <p>.</p>
                 <p class="test2">.</p>
                 <div>
                     <div></div>
                 </div>
             </div>
-            <div>
+            <div class="sangleRight">
                 <p>.</p>
                 <p class="test2">.</p>
                 <div>
@@ -147,14 +149,20 @@
     var i = 1;
     var listeObjet = document.getElementById("objetList");
     var test2 = document.getElementsByClassName("test2");
+    var sangleLeft = document.getElementsByClassName("sangleLeft");
+    var sangleRight = document.getElementsByClassName("sangleRight");
     height = listeObjet.clientHeight;
+    // on définie la hauteur de la balise #objetList afin de faire fonctionner correctement l'animation
+    listeObjet.style.height = height + "px";
     function toggleInventory() {
         if (i == 1 ) {
-            listeObjet.style.opacity = 0;
             listeObjet.style.height = 0;
+            sangleLeft.classList.remove("sangleLeftAnim");
+            sangleRight.classList.remove("sangleRightAnim");
             i = 0;
         } else {
-            listeObjet.style.opacity = 1;
+            sangleLeft.classList.add("sangleLeftAnim");
+            sangleRight.classList.add("sangleRightAnim");
             listeObjet.style.height = height + "px";
             i = 1;
         }

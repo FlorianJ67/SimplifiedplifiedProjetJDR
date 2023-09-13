@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PersoController!{% endblock %}
+{% block title %}
+    {% if perso|length > 1 %}
+        Personnages
+    {% else %}
+        Personnage
+    {% endif %}
+{% endblock %}
 
 {% block header %}
     {{ include('header.html.twig') }}

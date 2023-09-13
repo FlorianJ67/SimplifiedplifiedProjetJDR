@@ -8,7 +8,28 @@
 
 {% block body %}
     <div id="infoUser">
-        <h3>Personnage de {{ user.pseudo }} </h3>
+        <h3>
+            <!-- Si le personnage appartient à l'utilisateur connecter -->
+            {% if app.user == user %}
+                <!-- Si le nombre de personnage est supérieur à 1 -->
+                {% if app.user.persos|length > 1 %}
+                    Vos personnages
+                <!-- Sinon -->
+                {% else %}
+                    Votre personnage
+                {% endif %}  
+            <!-- Si le personnage n'appartient pas à l'utilisateur connecter -->              
+            {% else %}
+                <!-- Si le nombre de personnage est supérieur à 1 -->
+                {% if user.persos|length > 1 %}
+                    Personnages
+                <!-- Sinon -->
+                {% else %}
+                    Personnage
+                {% endif %}
+                de {{ user.pseudo }} 
+            {% endif %}
+        </h3>
         {{ block("body", "perso/index.html.twig") }}
     </div>
 {% endblock %}
