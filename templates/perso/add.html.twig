@@ -18,6 +18,7 @@
         height: {{ percentHealt }};
     }
 </style>
+<h3>Crée un personnage</h3>
 <div class="persoForm">
     {{ form_start(formAddPerso) }}
     <div class="healtBar">
@@ -63,28 +64,6 @@
     </div>
     {% endif %}
 
-    <div>
-        <div>
-            <h3>Objets:</h3>
-            {{ form_start(formAddObjet) }}
-            {{ form_end(formAddObjet) }}
-        </div>
-        <div>
-            <h3>Ajoutez une caractéristique</h3>
-            {{ form_start(formAddCaracteristique) }}
-            {{ form_end(formAddCaracteristique) }}
-        </div>
-        <div>
-            <h3>Configurer un bonus de compétence sur caractéristique</h3>
-            {{ form_start(formAddCompetenceInflueCarac) }}
-            {{ form_end(formAddCompetenceInflueCarac) }}
-        </div>
-        <div>
-            <h3>Ajoutez une compétence</h3>
-            {{ form_start(formAddCompetence) }}
-            {{ form_end(formAddCompetence) }}
-        </div>
-    </div>
 {% endblock %}
 
 {% block javascripts %}

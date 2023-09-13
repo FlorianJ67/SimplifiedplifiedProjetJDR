@@ -38,7 +38,7 @@
 
     {% set percentHealt = (100 - (perso.sante / perso.santeMax)*100) ~ "%" %}
     <style>
-        /*  */
+        /* calcul de l'affichage du masque des hp manquant */
         .healtBar>i:first-child:after {
             height: {{ percentHealt }};
         }

@@ -18,7 +18,7 @@
         </a></h2>
         <div class="editOrFav">
             {% if app.user != perso.user %}
-                <a href="{{ path('info_user', {'id': perso.user.id}) }}">{{ perso.user.pseudo }}</a>
+                <a href="{{ path('info_user', {'id': perso.user.id}) }}">{{ perso.user.pseudo|capitalize }}</a>
             {% endif %}
             {% set FavCheck = 0 %}
             <!-- Si l'utilisateur a une liste de perso favorie -->
@@ -63,7 +63,7 @@
                     <!-- si le tableau comporte exactement 4 entité on affiche cette dernière -->
                     {% if perso.caracteristiquePersos|length == 4 %}
                     <div>
-                        <p title="{{ perso.caracteristiquePersos[3] }}">{{ perso.caracteristiquePersos[3].caracteristique| slice(0,3) }}</p>
+                        <p title="{{ perso.caracteristiquePersos[3].caracteristique }}">{{ perso.caracteristiquePersos[3].caracteristique| slice(0,3) }}</p>
                         <p>{{ perso.caracteristiquePersos[3].valeur }}</p>
                     </div> 
                     {% endif %}      
@@ -146,7 +146,7 @@
     {% endfor %}
 </div>
 {% if persoFav|length > 0 %}
-    <h3>Mes favoris</h3>
+    <h3>Favoris</h3>
 {% endif %}
 <div class="persoList">
     {% for perso in persoFav %}
@@ -159,7 +159,7 @@
         </a></h2>
         <div class="editOrFav">
             {% if app.user != perso.user %}
-                <a href="{{ path('info_user', {'id': perso.user.id}) }}">{{ perso.user.pseudo }}</a>
+                <a href="{{ path('info_user', {'id': perso.user.id}) }}">{{ perso.user.pseudo|capitalize }}</a>
             {% endif %}
             {% set FavCheck = 0 %}
             <!-- Si l'utilisateur a une liste de perso favorie -->
@@ -204,7 +204,7 @@
                     <!-- si le tableau comporte exactement 4 entité on affiche cette dernière -->
                     {% if perso.caracteristiquePersos|length == 4 %}
                     <div>
-                        <p title="{{ perso.caracteristiquePersos[3] }}">{{ perso.caracteristiquePersos[3].caracteristique| slice(0,3) }}</p>
+                        <p title="{{ perso.caracteristiquePersos[3].caracteristique }}">{{ perso.caracteristiquePersos[3].caracteristique| slice(0,3) }}</p>
                         <p>{{ perso.caracteristiquePersos[3].valeur }}</p>
                     </div> 
                     {% endif %}      
