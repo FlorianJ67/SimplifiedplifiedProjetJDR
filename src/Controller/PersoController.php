@@ -156,78 +156,6 @@ class PersoController extends AbstractController
         }
 
 
-
-
-
-
-
-
-        // Ajouté une Caractéristique
-        $caracteristiqueForm = $this->createForm(CaracteristiqueType::class);
-        $caracteristiqueForm->handleRequest($request);
-        
-        if ($caracteristiqueForm->isSubmitted() && $caracteristiqueForm->isValid()) {
-            $carac = $caracteristiqueForm->getData();
-            $entityManager = $doctrine->getManager();
-
-            $entityManager->persist($carac);
-            $entityManager->flush();
-            return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
-        }
-
-        // Ajouté une Compétence
-        $competenceForm = $this->createForm(CompetenceType::class);
-        $competenceForm->handleRequest($request);
-
-        if ($competenceForm->isSubmitted() && $competenceForm->isValid()) {
-            $comp = $competenceForm->getData();
-            $entityManager = $doctrine->getManager();
-            
-            $entityManager->persist($comp);
-            $entityManager->flush();
-            
-            return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
-        }
-
-        // Configurer une Compétence sur la Caractéristique qui l'a boost
-        $competenceInflueCaracForm = $this->createForm(CompetenceInflueCaracType::class);
-        $competenceInflueCaracForm->handleRequest($request);
-                
-        if ($competenceInflueCaracForm->isSubmitted() && $competenceInflueCaracForm->isValid()) {
-            $competenceInflueCarac = $competenceInflueCaracForm->getData();
-            $entityManager = $doctrine->getManager();
-
-            $entityManager->persist($competenceInflueCarac);
-            $entityManager->flush();
-            return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
-        }
-
-        // Ajouté un Objet 
-        $addObjetForm = $this->createForm(ObjetType::class);
-        $addObjetForm->handleRequest($request);
-        
-        if ($addObjetForm->isSubmitted() && $addObjetForm->isValid()) {
-            $objet = $addObjetForm->getData();
-            $entityManager = $doctrine->getManager();
-
-            // Si l'Objet existe déjà on le récupère
-            if ($entityManager->getRepository(Objet::class)->findOneBy(['nom'=>$objet->getNom()]) && $entityManager->getRepository(Objet::class)->findOneBy(['valeur'=>$objet->getValeur()])){
-                $objet = $entityManager->getRepository(Objet::class)->findOneBy(['nom'=>$objet->getNom()]);
-            }
-
-            $entityManager->persist($objet);            
-            $entityManager->flush();
-            
-            return $this->redirectToRoute('edit_perso', ['id' => $perso->getId()]);
-        }
-
-
-
-
-
-
-
-
         // Créer un Commentaire  
         $commentaireForm = $this->createForm(CommentaireType::class);
         $commentaireForm->handleRequest($request);
@@ -250,10 +178,6 @@ class PersoController extends AbstractController
 
         return $this->render('perso/add.html.twig', [
             'formAddPerso' => $persoForm->createView(),
-            'formAddCaracteristique' => $caracteristiqueForm->createView(),
-            'formAddCompetence' => $competenceForm->createView(),
-            'formAddCompetenceInflueCarac' => $competenceInflueCaracForm->createView(),
-            'formAddObjet' => $addObjetForm->createView(),
             'commentForm' => $commentaireForm,
             'perso' => $perso,
             'edit' => $perso->getId()
