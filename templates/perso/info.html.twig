@@ -100,14 +100,14 @@
         {% endif %}
         <!-- sangle 'sac a dos' -->
         <div class="sangle" onclick="toggleInventory()">
-            <div class="sangleLeft">
+            <div id="sangleLeft">
                 <p>.</p>
                 <p class="test2">.</p>
                 <div>
                     <div></div>
                 </div>
             </div>
-            <div class="sangleRight">
+            <div id="sangleRight">
                 <p>.</p>
                 <p class="test2">.</p>
                 <div>
@@ -148,21 +148,20 @@
 <script>
     var i = 1;
     var listeObjet = document.getElementById("objetList");
-    var test2 = document.getElementsByClassName("test2");
-    var sangleLeft = document.getElementsByClassName("sangleLeft");
-    var sangleRight = document.getElementsByClassName("sangleRight");
+    var sangleLeft = document.getElementById("sangleLeft");
+    var sangleRight = document.getElementById("sangleRight");
     height = listeObjet.clientHeight;
     // on définie la hauteur de la balise #objetList afin de faire fonctionner correctement l'animation
     listeObjet.style.height = height + "px";
     function toggleInventory() {
         if (i == 1 ) {
             listeObjet.style.height = 0;
-            sangleLeft.classList.remove("sangleLeftAnim");
-            sangleRight.classList.remove("sangleRightAnim");
+            sangleLeft.classList.toggle("sangleLeftAnim");
+            sangleRight.classList.toggle("sangleRightAnim");
             i = 0;
         } else {
-            sangleLeft.classList.add("sangleLeftAnim");
-            sangleRight.classList.add("sangleRightAnim");
+            sangleLeft.classList.toggle("sangleLeftAnim");
+            sangleRight.classList.toggle("sangleRightAnim");
             listeObjet.style.height = height + "px";
             i = 1;
         }

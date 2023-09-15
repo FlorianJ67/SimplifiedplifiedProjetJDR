@@ -2,6 +2,24 @@
 
 {% block title %}Hello UserController!{% endblock %}
 
-{% block body %}
+{% block header %}
+    {{ include('header.html.twig') }}
+{% endblock %}
 
+{% block body %}
+<div class="persoList">
+    {% for user in users %}
+    <div>
+        <h2>
+            <a title="Afficher le profile de  {{ user.pseudo }}" href="{{ path('info_user', {'id': user.id}) }}">
+                {{ user|capitalize }}
+            </a>
+        </h2>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block footer %}
+    {{ include('footer.html.twig') }} 
 {% endblock %}

@@ -17,9 +17,11 @@ class CompetencePerso
     private ?int $valeur = null;
 
     #[ORM\ManyToOne(inversedBy: 'competencePersos')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Competence $competence = null;
 
     #[ORM\ManyToOne(inversedBy: 'competencePersos')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Perso $perso = null;
 
     public function getId(): ?int

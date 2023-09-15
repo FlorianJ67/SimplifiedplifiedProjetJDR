@@ -17,9 +17,11 @@ class CaracteristiquePerso
     private ?int $valeur = null;
 
     #[ORM\ManyToOne(inversedBy: 'caracteristiquePersos')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Caracteristique $caracteristique = null;
 
     #[ORM\ManyToOne(inversedBy: 'caracteristiquePersos')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Perso $perso = null;
 
     public function getId(): ?int
