@@ -13,7 +13,7 @@
     {% set percentHealt = 1 ~ "%" %}
 {% endif %}
 <style>
-    /*  */
+    /* Calcul de l'affichage du masque des hp manquant */
     .healtBar>i:first-child:after {
         height: {{ percentHealt }};
     }
@@ -69,9 +69,9 @@
 
 {% block javascripts %}
     <script>
-        let collectionCarac, collectionComp, inventaire,
+        let collectionCarac,  collectionComp,  inventaire,
             boutonAjoutCarac, boutonAjoutComp, boutonAjoutObjet,
-            spanCarac, spanComp, spanInv;
+            spanCarac,        spanComp,        spanInv;
         window.onload = () => {
             //On récupère la section du formulaire de la table associatif des multiple formulaire
             collectionCarac = document.querySelector("#caracteristiquePerso");
@@ -166,11 +166,11 @@
         /* updating healt bar */
         /* sante */
         document.getElementById("perso_sante").onchange = function() {
-            var x = document.getElementById("perso_sante").value;
-            var y = document.getElementById("perso_santeMax").value;
-            var percentHealt = 100 - ((x/y)*100);
+            let x = document.getElementById("perso_sante").value;
+            let y = document.getElementById("perso_santeMax").value;
+            let percentHealt = 100 - ((x/y)*100);
 
-            var HealtBarPercent = document.createElement("style");
+            let HealtBarPercent = document.createElement("style");
             
             document.head.lastChild.remove();
 
@@ -180,11 +180,11 @@
         }
         /* santeMax */
         document.getElementById("perso_santeMax").onchange = function() {
-            var x = document.getElementById("perso_sante").value;
-            var y = document.getElementById("perso_santeMax").value;
-            var percentHealt = 100 - ((x/y)*100);
+            let x = document.getElementById("perso_sante").value;
+            let y = document.getElementById("perso_santeMax").value;
+            let percentHealt = 100 - ((x/y)*100);
             
-            var HealtBarPercent = document.createElement("style");
+            let HealtBarPercent = document.createElement("style");
 
             document.head.lastChild.remove();
             

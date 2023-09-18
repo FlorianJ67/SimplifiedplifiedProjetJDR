@@ -73,7 +73,14 @@ class PersoController extends AbstractController
         if (!$perso) {
             // Créer un moule
             $perso = new Perso();
+        } else {
+            $persoOwner = $perso->getUser();
+            // Si l'utilisateur connecté n'est pas le propriétaire
+            if ($persoOwner !== $this->getUser()) {
+                return $this->redirectToRoute("app_login");
+            }
         }
+
         // Créer/Modifier un personnnage     
         $persoForm = $this->createForm(PersoType::class, $perso);
         $persoForm->handleRequest($request);
@@ -134,12 +141,10 @@ class PersoController extends AbstractController
                     } 
                 }
             }
-
             foreach($perso->getInventaires() as $objet) {
                 $objet->setPersos($perso);
                 $entityManager->persist($objet);
             }
-
             $entityManager->persist($perso);
             $entityManager->flush();
             // Redirection à la route Info Perso
@@ -177,33 +182,45 @@ class PersoController extends AbstractController
             'edit' => $perso->getId()
         ]);
     }
-
     #[Route('/perso/{id}/addToFav/', name: 'addToFav_perso')]
     public function addPersoToFav(ManagerRegistry $doctrine, Perso $perso, Request $request): Response
     {     
-        $entityManager = $doctrine->getManager();
-        $perso->addUsersFav($this->getUser());
-        $entityManager->flush();
-        // On redirige sur la même page
-        $route = $request->headers->get('referer');
-        return $this->redirect($route);
+        if ($this->getUser()) {
+            $entityManager = $doctrine->getManager();
+            // On ajoute le perso dans les favoris de l'utilisateur
+            $perso->addUsersFav($this->getUser());
+            $entityManager->flush();
+            // On redirige sur la même page
+            $route = $request->headers->get('referer');
+            return $this->redirect($route);
+        // Si non
+        } else {
+            // On le redirige vers la page de connexion
+            return $this->redirectToRoute("login");
+        }
     }
-
     #[Route('/perso/{id}/removeFav/', name: 'removeFav_perso')]
     public function removePersoToFav(ManagerRegistry $doctrine, Perso $perso, Request $request): Response
-    {     
-        $entityManager = $doctrine->getManager();
-        $this->getUser()->removePersoFav($perso);
-        $entityManager->flush();
-        // On redirige sur la même page
-        $route = $request->headers->get('referer');
-        return $this->redirect($route);
+    {  
+        // On vérifie que l'utilisateur est connecté
+        if ($this->getUser()) {
+            $entityManager = $doctrine->getManager();
+            // On retire le perso des favoris de l'utilisateur
+            $this->getUser()->removePersoFav($perso);
+            $entityManager->flush();
+            // On redirige sur la même page
+            $route = $request->headers->get('referer');
+            return $this->redirect($route);
+        // Si non
+        } else {
+            // On le redirige vers la page de connexion
+            return $this->redirectToRoute("login");
+        }
     }
-
     #[Route('/removeComment/{id}', name: 'removeComment_perso')]
     public function removeCommentPerso(ManagerRegistry $doctrine, Commentaire $commentaire, Request $request): Response
     {   
-        // on vérifie que le commentaire appartient bien à l'utilisateur connecter
+        // On vérifie que le commentaire appartient bien à l'utilisateur connecter
         if($this->getUser() == $commentaire->getUser()){
             $entityManager = $doctrine->getManager();
             $entityManager->remove($commentaire);
@@ -213,62 +230,113 @@ class PersoController extends AbstractController
         $route = $request->headers->get('referer');
         return $this->redirect($route);
     }
-
     #[Route('/perso/{id}/delete', name: 'delete_perso')]
     public function remove(ManagerRegistry $doctrine, Perso $perso): Response
-    {    
+    {   
         $entityManager = $doctrine->getManager();
-
+        // On vérifie que l'utilisateur connecté est bien le propriétaire du perso
         if ($this->getUser() == $perso->getUser()) {
+            // On supprime la collection de Compétences du Perso
             foreach($perso->getCompetencePersos() as $comp) {
                 $entityManager->remove($comp);
             }
+            // On supprime la collection de Caractéristiques du Perso
             foreach($perso->getCaracteristiquePersos() as $carac) {
                 $entityManager->remove($carac);
             }
+            // On supprime la collection d' Objets du Perso
             foreach($perso->getInventaires() as $item) {
                 $entityManager->remove($item);
             }
+            // On supprime la collection de Commentaires du Perso
             foreach($perso->getCommentaires() as $commentaire) {
                 $entityManager->remove($commentaire);
             }
             $entityManager->remove($perso);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute("app_perso");
     }
-
-    #[Route('/perso/{id}/', name: 'info_perso')]
-    public function info(ManagerRegistry $doctrine, Perso $perso, Request $request): Response
+    #[Route('/perso/{id}/copy', name: 'copy_perso')]
+    public function copy(ManagerRegistry $doctrine, Perso $perso): Response
     {    
-        // On créer le formulaire d'un commentaire  
-        $commentaireForm = $this->createForm(CommentaireType::class);
-        $commentaireForm->handleRequest($request);
-        // On récupère l'entity Manager
-        $entityManager = $doctrine->getManager();
-
-        if ($commentaireForm->isSubmitted() && $commentaireForm->isValid() && $this->getUser()) {
-            // On récupère les information du formulaire remplit
-            $commentaire = $commentaireForm->getData();
-            // On récupère & définie le Perso sur lequel le commentaire sera poster
-            $commentaire->setPerso($perso);
-            // On récupère & définie l'utilisateur du commentaire
-            $commentaire->setUser($this->getUser());
-            // On définie la date de création du commentaire (date actuelle au moment du traitement du formulaire)
-            $commentaire->setCreatedAt(new DateTime());
+        if ($this->getUser()) {
+            $entityManager = $doctrine->getManager();
+              
+            // On copie l'entité que l'on souhaite dupliquée
+            $persoCopy = clone $perso;
+            $persoCopy->setUser($this->getUser());
+            $persoCopy->setNom($perso->getNom() . " (copie)");
+            // On copie ses collections
+            foreach($perso->getCompetencePersos() as $comp) {
+                // On copie l'entité de la collection
+                $compCopy = clone $comp;
+                // On définie le personnage lié a la collection
+                $compCopy->setPerso($persoCopy);
+                // On génère l'entité
+                $entityManager->persist($compCopy);
+            }
+            foreach($perso->getCaracteristiquePersos() as $carac) {
+                // On copie l'entité de la collection
+                $caracCopy = clone $carac;
+                // On définie le personnage lié a la collection
+                $caracCopy->setPerso($persoCopy);
+                // On génère l'entité
+                $entityManager->persist($caracCopy);
+            }
+            foreach($perso->getInventaires() as $item) {
+                // On copie l'entité de la collection
+                $itemCopy = clone $item;
+                // On définie le personnage lié a la collection
+                $itemCopy->setPersos($persoCopy);
+                // On génère l'entité
+                $entityManager->persist($itemCopy);
+            }
             // On génère l'entité
-            $entityManager->persist($commentaire);
+            $entityManager->persist($persoCopy);
             // On valide les modifications
             $entityManager->flush();
-            // Redirige vers la page actuelle (vide le cache du formulaire par la même occasion)
-            $route = $request->headers->get('referer');
-            return $this->redirect($route);
+            return $this->redirectToRoute("info_perso", ['id' => $persoCopy->getId()]);
+        } else {
+            return $this->redirectToRoute("login");
         }
-
-        return $this->render('perso/info.html.twig', [
-            'perso' => $perso,
-            'commentForm' => $commentaireForm
-        ]);
+    }
+    #[Route('/perso/{id}/', name: 'info_perso')]
+    public function info(ManagerRegistry $doctrine, Perso $perso = null, Request $request): Response
+    {    
+        // Si l'id est valide
+        if($perso) {
+            // On créer le formulaire d'un commentaire  
+            $commentaireForm = $this->createForm(CommentaireType::class);
+            $commentaireForm->handleRequest($request);
+            // On récupère l'entity Manager
+            $entityManager = $doctrine->getManager();
+    
+            if ($commentaireForm->isSubmitted() && $commentaireForm->isValid() && $this->getUser()) {
+                // On récupère les information du formulaire remplit
+                $commentaire = $commentaireForm->getData();
+                // On récupère & définie le Perso sur lequel le commentaire sera poster
+                $commentaire->setPerso($perso);
+                // On récupère & définie l'utilisateur du commentaire
+                $commentaire->setUser($this->getUser());
+                // On définie la date de création du commentaire (date actuelle au moment du traitement du formulaire)
+                $commentaire->setCreatedAt(new DateTime());
+                // On génère l'entité
+                $entityManager->persist($commentaire);
+                // On valide les modifications
+                $entityManager->flush();
+                // Redirige vers la page actuelle (vide le cache du formulaire par la même occasion)
+                $route = $request->headers->get('referer');
+                return $this->redirect($route);
+            }
+            return $this->render('perso/info.html.twig', [
+                'perso' => $perso,
+                'commentForm' => $commentaireForm
+            ]);
+        // Si non
+        } else {
+            // On redirige vers la liste des personnages
+            return $this->redirectToRoute("app_perso");
+        }
     }
 }

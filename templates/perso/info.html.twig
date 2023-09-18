@@ -13,6 +13,9 @@
     <h3>{{ perso.nom|capitalize }}</h3>
 
     <div class="editOrFav">
+        {% if app.user %}
+            <a href="{{ path('copy_perso', {'id': perso.id}) }}" title="Créer une copie"><i class="fa-solid fa-copy"></i></a>
+        {% endif %}
         {% set FavCheck = 0 %}
         <!-- Si l'utilisateur a une liste de perso favorie -->
         {% if app.user.persoFav %}
@@ -28,19 +31,26 @@
         {% endif %}
         <!-- Si le Perso n'est pas dans la liste des Favoris, on affiche le bouton "Ajoutez au favoris" -->
         {% if FavCheck == 0 %}
-            <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajoutez au favoris"><i class="fa-regular fa-star"></i></a>
+            <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajouté au favoris"><i class="fa-regular fa-star"></i></a>
         {% endif %}
         {% if app.user == perso.user %}
             <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Édité le personnage"><i class="fa-solid fa-pen-to-square"></i></a>  
-            <a href="{{ path('delete_perso', {'id': perso.id}) }}"><i class="fa-solid fa-trash"></i></a>    
+            <a href="{{ path('delete_perso', {'id': perso.id}) }}" title="Supprimé le personnage"><i class="fa-solid fa-trash"></i></a>    
         {% else %}
             <a href="{{ path('info_user', {'id': perso.user.id}) }}">Créateur : {{ perso.user.pseudo|capitalize }}</a>
         {% endif %}
     </div>
 
     {% set percentHealt = (100 - (perso.sante / perso.santeMax)*100) ~ "%" %}
+    {% if perso.sante == 0 %}
+        <style>
+            .healtBar>i {
+                animation: unset!important;
+            }
+        </style>
+    {% endif %}
     <style>
-        /* calcul de l'affichage du masque des hp manquant */
+        /* Calcul de l'affichage du masque des hp manquant */
         .healtBar>i:first-child:after {
             height: {{ percentHealt }};
         }
@@ -53,10 +63,36 @@
             <p>{{ perso.santeMax }}</p>
         </div>
     </div>
+    <div class="infoPersoDiv">
+        <div>
+            <p>Espece</p>
+            <p>{{ perso.espece|capitalize }}</p>
+        </div>
+        <div>
+            <p>Origine</p>
+            <p>{{ perso.origine|capitalize }}</p>
+        </div>
+        <div>
+            <p>Taille</p>
+            <p>{{ perso.taille|capitalize }}</p>
+        </div>
+        <div>
+            <p>Sex</p>
+            <p>{{ perso.sex|capitalize }}</p>
+        </div>
+        <div>
+            <p>Age</p>
+            <p>{{ perso.age|capitalize }}</p>
+        </div>
+        <div>
+            <p>Poids</p>
+            <p>{{ perso.poids|capitalize }}</p>
+        </div>
+    </div>
     <div class="caracCompDiv">
         <div>
             <div>
-                <!-- Si la liste des Caractéristique est supérieur à 1 ajoute un "s" -->
+                <!-- Si la liste des Caractéristiques est supérieur à 1 ajoute un "s" -->
                 {% if perso.caracteristiquePersos|length >1 %}
                     <p>Caractéristiques:</p>
                 {% else %}
@@ -81,7 +117,7 @@
                     <p>Compétence:</p>
                 {% endif %}
             </div>
-            <!-- Liste les Compétence -->
+            <!-- Liste les Compétences -->
             {% for competencePerso in perso.competencePersos %}
                 <div>
                     <p>{{ competencePerso.competence|capitalize }}</p>
@@ -98,7 +134,7 @@
         {% else %}
             <p>Objet:</p>
         {% endif %}
-        <!-- sangle 'sac a dos' -->
+        <!-- sangle 'sac à dos' -->
         <div class="sangle" onclick="toggleInventory()">
             <div id="sangleLeft">
                 <p>.</p>
@@ -176,10 +212,12 @@
             function() {
                 commentBtn.disabled = "disabled";
             }, 1);
+        commentBtn.style = "cursor:wait";
         setTimeout(
             function() {
                 commentBtn.removeAttribute("disabled");
-        }, 2000);
+                commentBtn.style = "cursor:pointer";
+            }, 2000);
     });
 </script>
 {% endblock %}

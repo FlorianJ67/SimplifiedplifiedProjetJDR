@@ -2,6 +2,7 @@
     --color1: #919191;
     --color2: #1c1c1c;
     --color3: #ededed;
+    --purple: #795aa1;
 }
 html {
     font-family: 'Handjet', cursive;
@@ -49,7 +50,7 @@ button[type='submit']:hover {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(255, 255, 255, 0.3) 0px 18px 36px -18px inset;
 }
 a {
-    color: #795aa1;
+    color: var(--purple);
     text-decoration: none;
 }
 a:hover {
@@ -149,7 +150,7 @@ header>ul>li>a:hover {
     background-color: var(--color3);;
     color: var(--color2);
     border-radius: 1px;
-    border-color: #795aa1;
+    border-color: var(--purple);
 }
 .logout {
     background-color: rgb(151, 36, 36);
@@ -383,14 +384,14 @@ main>h2 {
 
 /* resumePerso */
 #resumePerso {
-    border-top:2px solid #795aa1;
+    border-top:2px solid var(--purple);
     display: flex;
     flex-direction: column;
     align-items: stretch;
     width: 30%;
     border-radius: 5px;
     padding: 1%;
-    padding-top: 72px;
+    padding-top: 102px;
     margin-left: 15px;
     position: relative;
     background-color: var(--color3);
@@ -404,7 +405,19 @@ main>h2 {
     color: var(--color1)!important;
 }
 .editOrFav>a>i {
-    color: #795aa1;
+    color: var(--purple)
+}
+.editOrFav .fa-trash:hover {
+    color: rgb(179, 21, 21);
+}
+.editOrFav .fa-star:hover {
+    color: rgb(243, 193, 27);
+}
+.editOrFav .fa-pen-to-square:hover {
+    color: rgb(27, 157, 243);
+}
+.editOrFav .fa-copy:hover {
+    color: rgb(50, 207, 63);
 }
 .editOrFav>a:hover>i {
     opacity: 0.8;
@@ -417,6 +430,11 @@ main>h2 {
     border-radius: 8px;
     margin: 32px 0 5px 8px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(255, 255, 255, 0.3) 0px 18px 36px -18px inset;
+}
+#resumePerso>h3 {
+    position: absolute;
+    top: 2px;
+    left: 120px;
 }
 #resumePerso>.caracCompDiv {
     display: flex;
@@ -438,7 +456,7 @@ main>h2 {
     padding: 5px;
     box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(255, 255, 255, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
-#resumePerso>.caracCompDiv>div>div:not(:first-child) {
+#resumePerso>.caracCompDiv>div>div:not(:first-child), .infoPersoDiv>div {
     display: flex;
     justify-content: space-between;
     background-color: var(--color1);
@@ -452,7 +470,7 @@ main>h2 {
 #resumePerso>.caracCompDiv>div>div:first-child>p {
     color: var(--color3);
 }
-#resumePerso>.caracCompDiv>div>div:not(:first-child)>p:nth-child(1) {
+#resumePerso>.caracCompDiv>div>div:not(:first-child)>p:nth-child(1), .infoPersoDiv>div>p:first-child {
     -webkit-clip-path: polygon(0 0, 100% 0%, 85% 100%, 0% 100%);
     clip-path: polygon(0 0, 100% 0%, 96.5% 100%, 0% 100%);
     width: 80%;
@@ -461,10 +479,19 @@ main>h2 {
     padding: 1px 10px;
     border-radius: 15px 0 0 15px;
 }
+.infoPersoDiv>div>p:first-child {
+    background-color: var(--purple);
+    animation: purpleJesaispas 12s  infinite ;
+}
+@keyframes purpleJesaispas {
+    0% { background-color: var(--color2);}
+    50% { background-color: #44444d;}
+    100% { background-color: var(--color2);}
+}
 #resumePerso>.caracCompDiv>div>div:not(:first-child)>p:nth-child(1):hover {
     opacity: 0.9;
 }
-#resumePerso>.caracCompDiv>div>div>p:nth-child(2) {
+#resumePerso>.caracCompDiv>div>div>p:nth-child(2), .infoPersoDiv>div>p:nth-child(2) {
     -webkit-clip-path: polygon(15% 0, 100% 0%, 100% 100%, 0% 100%);
     clip-path: polygon(15% 0, 100% 0%, 100% 100%, 0% 100%);
     background-color: var(--color3);
@@ -474,6 +501,21 @@ main>h2 {
     display: flex;
     justify-content: center;
 }
+.infoPersoDiv {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.infoPersoDiv>div>p:nth-child(2) {
+    width: 50%;
+    clip-path: polygon(6.5% 0, 100% 0%, 100% 100%, 0% 100%);
+}
+.infoPersoDiv>div{
+    width: 46%;
+}
+.infoPersoDiv>div>p{
+    margin: 3px 0;
+}
 #resumePerso>.caracCompDiv>div:first-child:not(:last-child) {
     border-right: 1px solid var(--color1);
 }
@@ -482,7 +524,7 @@ main>h2 {
 }
 /* inventaire */
 .inventaire {
-    background-color: #7f4423f5;
+    background-color: #673e27;
     border: 1px solid var(--color2);
     border-radius: 12px;
     position: relative;
@@ -512,9 +554,6 @@ main>h2 {
 }
 .inventaire>div>div>p {
     margin: unset;
-}
-.inventaire>div>div>p:first-child {
-    width: 90%;
 }
 .inventaire>div>div>p:last-child {
     position: absolute;
@@ -593,6 +632,9 @@ main>h2 {
     background-color: #0000003f;
     border-radius: 0 0 15px 15px;
 }
+#objetList>div>p:first-child {
+    width: 90%;
+}
 /* barre de vie */
 .healtBar {
     position: absolute;
@@ -640,6 +682,26 @@ main>h2 {
     transform: scale(5);
     color: var(--color2);
 }
+.healtBar>i:nth-child(2){
+    animation: pulse2 3.5s infinite;
+}
+@keyframes pulse2 {
+    0% { transform: scale(5); }
+    5% { transform: scale(5); }
+    50% { transform: scale(4.4);}
+    95% { transform: scale(5);}
+    100% { transform: scale(5);}
+}
+.healtBar>i:nth-child(1){
+    animation: pulse1 3.5s infinite;
+}
+@keyframes pulse1 {
+    0% { transform: scale(4.3); }
+    5% { transform: scale(4.3); }
+    50% { transform: scale(3.7);}
+    95% { transform: scale(4.3);}
+    100% { transform: scale(4.3);}
+}
 .healtBar>p,.healtBar>div {
     position: absolute;
 }
@@ -677,6 +739,7 @@ main>h2 {
     text-align: center;
     background: none;
     outline: none;
+    margin: 0;
 }
 .persoForm .healtBar>div>input::-webkit-outer-spin-button, .persoForm .healtBar>div>input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -691,7 +754,7 @@ main>h2 {
     justify-content: space-between;
 }
 .persoForm .healtBar>div:nth-child(3) {
-    top: -30px;
+    top: -28px;
     left: -120px;
 }
 .persoForm .healtBar>div:nth-child(3)>input {
@@ -703,7 +766,7 @@ main>h2 {
     text-align: end;
 }
 .persoForm .healtBar>div:nth-child(4) {
-    top: -5px;
+    top: -3px;
     left: -120px;
 }
 
@@ -729,7 +792,7 @@ main>h2 {
     max-height: 25%;
     overflow: overlay;
     border-radius: 4px;
-    border-top: 2px solid #795aa1;
+    border-top: 2px solid var(--purple);
     background-color: var(--color3);
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
@@ -783,6 +846,7 @@ main>h2 {
     padding: 1px;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 /* commentForm */
