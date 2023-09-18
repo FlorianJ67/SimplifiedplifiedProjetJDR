@@ -109,9 +109,9 @@
                     <!-- affiche les 3 première entité du tableau -->
                     {% for inventaire in perso.inventaires | slice(0,3)%}
                     <div>
-                        <!-- Si le nom comporte plus de 6 caractère -->
-                        {% if inventaire.objets.nom|length > 6 %}
-                            <p title="{{ inventaire.objets.nom ~ " Dégats: x" ~ inventaire.objets.valeur }}">{{ inventaire.objets.nom| slice(0,6) }}...</p>
+                        <!-- Si le nom comporte plus de 5 caractère -->
+                        {% if inventaire.objets.nom|length > 5 %}
+                            <p title="{{ inventaire.objets.nom ~ " Dégats: x" ~ inventaire.objets.valeur }}">{{ inventaire.objets.nom| slice(0,5) }}...</p>
                         {% else %}
                             <p title="{{ inventaire.objets.nom ~ " Dégats: x" ~ inventaire.objets.valeur }}">{{ inventaire.objets.nom }}</p>
                         {% endif %}

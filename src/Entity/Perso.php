@@ -57,9 +57,6 @@ class Perso
     #[ORM\OneToMany(mappedBy: 'perso', targetEntity: Commentaire::class, orphanRemoval: true)]
     private Collection $commentaires;
 
-    #[ORM\ManyToMany(targetEntity: Objet::class, inversedBy: 'persos')]
-    private Collection $objets;
-
     #[ORM\OneToMany(mappedBy: 'persos', targetEntity: Inventaire::class, orphanRemoval: true)]
     private Collection $inventaires;
 
@@ -69,7 +66,6 @@ class Perso
         $this->caracteristiquePersos = new ArrayCollection();
         $this->usersFav = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
-        $this->objets = new ArrayCollection();
         $this->inventaires = new ArrayCollection();
     }
 
@@ -315,7 +311,6 @@ class Perso
         
         return $this;
     }
-
     
     /**
      * @return Collection<int, Inventaire>

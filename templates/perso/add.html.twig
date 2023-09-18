@@ -92,16 +92,19 @@
             boutonAjoutCarac.className = "ajout-caracteristiquePerso"
             boutonAjoutCarac.innerText= "Ajouter une caractéristique";
             boutonAjoutCarac.setAttribute("title", "Ajouter une caractéristique");
+            boutonAjoutCarac.setAttribute("type", "button");
             //----
             boutonAjoutComp = document.createElement("button");
             boutonAjoutComp.className = "ajout-competencePerso"
             boutonAjoutComp.innerText= "Ajouter une compétence";
             boutonAjoutComp.setAttribute("title", "Ajouter une compétence");
+            boutonAjoutComp.setAttribute("type", "button");
             //----
             boutonAjoutObjet = document.createElement("button");
             boutonAjoutObjet.className = "ajout-objetPerso"
             boutonAjoutObjet.innerText= "Ajouter un objet";
             boutonAjoutObjet.setAttribute("title", "Ajouter un objet");
+            boutonAjoutObjet.setAttribute("type", "button");
 
             //On place les boutons sur la page
             let nouveauBoutonCarac = spanCarac.append(boutonAjoutCarac);

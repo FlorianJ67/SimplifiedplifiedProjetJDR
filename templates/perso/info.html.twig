@@ -10,15 +10,9 @@
 <h2>Info Personnage</h2>
 <div id="resumePerso">
 
-
     <h3>{{ perso.nom|capitalize }}</h3>
 
     <div class="editOrFav">
-        {% if app.user == perso.user %}
-            <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Édité le personnage"><i class="fa-solid fa-pen-to-square"></i></a>      
-        {% else %}
-            <a href="{{ path('info_user', {'id': perso.user.id}) }}">Créateur : {{ perso.user.pseudo|capitalize }}</a>
-        {% endif %}
         {% set FavCheck = 0 %}
         <!-- Si l'utilisateur a une liste de perso favorie -->
         {% if app.user.persoFav %}
@@ -35,6 +29,12 @@
         <!-- Si le Perso n'est pas dans la liste des Favoris, on affiche le bouton "Ajoutez au favoris" -->
         {% if FavCheck == 0 %}
             <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajoutez au favoris"><i class="fa-regular fa-star"></i></a>
+        {% endif %}
+        {% if app.user == perso.user %}
+            <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Édité le personnage"><i class="fa-solid fa-pen-to-square"></i></a>  
+            <a href="{{ path('delete_perso', {'id': perso.id}) }}"><i class="fa-solid fa-trash"></i></a>    
+        {% else %}
+            <a href="{{ path('info_user', {'id': perso.user.id}) }}">Créateur : {{ perso.user.pseudo|capitalize }}</a>
         {% endif %}
     </div>
 
@@ -121,7 +121,7 @@
                 <div>
                     <p>{{ objet.objets.nom|capitalize }}</p>
                     <p>{{"Dégats: " ~ objet.objets.valeur }}</p>
-                    <p>{{"Quantité: " ~ objet.quantite }}</p>
+                    <p>{{"x" ~ objet.quantite }}</p>
                 </div>
             {% endfor %}             
         </div>

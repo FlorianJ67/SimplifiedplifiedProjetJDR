@@ -221,10 +221,16 @@ class PersoController extends AbstractController
 
         if ($this->getUser() == $perso->getUser()) {
             foreach($perso->getCompetencePersos() as $comp) {
-                $perso->removeCompetencePerso($comp);
+                $entityManager->remove($comp);
             }
             foreach($perso->getCaracteristiquePersos() as $carac) {
-                $perso->removeCaracteristiquePerso($carac);
+                $entityManager->remove($carac);
+            }
+            foreach($perso->getInventaires() as $item) {
+                $entityManager->remove($item);
+            }
+            foreach($perso->getCommentaires() as $commentaire) {
+                $entityManager->remove($commentaire);
             }
             $entityManager->remove($perso);
             $entityManager->flush();
