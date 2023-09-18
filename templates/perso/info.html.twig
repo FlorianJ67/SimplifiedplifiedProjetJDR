@@ -141,6 +141,7 @@
         {% endif %}
     </div>
     {{ form_start(commentForm, {'attr': {'class': 'commentForm'}}) }}
+        {{ form_row(commentForm.contenu, {'value': ''}) }}
     {{ form_end(commentForm) }}
 </div>
 {% endblock %}
