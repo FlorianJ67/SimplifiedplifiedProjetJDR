@@ -24,12 +24,17 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/{id}', name: 'info_user')]
-    public function info(User $user): Response
+    public function info(User $user = null): Response
     {
-        return $this->render('user/info.html.twig', [
-            'user' => $user,
-            'perso' =>$user->getPersos(),
-            'persoFav' =>$user->getPersoFav(),
-        ]);
+        if ($user) {
+
+            return $this->render('user/info.html.twig', [
+                'user' => $user,
+                'perso' =>$user->getPersos(),
+                'persoFav' =>$user->getPersoFav(),
+            ]);
+        } else {
+            return $this->redirectToRoute('app_user');
+        }
     }
 }
