@@ -3,19 +3,10 @@
 namespace App\Controller;
 
 use DateTime;
-use App\Entity\Objet;
 use App\Entity\Perso;
-use App\Form\ObjetType;
 use App\Form\PersoType;
 use App\Entity\Commentaire;
-use App\Form\CompetenceType;
 use App\Form\CommentaireType;
-use App\Entity\CompetencePerso;
-use App\Form\CaracteristiqueType;
-use App\Form\CompetencePersoType;
-use App\Entity\CaracteristiquePerso;
-use App\Form\CaracteristiquePersoType;
-use App\Form\CompetenceInflueCaracType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -113,7 +104,7 @@ class PersoController extends AbstractController
                         $entityManager->persist($caracPersoHave);
                     // Si non 
                     } else {
-                        // On lie le personnage a a nouvelle caractéristique
+                        // On lie le personnage à la nouvelle caractéristique
                         $caracPersoHaveCheck->setPerso($perso);
                         $entityManager->persist($caracPersoHaveCheck);
                     } 
@@ -155,31 +146,34 @@ class PersoController extends AbstractController
             return $this->redirectToRoute('info_perso', ['id' => $perso->getId()]);
         }
 
-
-        // Créer un Commentaire  
+        // On créer le formulaire d'un commentaire  
         $commentaireForm = $this->createForm(CommentaireType::class);
         $commentaireForm->handleRequest($request);
-
+        // On récupère l'entity Manager
         $entityManager = $doctrine->getManager();
 
-        if ($commentaireForm->isSubmitted() && $commentaireForm->isValid()) {
-            // On récupère le contenu du Commentaire
+        if ($commentaireForm->isSubmitted() && $commentaireForm->isValid() && $this->getUser()) {
+            // On récupère les information du formulaire remplit
             $commentaire = $commentaireForm->getData();
-            // On assigne le Perso au futur Commentaire
+            // On récupère & définie le Perso sur lequel le commentaire sera poster
             $commentaire->setPerso($perso);
-            // ainsi que l'User
+            // On récupère & définie l'utilisateur du commentaire
             $commentaire->setUser($this->getUser());
-            // et pour finir la Date&time actuelle lors du traitement du formulaire
-            $commentaire->setCreatedAt(date("d-m-Y H:i:s"));
-            // On créer l'entité
+            // On définie la date de création du commentaire (date actuelle au moment du traitement du formulaire)
+            $commentaire->setCreatedAt(new DateTime());
+            // On génère l'entité
             $entityManager->persist($commentaire);
+            // On valide les modifications
             $entityManager->flush();
+            // Redirige vers la page actuelle (vide le cache du formulaire par la même occasion)
+            $route = $request->headers->get('referer');
+            return $this->redirect($route);
         }
 
         return $this->render('perso/add.html.twig', [
             'formAddPerso' => $persoForm->createView(),
-            'commentForm' => $commentaireForm,
             'perso' => $perso,
+            'commentForm' => $commentaireForm,
             'edit' => $perso->getId()
         ]);
     }
@@ -248,7 +242,7 @@ class PersoController extends AbstractController
         // On récupère l'entity Manager
         $entityManager = $doctrine->getManager();
 
-        if ($commentaireForm->isSubmitted() && $commentaireForm->isValid()) {
+        if ($commentaireForm->isSubmitted() && $commentaireForm->isValid() && $this->getUser()) {
             // On récupère les information du formulaire remplit
             $commentaire = $commentaireForm->getData();
             // On récupère & définie le Perso sur lequel le commentaire sera poster
@@ -261,6 +255,9 @@ class PersoController extends AbstractController
             $entityManager->persist($commentaire);
             // On valide les modifications
             $entityManager->flush();
+            // Redirige vers la page actuelle (vide le cache du formulaire par la même occasion)
+            $route = $request->headers->get('referer');
+            return $this->redirect($route);
         }
 
         return $this->render('perso/info.html.twig', [

@@ -147,12 +147,14 @@
 {% endblock %}
 {% block javascripts %}
 <script>
-    var i = 1;
-    var listeObjet = document.getElementById("objetList");
-    var sangleLeft = document.getElementById("sangleLeft");
-    var sangleRight = document.getElementById("sangleRight");
+    // On définie nos variables
+    let i = 1;
+    let listeObjet = document.getElementById("objetList");
+    let sangleLeft = document.getElementById("sangleLeft");
+    let sangleRight = document.getElementById("sangleRight");
+    // On récupère la hauteur de la vue client de notre élément
     height = listeObjet.clientHeight;
-    // on définie la hauteur de la balise #objetList afin de faire fonctionner correctement l'animation
+    // On définie la hauteur de la balise #objetList afin de faire fonctionner correctement l'animation
     listeObjet.style.height = height + "px";
     function toggleInventory() {
         if (i == 1 ) {
@@ -167,8 +169,21 @@
             i = 1;
         }
     }
+    // On empèche le multi click de post
+    let commentBtn = document.getElementById("commentaire_submit");
+    commentBtn.addEventListener("click", function(e) {
+        setTimeout(
+            function() {
+                commentBtn.disabled = "disabled";
+            }, 1);
+        setTimeout(
+            function() {
+                commentBtn.removeAttribute("disabled");
+        }, 2000);
+    });
 </script>
 {% endblock %}
+
 {% block footer %}
     {{ include('footer.html.twig') }} 
 {% endblock %}

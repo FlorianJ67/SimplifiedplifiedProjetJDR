@@ -61,6 +61,7 @@
     {% if perso.nom != null %}
     <div>
         {{ block("body", "perso/info.html.twig") }}
+        {{ block("javascripts", "perso/info.html.twig") }}
     </div>
     {% endif %}
 
@@ -188,6 +189,19 @@
             ".persoForm>form>.healtBar>i:first-child:after { height: " + percentHealt + "%;}";
             document.head.appendChild(HealtBarPercent);
         }
+
+        // On empèche le multi click de post
+        let persoBtn = document.getElementById("perso_submit");
+        persoBtn.addEventListener("click", function(e) {
+            setTimeout(
+                function() {
+                    persoBtn.disabled = "disabled";
+                }, 1);
+            setTimeout(
+                function() {
+                    persoBtn.removeAttribute("disabled");
+            }, 2000);
+        });
     </script>
 {% endblock %}
 {% block footer %}
