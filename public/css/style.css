@@ -702,6 +702,16 @@ main>h2 {
     95% { transform: scale(4.3);}
     100% { transform: scale(4.3);}
 }
+.healtBar>div{
+    animation: pulse3 3.5s infinite;
+}
+@keyframes pulse3 {
+    0% { transform: scale(1.1); }
+    5% { transform: scale(1.1); }
+    50% { transform: scale(0.95);}
+    95% { transform: scale(1.1);}
+    100% { transform: scale(1.1);}
+}
 .healtBar>p,.healtBar>div {
     position: absolute;
 }

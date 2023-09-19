@@ -11,6 +11,14 @@
     {% for user in users %}
     <div>
         <h2>
+            {% if is_granted('ROLE_ADMIN') %}
+            <div class="admin">
+                <a href="{{ path('give_role_user_admin', {'id': user.id}) }}">give admin role</a>
+                {% for role in user.roles %}
+                    <p style="color: white;">{{ role }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
             <a title="Afficher le profile de  {{ user.pseudo }}" href="{{ path('info_user', {'id': user.id}) }}">
                 {{ user|capitalize }}
             </a>

@@ -45,7 +45,7 @@
                 {% if FavCheck == 0 %}
                     <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajouté au favoris"><i class="fa-regular fa-star"></i></a>
                 {% endif %}
-                {% if app.user == perso.user %}
+                {% if app.user == perso.user or is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Modifié le personnage"><i class="fa-solid fa-pen-to-square"></i></a>
                     <a href="{{ path('delete_perso', {'id': perso.id}) }}" title="Supprimé le personnage"><i class="fa-solid fa-trash"></i></a>
                 {% endif %}

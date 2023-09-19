@@ -75,8 +75,8 @@ class PersoController extends AbstractController
             $perso = new Perso();
         } else {
             $persoOwner = $perso->getUser();
-            // Si l'utilisateur connecté n'est pas le propriétaire
-            if ($persoOwner !== $this->getUser()) {
+            // Si l'utilisateur connecté n'est pas le propriétaire ou admin
+            if ($persoOwner !== $this->getUser() || !$this->isGranted('ROLE_ADMIN')) {
                 return $this->redirectToRoute("app_login");
             }
         }
@@ -220,8 +220,8 @@ class PersoController extends AbstractController
     #[Route('/removeComment/{id}', name: 'removeComment_perso')]
     public function removeCommentPerso(ManagerRegistry $doctrine, Commentaire $commentaire, Request $request): Response
     {   
-        // On vérifie que le commentaire appartient bien à l'utilisateur connecter
-        if($this->getUser() == $commentaire->getUser()){
+        // On vérifie que le commentaire appartient bien à l'utilisateur ou qu'il est un administrateur
+        if($this->getUser() == $commentaire->getUser() || $this->isGranted('ROLE_ADMIN')){
             $entityManager = $doctrine->getManager();
             $entityManager->remove($commentaire);
             $entityManager->flush();
@@ -234,8 +234,8 @@ class PersoController extends AbstractController
     public function remove(ManagerRegistry $doctrine, Perso $perso): Response
     {   
         $entityManager = $doctrine->getManager();
-        // On vérifie que l'utilisateur connecté est bien le propriétaire du perso
-        if ($this->getUser() == $perso->getUser()) {
+        // On vérifie que l'utilisateur connecté est bien le propriétaire du perso / un admin
+        if ($this->getUser() == $perso->getUser() || $this->isGranted('ROLE_ADMIN')) {
             // On supprime la collection de Compétences du Perso
             foreach($perso->getCompetencePersos() as $comp) {
                 $entityManager->remove($comp);
