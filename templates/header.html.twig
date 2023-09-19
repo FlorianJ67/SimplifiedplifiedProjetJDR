@@ -6,7 +6,8 @@
         <li><a title="Voir la liste des personnages" href="{{ path('app_perso') }}">Liste des personnages</a></li>
         {% if app.user %}
             <li><a title="Voir la liste de ses personnages" href="{{ path('my_perso') }}">Mes personnages</a></li>
-            <li><a title="Créer un personnage" href="{{ path('add_perso') }}">Crée un personnage</a></li>
+            <li><a title="Créer un personnage" href="{{ path('add_perso') }}">Crée un personnage</a><i class="fas fa-plus-circle" 
+                "></i></li>
         {% endif %}
         <li><a title="Voir la liste des joueurs" href="{{ path('app_user') }}">Liste des joueurs</a></li>
     </ul>

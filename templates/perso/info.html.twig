@@ -44,8 +44,14 @@
     {% set percentHealt = (100 - (perso.sante / perso.santeMax)*100) ~ "%" %}
     {% if perso.sante == 0 %}
         <style>
-            .healtBar>i {
+            .healtBar>i, .healtBar>div {
                 animation: unset!important;
+            }
+        </style>
+    {% elseif perso.sante < 10 %}
+        <style>
+            .healtBar>i, .healtBar>div {
+                animation-duration: .25s!important;
             }
         </style>
     {% endif %}

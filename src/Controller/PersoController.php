@@ -76,7 +76,7 @@ class PersoController extends AbstractController
         } else {
             $persoOwner = $perso->getUser();
             // Si l'utilisateur connecté n'est pas le propriétaire ou admin
-            if ($persoOwner !== $this->getUser() || !$this->isGranted('ROLE_ADMIN')) {
+            if ($persoOwner !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
                 return $this->redirectToRoute("app_login");
             }
         }

@@ -100,19 +100,19 @@ header>#logo:hover>img {
     17% {
         top: -57px;
     }
-    34% {
+    28% {
         top: 0px;
     }
-    50% {
+    47% {
         top: -30px;
     }
-    63% {
+    59% {
         top: 0px;
     }
-    78% {
+    68% {
         top: -10px;
     }
-    82% {
+    77% {
         top: 0px;
     }
     100% {
@@ -135,6 +135,9 @@ header>ul {
     width: 80%;
     padding: 0;
 }
+header>ul>li{
+    position: relative;
+}
 header>ul>li>a {
     background-color: var(--color2);
     color: var(--color3);
@@ -146,11 +149,31 @@ header>ul>li>a {
     transition: 0.5s;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(255, 255, 255, 0.3) 0px 18px 36px -18px inset;
 }
-header>ul>li>a:hover {
+header>ul>li:hover>a {
     background-color: var(--color3);;
     color: var(--color2);
     border-radius: 1px;
     border-color: var(--purple);
+}
+header>ul>li:hover>i {
+    background-color: var(--purple);
+    border: 2px solid var(--purple);
+}
+header>ul>li>i {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    color: rgb(55, 160, 64);
+    background-color: white;
+    border: 2px solid white;
+    border-radius: 40px;
+    transition: 0.5s;
+}
+header>ul>li>i::before {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 1px;
 }
 .logout {
     background-color: rgb(151, 36, 36);
@@ -217,6 +240,10 @@ main>h2 {
     justify-content: space-between;
     align-items: center;
     margin: 2px 0;
+}
+.userForm>form input::-webkit-inner-spin-button, .persoForm>form input::-webkit-inner-spin-button {
+    -webkit-appearance: none; 
+    margin-right: 0;
 }
 .halfFormInput {
     flex-direction: row;
@@ -351,7 +378,7 @@ main>h2 {
     border-radius: 0 15px 15px 0;
     padding: 1px 8px;
     margin: 0;
-    display: flex;
+    displayfa: flex;
     justify-content: center;
     text-align: end;
     border: none;
@@ -460,7 +487,7 @@ main>h2 {
     display: flex;
     justify-content: space-between;
     background-color: var(--color1);
-    border-radius: 50px;
+    border-radius: 18px;
     padding: 0 3px;
     margin: 3px;
 }
@@ -500,6 +527,7 @@ main>h2 {
     padding: 1px;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .infoPersoDiv {
     display: flex;
@@ -595,8 +623,8 @@ main>h2 {
 @keyframes sangleLeft {
     50% {transform: rotate(0deg);}
     60% {transform: rotate(5deg);}
-    75% {transform: rotate(-5deg);}
-    90% {transform: rotate(5deg);}
+    75% {transform: rotate(-4deg);}
+    90% {transform: rotate(2deg);}
     100% {transform: rotate(0deg);}
 }
 .sangleRightAnim {
@@ -605,8 +633,8 @@ main>h2 {
 @keyframes sangleRight {
     50% {transform: rotate(0deg);}
     60% {transform: rotate(-5deg);}
-    75% {transform: rotate(5deg);}
-    90% {transform: rotate(-5deg);}
+    75% {transform: rotate(4deg);}
+    90% {transform: rotate(-2deg);}
     100% {transform: rotate(0deg);}
 }
 .inventaire .sangle>div>div:last-child {
@@ -682,6 +710,7 @@ main>h2 {
     transform: scale(5);
     color: var(--color2);
 }
+/* pulsasion du contour coeur */
 .healtBar>i:nth-child(2){
     animation: pulse2 3.5s infinite;
 }
@@ -692,6 +721,7 @@ main>h2 {
     95% { transform: scale(5);}
     100% { transform: scale(5);}
 }
+/* pulsasion du coeur */
 .healtBar>i:nth-child(1){
     animation: pulse1 3.5s infinite;
 }
@@ -702,7 +732,8 @@ main>h2 {
     95% { transform: scale(4.3);}
     100% { transform: scale(4.3);}
 }
-.healtBar>div{
+/* pulsasion des valeur dans le coeur */
+:not(form)>.healtBar>div{
     animation: pulse3 3.5s infinite;
 }
 @keyframes pulse3 {

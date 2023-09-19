@@ -200,10 +200,11 @@
                 function() {
                     persoBtn.disabled = "disabled";
                 }, 1);
+            commentBtn.style = "cursor:wait";
             setTimeout(
                 function() {
                     persoBtn.removeAttribute("disabled");
-            }, 2000);
+                }, 2000);
         });
     </script>
 {% endblock %}
