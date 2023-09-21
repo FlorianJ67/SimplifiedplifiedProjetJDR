@@ -17,6 +17,8 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\AppCustomAuthenticator
+            # by default, the feature allows 5 login attempts per minute
+            login_throttling: null
             logout:
                 path: app_logout
                 # where to redirect after logout

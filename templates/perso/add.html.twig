@@ -51,9 +51,9 @@
             {{ form_row(formAddPerso.inventaires) }}
             <span id="spanInv"></span>
         </div>
-        <!-- Si le personnage existe déjà affiche 'Modifié' plutôt que 'Créer' sur le bouton submit -->
+        <!-- Si le personnage existe déjà affiche 'Modifier' plutôt que 'Créer' sur le bouton submit -->
         {% if perso.nom != null %}
-            {{ form_row(formAddPerso.submit, { 'label': 'Modifié' }) }}
+            {{ form_row(formAddPerso.submit, { 'label': 'Modifier' }) }}
         {% endif %}
     {{ form_end(formAddPerso) }}
 </div>
@@ -113,7 +113,7 @@
             //----
             let nouveauBoutonObjet = spanInv.append(boutonAjoutObjet);
 
-            //On récupère la taille du tableau
+            //On récupère la taille du tableau associatif
             collectionCarac.dataset.index = collectionCarac.querySelectorAll("input").length;
             //----
             collectionComp.dataset.index = collectionComp.querySelectorAll("input").length;
