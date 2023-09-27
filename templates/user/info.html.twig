@@ -10,20 +10,19 @@
     <div id="infoUser">
         <div>
             <div class="pseudoUser">
-                <p>{{ user.pseudo }}</p>
+                <p>Pseudo: {{ user.pseudo }}</p>
                 {% if app.user == user or is_granted("ROLE_ADMIN") %}
                     <a href="{{ path('modifiy_user_pseudo', {'id': user.id}) }}">Modifier le pseudo</a>
                 {% endif %}
             </div>
             <div>
                 {% if app.user == user %}
-                    <p>{{ user.email }}</p>
-                    {# <a href="{{ path('modify_user_email', {'id': user.id}) }}">Modifier l'email</a> #}
+                    <p>eMail: {{ user.email }}</p>
                 {% endif %}
             </div>
             {% if app.user == user %}
                 <div>
-                    {# <a href="{{ path('modify_user_password', {'id': user.id}) }}">Modifier le Mot de passe</a> #}
+                    <a href="{{ path('modify_user_password', {'id': user.id}) }}">Modifier le Mot de passe</a>
                 </div>
             {% endif %}
         </div>

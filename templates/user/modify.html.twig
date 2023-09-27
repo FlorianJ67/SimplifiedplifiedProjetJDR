@@ -9,11 +9,21 @@
 {% block body %}
     <h1>Modifier le pseudo</h1>
     <div class="userForm">
-        {{ form_errors(modifyUserForm) }}
-    
-        {{ form_start(modifyUserForm) }}
-            {{ form_row(modifyUserForm.pseudo, { 'attr': {'value': user.pseudo } }) }}
-        {{ form_end(modifyUserForm) }}
+        {% if modifyPseudoUserForm %}
+        <!-- Modifier son Pseudo -->
+            {{ form_errors(modifyPseudoUserForm) }}
+            {{ form_start(modifyPseudoUserForm) }}
+                {{ form_row(modifyPseudoUserForm.pseudo, { 'attr': {'value': user.pseudo } }) }}
+            {{ form_end(modifyPseudoUserForm) }}     
+        {% endif %}
+        {% if modifyPasswordUserForm %}
+        <!-- Modifier son Mot de passe -->
+            {{ form_errors(modifyPasswordUserForm) }}
+            {{ form_start(modifyPasswordUserForm) }}
+                {{ form_row(modifyPasswordUserForm.currentPassword) }}
+                {{ form_row(modifyPasswordUserForm.password) }}
+            {{ form_end(modifyPasswordUserForm) }}     
+        {% endif %}
     </div>
 {% endblock %}
 {% block footer %}

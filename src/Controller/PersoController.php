@@ -166,9 +166,9 @@ class PersoController extends AbstractController
             $commentaire->setUser($this->getUser());
             // On définie la date de création du commentaire (date actuelle au moment du traitement du formulaire)
             $commentaire->setCreatedAt(new DateTime());
-            // On génère l'entité
+            // On prépare l'entité'
             $entityManager->persist($commentaire);
-            // On valide les modifications
+            // On applique les modifications à la base de données
             $entityManager->flush();
             // Redirige vers la page actuelle (vide le cache du formulaire par la même occasion)
             $route = $request->headers->get('referer');
