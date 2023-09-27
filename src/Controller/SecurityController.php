@@ -219,6 +219,36 @@ class SecurityController extends AbstractController
         return $this->redirect($route);
     }
 
+    #[Route(path: '/delete/user/{id}', name: 'delete_user')]
+    public function deleteUser(ManagerRegistry $doctrine, User $user, Request $request): Response
+    {
+        // Si un utilisateur est connecter
+        if($this->getUser()) {
+            // et S'il est le propriétaire
+            if($this->getUser() == $user) {
+                $entityManager = $doctrine->getManager();
+                foreach($user->getPersoFav() as $fav) {
+                    $entityManager->remove($fav);
+                }
+                foreach($user->getPersos() as $perso) {
+                    $perso->setUser(null);
+                }
+                foreach($user->getCommentaires() as $comment) {
+                    $comment->setUser(null);
+                }
+                $entityManager->remove($user);
+                $entityManager->flush();
+            // Sinon
+            } else {
+                $this->addFlash('error', "L'utilisateur connecter n'est pas un administrateur");
+            }
+        // Sinon
+        } else {
+            $this->addFlash('error', "Veuillez vous connecter");
+        }
+        return $this->redirectToRoute('app_user');
+    }
+
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
