@@ -20,10 +20,10 @@
                     <a href="{{ path('give_role_user_admin', {'id': user.id}) }}">Donnez le rôle admin</a>
                     <!-- Si l'utilisateur est banni -->
                     {% if 'ROLE_BAN' in user.roles %}
-                        <a href="{{ path('unban_user', {'id': user.id}) }}" title="Débannir l'utilisateur"><i class="fa-solid fa-circle-check"></i></a>
+                        <a href="{{ path('unban_user', {'id': user.id}) }}" title="Débannir l'utilisateur" class="unban"><i class="fa-solid fa-circle-check"></i></a>
                     <!-- Sinon -->
                     {% else %}
-                        <a href="{{ path('ban_user', {'id': user.id}) }}" title="Bannir l'utilisateur"><i class="fa-solid fa-ban"></i></a>
+                        <a href="{{ path('ban_user', {'id': user.id}) }}" title="Bannir l'utilisateur" class="ban"><i class="fa-solid fa-ban"></i></a>
                     {% endif %}
                 {% endif %}
             </div>

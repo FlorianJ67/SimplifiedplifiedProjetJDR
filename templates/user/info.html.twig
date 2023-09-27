@@ -8,6 +8,25 @@
 
 {% block body %}
     <div id="infoUser">
+        <div>
+            <div class="pseudoUser">
+                <p>{{ user.pseudo }}</p>
+                {% if app.user == user or is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('modifiy_user_pseudo', {'id': user.id}) }}">Modifier le pseudo</a>
+                {% endif %}
+            </div>
+            <div>
+                {% if app.user == user %}
+                    <p>{{ user.email }}</p>
+                    {# <a href="{{ path('modify_user_email', {'id': user.id}) }}">Modifier l'email</a> #}
+                {% endif %}
+            </div>
+            {% if app.user == user %}
+                <div>
+                    {# <a href="{{ path('modify_user_password', {'id': user.id}) }}">Modifier le Mot de passe</a> #}
+                </div>
+            {% endif %}
+        </div>
         <h3>
             <!-- Si le personnage appartient à l'utilisateur connecter -->
             {% if app.user == user %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'inscrire{% endblock %}
+
+{% block header %}
+    {{ include('header.html.twig') }}
+{% endblock %}
+
+{% block body %}
+    <h1>Modifier le pseudo</h1>
+    <div class="userForm">
+        {{ form_errors(modifyUserForm) }}
+    
+        {{ form_start(modifyUserForm) }}
+            {{ form_row(modifyUserForm.pseudo, { 'attr': {'value': user.pseudo } }) }}
+        {{ form_end(modifyUserForm) }}
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ include('footer.html.twig') }} 
+{% endblock %}
