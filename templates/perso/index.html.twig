@@ -26,14 +26,12 @@
                 </a>
             </h2>
             <div class="editOrFav">
+                {% if perso.user and app.user != perso.user %}
+                    <a href="{{ path('info_user', {'id': perso.user.id}) }}">{{ perso.user.pseudo|capitalize }}</a>
+                {% elseif perso.user == null %}
+                    <a>Utilisateur supprimé</a>
+                {% endif %}   
                 {% if app.user %}  
-                    {% if app.user != perso.user %} 
-                        {% if perso.user %}
-                            <a href="{{ path('info_user', {'id': perso.user.id}) }}">{{ perso.user.pseudo|capitalize }}</a>
-                        {% else %}
-                            <a>Utilisateur supprimé</a>
-                        {% endif %}   
-                    {% endif %}
                     <a href="{{ path('copy_perso', {'id': perso.id}) }}" title="Créer une copie"><i class="fa-solid fa-copy"></i></a>
                     {% set FavCheck = 0 %}
                     <!-- Si l'utilisateur a une liste de perso favorie -->
@@ -48,14 +46,14 @@
                             {% endif %}
                         {% endfor %}
                     {% endif %}
-                {% endif %}
-                <!-- Si le Perso n'est pas dans la liste des Favoris, on affiche le bouton "Ajoutez au favoris" -->
-                {% if app.user and FavCheck == 0 %}
-                    <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajouté au favoris"><i class="fa-regular fa-star"></i></a>
-                {% endif %}
-                {% if app.user == perso.user or is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Modifié le personnage"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="{{ path('delete_perso', {'id': perso.id}) }}" title="Supprimé le personnage"><i class="fa-solid fa-trash"></i></a>
+                    <!-- Si le Perso n'est pas dans la liste des Favoris, on affiche le bouton "Ajoutez au favoris" -->
+                    {% if FavCheck == 0 %}
+                        <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajouté au favoris"><i class="fa-regular fa-star"></i></a>
+                    {% endif %}
+                    {% if app.user == perso.user or is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Modifié le personnage"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{{ path('delete_perso', {'id': perso.id}) }}" title="Supprimé le personnage"><i class="fa-solid fa-trash"></i></a>
+                    {% endif %}
                 {% endif %}
             </div>
             <div>
@@ -79,7 +77,7 @@
                         <!-- si le tableau comporte exactement 4 entité on affiche cette dernière -->
                         {% if perso.caracteristiquePersos|length == 4 %}
                         <div>
-                            <p title="{{ perso.caracteristiquePersos[3].caracteristique }}">{{ perso.caracteristiquePersos[3].caracteristique| slice(0,3) }}</p>
+                            <p title="{{ perso.caracteristiquePersos[3].caracteristique }}">{{ perso.caracteristiquePersos[3].caracteristique| slice(0,9) }}</p>
                             <p>{{ perso.caracteristiquePersos[3].valeur }}</p>
                         </div> 
                         {% endif %}      

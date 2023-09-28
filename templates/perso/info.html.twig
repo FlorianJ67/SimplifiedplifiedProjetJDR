@@ -28,16 +28,19 @@
                     {% endif %}
                 {% endfor %}
             {% endif %}
+            <!-- Si le Perso n'est pas dans la liste des Favoris, on affiche le bouton "Ajoutez au favoris" -->
+            {% if FavCheck is defined and FavCheck == 0 %}
+                <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajouté au favoris"><i class="fa-regular fa-star"></i></a>
+            {% endif %}
+            {% if app.user == perso.user or is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Édité le personnage"><i class="fa-solid fa-pen-to-square"></i></a>  
+                <a href="{{ path('delete_perso', {'id': perso.id}) }}" title="Supprimé le personnage"><i class="fa-solid fa-trash"></i></a>    
+            {% endif %}
         {% endif %}
-        <!-- Si le Perso n'est pas dans la liste des Favoris, on affiche le bouton "Ajoutez au favoris" -->
-        {% if FavCheck is defined and FavCheck == 0 %}
-            <a href="{{ path('addToFav_perso', {'id': perso.id}) }}" title="Ajouté au favoris"><i class="fa-regular fa-star"></i></a>
-        {% endif %}
-        {% if app.user == perso.user or is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('edit_perso', {'id': perso.id}) }}" title="Édité le personnage"><i class="fa-solid fa-pen-to-square"></i></a>  
-            <a href="{{ path('delete_perso', {'id': perso.id}) }}" title="Supprimé le personnage"><i class="fa-solid fa-trash"></i></a>    
-        {% else %}
+        {% if perso.user and perso.user != app.user %}
             <a href="{{ path('info_user', {'id': perso.user.id}) }}">Créateur : {{ perso.user.pseudo|capitalize }}</a>
+        {% elseif perso.user == null %}
+            <a >Créateur supprimé</a>
         {% endif %}
     </div>
     {% set percentHealt = (100 - (perso.sante / perso.santeMax)*100) ~ "%" %}
@@ -178,8 +181,7 @@
                     {% if commentaire.user %}
                         <a class="user" href="{{ path('info_user', {'id': commentaire.user.id}) }}">{{ commentaire.user.pseudo }}</a>
                     {% else %}
-                        <a class="user" href="">Utilisateur supprimé</a>
-                    
+                        <a class="user">Utilisateur supprimé</a>
                     {% endif %}
                     <p>{{ commentaire.contenu|nl2br }}</p>
                 </div>
