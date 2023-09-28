@@ -227,8 +227,8 @@ class SecurityController extends AbstractController
             // et S'il est le propriétaire
             if($this->getUser() == $user) {
                 $entityManager = $doctrine->getManager();
-                foreach($user->getPersoFav() as $fav) {
-                    $entityManager->remove($fav);
+                foreach($user->getPersoFav() as $perso) {
+                    $perso->removeUsersFav($user);
                 }
                 foreach($user->getPersos() as $perso) {
                     $perso->setUser(null);

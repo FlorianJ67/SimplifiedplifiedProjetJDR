@@ -175,7 +175,12 @@
                         <p>Envoyé le {{ commentaire.createdAt|date("d/m/Y à h:i") }}</p>
                         <a href="{{ path('removeComment_perso', {'id': commentaire.id}) }}" title="Supprimer le commentaire"><i class="fa-solid fa-circle-xmark"></i></a>
                     </div>
-                    <a class="user" href="{{ path('info_user', {'id': commentaire.user.id}) }}">{{ commentaire.user.pseudo }}</a>
+                    {% if commentaire.user %}
+                        <a class="user" href="{{ path('info_user', {'id': commentaire.user.id}) }}">{{ commentaire.user.pseudo }}</a>
+                    {% else %}
+                        <a class="user" href="">Utilisateur supprimé</a>
+                    
+                    {% endif %}
                     <p>{{ commentaire.contenu|nl2br }}</p>
                 </div>
             {% endfor %}

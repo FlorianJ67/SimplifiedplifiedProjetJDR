@@ -18,7 +18,7 @@ class Commentaire
     private ?string $contenu = null;
 
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
-    private User $user;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
     #[ORM\JoinColumn(nullable: false)]
@@ -44,12 +44,12 @@ class Commentaire
         return $this;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?user $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 

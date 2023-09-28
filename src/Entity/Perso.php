@@ -49,7 +49,7 @@ class Perso
     private Collection $caracteristiquePersos;
 
     #[ORM\ManyToOne(inversedBy: 'persos')]
-    private User $user;
+    private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'persoFav')]
     private Collection $usersFav;
@@ -246,7 +246,7 @@ class Perso
     {
         return $this->user;
     }
-    // !!!!!!!! make this nullable !!!!!!!
+
     public function setUser(?User $user ): static
     {
         $this->user = $user;

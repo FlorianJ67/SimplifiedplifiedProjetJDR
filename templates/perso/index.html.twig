@@ -27,8 +27,12 @@
             </h2>
             <div class="editOrFav">
                 {% if app.user %}  
-                    {% if app.user != perso.user %}
-                        <a href="{{ path('info_user', {'id': perso.user.id}) }}">{{ perso.user.pseudo|capitalize }}</a>
+                    {% if app.user != perso.user %} 
+                        {% if perso.user %}
+                            <a href="{{ path('info_user', {'id': perso.user.id}) }}">{{ perso.user.pseudo|capitalize }}</a>
+                        {% else %}
+                            <a>Utilisateur supprimé</a>
+                        {% endif %}   
                     {% endif %}
                     <a href="{{ path('copy_perso', {'id': perso.id}) }}" title="Créer une copie"><i class="fa-solid fa-copy"></i></a>
                     {% set FavCheck = 0 %}
