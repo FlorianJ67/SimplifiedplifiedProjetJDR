@@ -10,7 +10,25 @@
 <h2>Action</h2>
 <div id="resumePerso">
     <p>{{ action.personnage }}</p>
-    <p>{{ action.objet }}</p>
+    {% if action.objet %}
+        <p>{{ action.objet }}</p>
+        <div>
+            {% set damageWeap = action.objet.valeur|split('d') %}
+            {% if damageWeap|length > 1  %}
+                {% set damageWeap2 = damageWeap[1]|split('+') %}
+                {% if damageWeap|length > 1 %}
+                    <p id="resumeDmg">Calcule de Dégats: {{ damageWeap[0] }} dés {{ damageWeap2[0] }} + {{ damageWeap2[1] }}</p>
+                {% else %} 
+                    <p id="resumeDmg">Calcule de Dégats: {{ damageWeap[0] }} dés {{ damageWeap2[0] }} </p>
+                {% endif %}
+            {% else %}
+                <p id="resumeDmg">Calcule de Dégats: 1 dés {{ damageWeap[0] }} </p>
+            {% endif %}
+            <button id="damageBtn" type="button" onclick="damageCalculator()">Lancé le jet de dégats</button>
+            <p id="resultDamage" >*résultat*</p>
+        </div>
+    {% endif %}
+    <p>basé sur un lancé de dé {{ action.dice }}</p>
     {% set zero = true %}
     {% set ignoreCarac = false %}
     <p> Résultat:
@@ -27,26 +45,19 @@
                         <!-- On vérifie si le personnage a la caractérisitique lié a la compétence -->
                             {% if carac.valeurBonus|first == "x" or carac.valeurBonus|first == "*" %}
                             <!-- Si la valeur du bonus commence par "x" ou "*" on considère que c'est une multiplication -->
-                                {% if action.objet %}
-                                <!-- Si l'action possède un objet -->
-                                    {{ action.diceScore + (caracPerso.valeur * carac.valeurBonus|slice(1)) + action.objet.valeur }}
-                                    {% set ignoreCarac = true %}
-                                {% else %}
-                                <!-- Sinon -->
-                                    {{ action.diceScore + (caracPerso.valeur * carac.valeurBonus|slice(1)) }}
-                                    {% set ignoreCarac = true %}
-                                {% endif %}
-                            {% elseif carac.valeurBonus|first == "+" or carac.valeurBonus matches '/^\d+$/' %}
-                            <!-- Si la valeur du bonus commence par un + ou est composé uniquement de chiffre -->
-                                {% if action.objet %}
-                                <!-- Si l'action possède un objet -->
-                                    {{ action.diceScore + (caracPerso.valeur + carac.valeurBonus|slice(1)) + action.objet.valeur }}
-                                    {% set ignoreCarac = true %}
-                                {% else %}
-                                <!-- Sinon -->
-                                    {{ action.diceScore + (caracPerso.valeur + carac.valeurBonus|slice(1)) }}
-                                    {% set ignoreCarac = true %}
-                                {% endif %}
+                                {{ action.diceScore + (caracPerso.valeur * carac.valeurBonus|slice(1)) }}
+                                ({{ action.diceScore }}+({{ caracPerso.valeur }}x{{ carac.valeurBonus|slice(1) }}))
+                                {% set ignoreCarac = true %}
+                            {% elseif carac.valeurBonus|first == "+" %}
+                            <!-- Si la valeur du bonus commence par un +  -->
+                                {{ action.diceScore + (caracPerso.valeur + carac.valeurBonus|slice(1)) }}
+                                ({{ action.diceScore }}+({{ caracPerso.valeur }}+{{ carac.valeurBonus|slice(1) }}))
+                                {% set ignoreCarac = true %}
+                            {% elseif carac.valeurBonus matches '/^\d+$/' %}
+                            <!-- Si la valeur du bonus est composé uniquement de chiffre -->
+                                {{ action.diceScore + (caracPerso.valeur + carac.valeurBonus) }}
+                                ({{ action.diceScore }}+({{ caracPerso.valeur }}+{{ carac.valeurBonus }}))
+                                {% set ignoreCarac = true %}                                
                             {% endif %}
                             {% set zero = false %}
                             <!-- Si la caractéristique apparait chez le personne on change la varible "zero" afin de passer l'étape du cas où le personnage n'a pas la compétence ni la caractéristique -->
@@ -88,6 +99,31 @@
     {% endif %}
     </p>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    // On définie nos variables
+    let calculDamageBtn = document.getElementById("damageBtn");
+    let resultDamage = document.getElementById("resultDamage");
+    let resumeDmg = document.getElementById("resumeDmg");
+    resumeDmg = resultDamage.replace('Calcule de Dégats: ','');
+
+    function damageCalculator() {
+        let dmgFormula = resumeDmg.split(' dés ');
+        if(dmgFormula.length > 1) {
+            diceQte = dmgFormula[0];
+            diceNbrAndBonus = dmgFormula[1].split(' + ');
+            diceNbr = diceNbrAndBonus[0];
+            bonusDmg = diceNbrAndBonus[1];
+
+        } else {
+
+        }
+
+
+    }
+</script>
 {% endblock %}
 
 {% block footer %}
