@@ -3,6 +3,7 @@
         "bajdzis.vscode-twig-pack",
         "mykhailokushnir.vscode-php-getter-setter",
         "mehedidracula.php-namespace-resolver",
-        "tabnine.tabnine-vscode"
+        "tabnine.tabnine-vscode",
+        "oderwat.indent-rainbow"
     ]
 }

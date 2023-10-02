@@ -60,6 +60,9 @@ class Perso
     #[ORM\OneToMany(mappedBy: 'persos', targetEntity: Inventaire::class, orphanRemoval: true)]
     private Collection $inventaires;
 
+    #[ORM\OneToMany(mappedBy: 'Personnage', targetEntity: Action::class, orphanRemoval: true)]
+    private Collection $actions;
+
     public function __construct()
     {
         $this->competencePersos = new ArrayCollection();
@@ -67,6 +70,7 @@ class Perso
         $this->usersFav = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->inventaires = new ArrayCollection();
+        $this->actions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -342,9 +346,39 @@ class Perso
         return $this;
     }
 
+    
+    /**
+     * @return Collection<int, Action>
+     */
+    public function getActions(): Collection
+    {
+        return $this->actions;
+    }
+    
+    public function addAction(Action $action): static
+    {
+        if (!$this->actions->contains($action)) {
+            $this->actions->add($action);
+            $action->setPersonnage($this);
+        }
+        
+        return $this;
+    }
+
+    public function removeAction(Action $action): static
+    {
+        if ($this->actions->removeElement($action)) {
+            // set the owning side to null (unless already changed)
+            if ($action->getPersonnage() === $this) {
+                $action->setPersonnage(null);
+            }
+        }
+        
+        return $this;
+    }
+    
     public function __toString()
     {
         return ucfirst($this->nom);
     }
-    
 }

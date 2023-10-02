@@ -29,7 +29,6 @@ class Objet
         $this->inventaires = new ArrayCollection();
     }
 
-
     public function getId(): ?int
     {
         return $this->id;
@@ -118,6 +117,6 @@ class Objet
 
     public function __toString()
     {
-        return ucfirst($this->nom . "(Dgt mult. " . $this->valeur . ")");
+        return ucfirst($this->nom . "(+" . $this->valeur . "dgt)");
     }
 }

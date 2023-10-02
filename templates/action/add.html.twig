@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une Action{% endblock %}
+
+{% block header %}
+    {{ include('header.html.twig') }}
+{% endblock %} 
+
+{% block body %}
+<h3>Action:</h3>
+<div class="persoForm">
+    {{ form_start(formAction) }}
+
+    {{ form_end(formAction) }}
+</div>
+{% endblock %}
+
+{% block footer %}
+    {{ include('footer.html.twig') }} 
+{% endblock %}

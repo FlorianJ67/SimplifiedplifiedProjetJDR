@@ -262,7 +262,6 @@ class PersoController extends AbstractController
     {    
         if ($this->getUser()) {
             $entityManager = $doctrine->getManager();
-              
             // On copie l'entité que l'on souhaite dupliquée
             $persoCopy = clone $perso;
             $persoCopy->setUser($this->getUser());

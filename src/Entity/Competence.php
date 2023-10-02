@@ -109,7 +109,7 @@ class Competence
 
     public function __toString()
     {
-        $ucNom = strtolower($this->nom);
-        return ucfirst($ucNom);
+        $lcNom = strtolower($this->nom);
+        return ucfirst($lcNom);
     }
 }
