@@ -1006,6 +1006,13 @@ main>h2 {
 }
 
 /* infoUser */
+#infoUser {
+    display: flex;
+    flex-direction: column;
+}
+#infoUser a:hover {
+    color: var(--color1);
+}
 #infoUser>h3 {
     border-top: 2px solid var(--color1);
     border-bottom: 2px solid var(--color1);
@@ -1015,6 +1022,29 @@ main>h2 {
     color: var(--color3);
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(255, 255, 255, 0.3) 0px 18px 36px -18px inset;
 }
+
+#profileUser {
+    width: fit-content;
+    min-width: 30%;
+    padding: 40px;
+    margin: 10px;
+    background-color: #ffffff85;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-top: 2px solid var(--purple);
+    position: relative;
+}
+#profileUser .pseudoUser {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#profileUser .deleteBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 
 /* footer */
 footer {

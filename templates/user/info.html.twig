@@ -8,7 +8,10 @@
 
 {% block body %}
     <div id="infoUser">
-        <div>
+        <div id="profileUser">
+            {% if app.user == user or is_granted("ROLE_ADMIN") %}
+                <a class="deleteBtn" title="Supprimer le compte" href="{{ path('delete_user', {'id': user.id}) }}"><i class="fa-solid fa-trash"></i></a>
+            {% endif %}
             <div class="pseudoUser">
                 <p>Pseudo: {{ user.pseudo }}</p>
                 {% if app.user == user or is_granted("ROLE_ADMIN") %}

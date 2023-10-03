@@ -111,58 +111,89 @@
     let resumeDmg = document.getElementById("resumeDmg").textContent;
     resumeDmg = resumeDmg.replace('Calcule de Dégats: ','');
 
+    // Fonction qui génère un nombre aléatoir allant de 0 à "max"
     function getRandomInt(max) {
         return Math.floor(Math.random() * max);
     }
 
     function damageCalculator() {
+        // On vide le contenu de la div dans laquel les infos du jet de dé seront affichés
         resultDamage.innerHTML = "";
+        // On sépare la chaine de caractère en deux avec comme point de rupture ' dés ' exclu
         let dmgFormula = resumeDmg.split(' dés ');
+        // Si la séparation a eu lieu
         if(dmgFormula.length > 1) {
+            // On définie le nombre de dés (on le convertie avec Nmber en format numériques)
             diceQte = Number(dmgFormula[0]);
+            // On sépare la chaine de caractère restante avec comme point de rupture ' + ' exclu
             diceNbrAndBonus = dmgFormula[1].split(' + ');
+            // Si la séparation a eu lieu
             if(diceNbrAndBonus.length > 1) {
+                // On définie le nombre de face du dé (on le convertie avec Nmber en format numériques)
                 diceNbr = Number(diceNbrAndBonus[0]);
+                // On définie le bonus a attribué a la fin du jet (on le convertie avec Nmber en format numériques)
                 bonusDmg = Number(diceNbrAndBonus[1]);
             } else {
+                // On définie uniquement le nombre de face du dé (sans bonus) (on le convertie avec Nmber en format numériques)
                 diceNbr = Number(diceNbrAndBonus[0]);
             }
         } else {
+            // On définie uniquement le nombre de face du dé (sans nombre de dés ni bonus) (on le convertie avec Nmber en format numériques)
             diceNbr = Number(dmgFormula[0]);
         }
+        // On instancie un tableau dans lequel on stock le résultat du jet de dé
         let diceScore = []
+        // Dans le cas ou l'on a un nombre de dé (ET un nombre de face du dé)
         if (diceQte && diceNbr) {
+            // Pour chaque dé
             for (let i = 0; i < diceQte; i++) {
+                // On génère les lancé via la fonction getRandomInt
                 diceScore.push(getRandomInt(diceNbr));
             }
         } else {
+            // On génère le lancé via la fonction getRandomInt
             diceScore.push(getRandomInt(diceNbr));
         }
-        let totalScore = 0;
-        if (bonusDmg) {
-            for (let i = 0; i < diceQte; i++) {
-                totalScore += diceScore[i] +1;
-            }
-            totalScore += bonusDmg;
-        } else {
-            for (let i = 0; i < diceQte; i++) {
-                totalScore += diceScore[i] +1;
-            }
+        // On instancie le score final
+        let totalScore = 0;        
+        // Pour chaque dé
+        for (let i = 0; i < diceQte; i++) {
+            // On additionne les scores des dés
+            totalScore += diceScore[i] +1;
         }
+        // S'il y a un bonus de dégats
+        if (bonusDmg) {
+            // On ajoute le bonus au total des score de dé
+            totalScore += bonusDmg;
+        }
+        // On crée un texte avec comme contenu ' "Score: " + totalScore '
         const textnode = document.createTextNode("Score: " + totalScore);
+        // On crée une balise de texte
         let node = document.createElement("p");
+        // On injecte notre texte dans la balise de texte
         node.appendChild(textnode);
+        // On injecte dans notre balise conténaire notre balise texte
         resultDamage.appendChild(node);
+        // Pour chaque lancé de dés
         for (let i = 0; i < diceScore.length; i++) {
+            // On crée une balise de texte
             let node = document.createElement("p");
+            // On crée un texte avec comme contenu 'i.dé "nombre de face du dé" : "score du lancé" '
             let textnode = document.createTextNode((i+1) + ".dé "+ diceNbr + ": " + (diceScore[i] + 1));
+            // On injecte notre texte dans la balise de texte
             node.appendChild(textnode);
+            // On injecte dans notre balise conténaire notre balise texte
             resultDamage.appendChild(node);
         }
+        // Si il y a un bonus sur le calcul
         if (bonusDmg) {
+            // On crée une balise de texte
             let node = document.createElement("p");
+            // On crée un texte avec comme contenu 'Bonus: + "le bonus" '
             let textnode = document.createTextNode("Bonus: +" + bonusDmg);
+            // On injecte notre texte dans la balise de texte
             node.appendChild(textnode);
+            // On injecte dans notre balise conténaire notre balise texte
             resultDamage.appendChild(node);
         }
     }

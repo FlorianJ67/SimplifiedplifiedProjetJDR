@@ -27,13 +27,17 @@ class UserController extends AbstractController
     #[Route('/user/{id}/giveAdmin', name: 'give_role_user_admin')]
     public function giveAdmin(ManagerRegistry $doctrine, User $user = null, Request $request): Response
     {
-        // On prépare l'entity Manager
-        $entityManager = $doctrine->getManager();
-        $role[] = "ROLE_ADMIN";
-        $user->setRoles($role);
-        $entityManager->persist($user);
-        $entityManager->flush();
-
+        if($this->getUser()) {
+            // Si l'utilisateur est un admin
+            if($this->isGranted('ROLE_ADMIN')) {
+                // On prépare l'entity Manager
+                $entityManager = $doctrine->getManager();
+                $role[] = "ROLE_ADMIN";
+                $user->setRoles($role);
+                $entityManager->persist($user);
+                $entityManager->flush();
+            }
+        }
         // On redirige sur la même page
         $route = $request->headers->get('referer');
         return $this->redirect($route);
