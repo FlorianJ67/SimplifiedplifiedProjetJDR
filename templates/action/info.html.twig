@@ -25,7 +25,9 @@
                 <p id="resumeDmg">Calcule de Dégats: 1 dés {{ damageWeap[0] }} </p>
             {% endif %}
             <button id="damageBtn" type="button" onclick="damageCalculator()">Lancé le jet de dégats</button>
-            <p id="resultDamage" >*résultat*</p>
+            <div id="resultDamage" >
+                
+            </div>
         </div>
     {% endif %}
     <p>basé sur un lancé de dé {{ action.dice }}</p>
@@ -106,22 +108,63 @@
     // On définie nos variables
     let calculDamageBtn = document.getElementById("damageBtn");
     let resultDamage = document.getElementById("resultDamage");
-    let resumeDmg = document.getElementById("resumeDmg");
-    resumeDmg = resultDamage.replace('Calcule de Dégats: ','');
+    let resumeDmg = document.getElementById("resumeDmg").textContent;
+    resumeDmg = resumeDmg.replace('Calcule de Dégats: ','');
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
 
     function damageCalculator() {
+        resultDamage.innerHTML = "";
         let dmgFormula = resumeDmg.split(' dés ');
         if(dmgFormula.length > 1) {
-            diceQte = dmgFormula[0];
+            diceQte = Number(dmgFormula[0]);
             diceNbrAndBonus = dmgFormula[1].split(' + ');
-            diceNbr = diceNbrAndBonus[0];
-            bonusDmg = diceNbrAndBonus[1];
-
+            if(diceNbrAndBonus.length > 1) {
+                diceNbr = Number(diceNbrAndBonus[0]);
+                bonusDmg = Number(diceNbrAndBonus[1]);
+            } else {
+                diceNbr = Number(diceNbrAndBonus[0]);
+            }
         } else {
-
+            diceNbr = Number(dmgFormula[0]);
         }
-
-
+        let diceScore = []
+        if (diceQte && diceNbr) {
+            for (let i = 0; i < diceQte; i++) {
+                diceScore.push(getRandomInt(diceNbr));
+            }
+        } else {
+            diceScore.push(getRandomInt(diceNbr));
+        }
+        let totalScore = 0;
+        if (bonusDmg) {
+            for (let i = 0; i < diceQte; i++) {
+                totalScore += diceScore[i] +1;
+            }
+            totalScore += bonusDmg;
+        } else {
+            for (let i = 0; i < diceQte; i++) {
+                totalScore += diceScore[i] +1;
+            }
+        }
+        const textnode = document.createTextNode("Score: " + totalScore);
+        let node = document.createElement("p");
+        node.appendChild(textnode);
+        resultDamage.appendChild(node);
+        for (let i = 0; i < diceScore.length; i++) {
+            let node = document.createElement("p");
+            let textnode = document.createTextNode((i+1) + ".dé "+ diceNbr + ": " + (diceScore[i] + 1));
+            node.appendChild(textnode);
+            resultDamage.appendChild(node);
+        }
+        if (bonusDmg) {
+            let node = document.createElement("p");
+            let textnode = document.createTextNode("Bonus: +" + bonusDmg);
+            node.appendChild(textnode);
+            resultDamage.appendChild(node);
+        }
     }
 </script>
 {% endblock %}

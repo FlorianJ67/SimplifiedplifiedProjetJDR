@@ -71,12 +71,13 @@ class PersoController extends AbstractController
         }
         // Si aucun personnage n'existe
         if (!$perso) {
-            // Créer un moule
+            // On instancie l'objet Perso
             $perso = new Perso();
         } else {
             $persoOwner = $perso->getUser();
             // Si l'utilisateur connecté n'est pas le propriétaire ou admin
             if ($persoOwner !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+                // On redirige
                 return $this->redirectToRoute("app_login");
             }
         }
@@ -87,7 +88,7 @@ class PersoController extends AbstractController
         
         // Validation du formulaire:
         if ($persoForm->isSubmitted() && $persoForm->isValid()) {
-
+            // On récupère les données des inputs du formulaire
             $perso = $persoForm->getData();
             // On créer un tableau pour vérifié les associations déjà résente
             $alreadyHave = [];
@@ -103,7 +104,7 @@ class PersoController extends AbstractController
             foreach($alreadyHave as $caracPersoHave ){
                 foreach($alreadyHave as $caracPersoHaveCheck) {
                     // Si oui
-                    if($caracPersoHave->getCaracteristique() == $caracPersoHaveCheck->getCaracteristique()){
+                    if($caracPersoHave->getCaracteristique() == $caracPersoHaveCheck->getCaracteristique() && $caracPersoHave->getId() != $caracPersoHaveCheck->getId()){
                         // On remplace la valeur de la caractéristique déjà présente par la valeur de celle en doublon
                         $caracPersoHave->setValeur($caracPersoHaveCheck->getValeur());
                         // On supprime le doublon
@@ -127,7 +128,7 @@ class PersoController extends AbstractController
             foreach($alreadyHave as $compPersoHave ){
                 foreach($alreadyHave as $compPersoHaveCheck) {
                     // Si oui
-                    if($compPersoHave->getCompetence() == $compPersoHaveCheck->getCompetence()){
+                    if($compPersoHave->getCompetence() == $compPersoHaveCheck->getCompetence() && $compPersoHave->getId() != $compPersoHaveCheck->getId()){
                         // On remplace la valeur de la compétence déjà présente par la valeur de celle en doublon
                         $compPersoHave->setValeur($compPersoHaveCheck->getValeur());
                         // On supprime le doublon
@@ -135,13 +136,15 @@ class PersoController extends AbstractController
                         $entityManager->persist($compPersoHave);
                     // Si non
                     } else {
-                        // On lie le personnage a a nouvelle compétence
+                        // On lie le personnage a la nouvelle compétence
                         $compPersoHaveCheck->setPerso($perso);
                         $entityManager->persist($compPersoHaveCheck);
                     } 
                 }
             }
+            // Pour chaque objet dans l'inventaire de notre personnage
             foreach($perso->getInventaires() as $objet) {
+                // On assigne le personnage a l'objet
                 $objet->setPersos($perso);
                 $entityManager->persist($objet);
             }
