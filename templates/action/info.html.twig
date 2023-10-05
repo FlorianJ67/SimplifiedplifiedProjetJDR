@@ -86,7 +86,11 @@
         {% endfor %}
     {% endif %}
     {% if zero == true %}
-        {{  action.diceScore }}
+        {% if action.objet and action.objet.valeur matches '/^\\d+$/'  %}
+            {{  action.diceScore + action.objet.valeur }}
+        {% else %}
+            {{  action.diceScore }}
+        {% endif %}
     {% endif %}
     {% if action.diceScore == 1 %}
     <!-- Si le lancé de dée fait le jet minimum -->
