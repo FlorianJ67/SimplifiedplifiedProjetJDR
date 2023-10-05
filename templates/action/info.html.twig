@@ -86,11 +86,7 @@
         {% endfor %}
     {% endif %}
     {% if zero == true %}
-        {% if action.objet %}
-            {{  action.diceScore + action.objet.valeur }}
-        {% else %}
-            {{  action.diceScore }}
-        {% endif %}
+        {{  action.diceScore }}
     {% endif %}
     {% if action.diceScore == 1 %}
     <!-- Si le lancé de dée fait le jet minimum -->
@@ -121,6 +117,8 @@
         resultDamage.innerHTML = "";
         // On sépare la chaine de caractère en deux avec comme point de rupture ' dés ' exclu
         let dmgFormula = resumeDmg.split(' dés ');
+
+        let bonusDmg = 0;
         // Si la séparation a eu lieu
         if(dmgFormula.length > 1) {
             // On définie le nombre de dés (on le convertie avec Nmber en format numériques)
@@ -162,7 +160,7 @@
             totalScore += diceScore[i] +1;
         }
         // S'il y a un bonus de dégats
-        if (bonusDmg) {
+        if (bonusDmg != 0) {
             // On ajoute le bonus au total des score de dé
             totalScore += bonusDmg;
         }
