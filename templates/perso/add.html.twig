@@ -2,6 +2,8 @@
 
 {% block title %}Créer un Personnage{% endblock %}
 
+{% block description %}<meta name="description" content="Création d'une fiche de personnage">{% endblock %}
+
 {% block header %}
     {{ include('header.html.twig') }}
 {% endblock %} 
@@ -18,7 +20,7 @@
         height: {{ percentHealt }};
     }
 </style>
-<h3>Crée un personnage</h3>
+<h1>Crée un personnage</h1>
 <div class="persoForm">
     {{ form_start(formAddPerso) }}
     <div class="healtBar">

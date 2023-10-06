@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}info Action{% endblock %}
+{% block title %}info Action {{ action.personnage }}{% endblock %}
+
+{% block description %}<meta name="description" content="Information de l'action du personnage {{ action.personnage }}">{% endblock %}
 
 {% block header %}
     {{ include('header.html.twig') }}
