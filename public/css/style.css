@@ -74,7 +74,7 @@ header {
     margin-bottom: 10px;
     height: 10vh;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     background-color: var(--color2);
     box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(255, 255, 255, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
@@ -82,7 +82,7 @@ header>#logo {
     position: relative;
     width: 15vh;
     overflow: hidden;
-
+    margin-left: 5px;
 }
 header>#logo>img {
     height: 10vh;
@@ -132,7 +132,7 @@ header>ul {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 80%;
+    width: 85%;
     padding: 0;
 }
 header>ul>li{
@@ -1067,3 +1067,137 @@ footer>ul {
 .sf-toolbar {
     position: absolute;
 }
+/* Action form */
+.action > form {
+    display: block;
+}
+.action > form > div {
+    width: unset !important;
+}
+.action > form > div > label, .action > form > div > input, .action > form > div > select{
+    width: 50%!important;
+}
+.action > form > div > input, .action > form > div > select{
+    border-radius: 0 15px 15px 0;
+}
+
+/* Menu Burger */
+.menu {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menu > li {
+    margin: 0 1rem;
+    
+  }
+  
+  .menu-button-container {
+    display: none;
+    height: 100%;
+    width: 30px;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 12px;
+  }
+  
+  #menu-toggle {
+    display: none;
+  }
+  
+  .menu-button,
+  .menu-button::before,
+  .menu-button::after {
+    display: block;
+    background-color: #fff;
+    position: absolute;
+    height: 4px;
+    width: 30px;
+    transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+    border-radius: 2px;
+  }
+  
+  .menu-button::before {
+    content: '';
+    margin-top: -8px;
+  }
+  
+  .menu-button::after {
+    content: '';
+    margin-top: 8px;
+  }
+  
+  #menu-toggle:checked + .menu-button-container .menu-button::before {
+    margin-top: 0px;
+    transform: rotate(405deg);
+  }
+  
+  #menu-toggle:checked + .menu-button-container .menu-button {
+    background: rgba(255, 255, 255, 0);
+  }
+  
+  #menu-toggle:checked + .menu-button-container .menu-button::after {
+    margin-top: 0px;
+    transform: rotate(-405deg);
+  }
+  
+  @media (max-width: 768px) {
+    header {
+        justify-content: space-between
+    }
+    .menu-button-container {
+      display: flex;
+    }
+    .menu {
+      position: absolute;
+      top: 0;
+      margin-top: 84px;
+      left: 0;
+      z-index: 10;
+      flex-direction: column;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+    #menu-toggle ~ .menu li {
+      height: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      transition: height 400ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    #menu-toggle:checked ~ .menu li {
+      border: 1px solid #333;
+      height: 2.5em;
+      padding: 0.5em;
+      transition: height 400ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .menu > li > i {
+        display: none;
+    }
+    .menu > li {
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      margin: 0;
+      padding: 0.5em 0;
+      width: 100%;
+      color: white;
+      background-color: #222;
+    }
+    .menu > li:not(:last-child) {
+      border-bottom: 1px solid #444;
+    }
+    #resumePerso {
+      width: 95%;
+    }
+    footer > ul {
+        flex-direction: column;
+        align-items: center;
+    }
+  }

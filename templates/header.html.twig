@@ -2,17 +2,22 @@
     <a id="logo" href="{{ path('app_home') }}">
         <img src="{{ asset('/img/d20-logo.png') }}" alt="logo">
     </a>
-    <ul>
+    <input id="menu-toggle" type="checkbox" />
+    <label class='menu-button-container' for="menu-toggle">
+    <div class='menu-button'></div>
+  </label>
+    <ul class="menu">
         <li><a title="Voir la liste des personnages" href="{{ path('app_perso') }}">Liste des personnages</a></li>
         {% if app.user %}
             <li><a title="Voir la liste de ses personnages" href="{{ path('my_perso') }}">Mes personnages</a></li>
             <li><a title="Créer un personnage" href="{{ path('add_perso') }}">Crée un personnage</a><i class="fas fa-plus-circle"></i></li>
         {% endif %}
         <li><a title="Voir la liste des joueurs" href="{{ path('app_user') }}">Liste des joueurs</a></li>
-    </ul>
-    <ul>
+        {% if is_granted('ROLE_ADMIN')  %}
+            <li><a title="Créer une action" href="{{ path('add_action') }}">Crée une action</a><i class="fas fa-plus-circle"></i></li>
+        {% endif %}
         {% if app.user %}
-            <li id="welcome"><a title="Voir le profil de {{ app.user }}" href="{{ path('info_user', {'id': app.user.id}) }}">Bonjour {{ app.user.pseudo }}</a></li>
+            <li ><a title="Voir le profil de {{ app.user }}" href="{{ path('info_user', {'id': app.user.id}) }}">Bonjour {{ app.user.pseudo }}</a></li>
             <li><a title="Se déconnecter" href="{{ path('app_logout') }}" class="logout">Se déconnecter</a></li>
         {% else %}
             <li><a title="S'inscrire" href="{{ path('app_register') }}">S'inscrire</a></li>

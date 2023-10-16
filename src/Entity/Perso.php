@@ -60,7 +60,7 @@ class Perso
     #[ORM\OneToMany(mappedBy: 'persos', targetEntity: Inventaire::class, orphanRemoval: true)]
     private Collection $inventaires;
 
-    #[ORM\OneToMany(mappedBy: 'Personnage', targetEntity: Action::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'personnage', targetEntity: Action::class, orphanRemoval: true)]
     private Collection $actions;
 
     public function __construct()
