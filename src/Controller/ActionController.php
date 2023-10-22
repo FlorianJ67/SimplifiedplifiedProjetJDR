@@ -23,31 +23,33 @@ class ActionController extends AbstractController
     #[Route('/action/add/', name: 'add_action')]
     public function add(ManagerRegistry $doctrine, Request $request): Response
     {
-        // Créer une action     
-        $actionForm = $this->createForm(ActionType::class);
-        $actionForm->handleRequest($request);
-        
-        // Validation du formulaire:
-        if ($actionForm->isSubmitted() && $actionForm->isValid()) {
-            // On récupère les donnees du formulaire
-            $action = $actionForm->getData();
-            // On prépare l'entity Manager
-            $entityManager = $doctrine->getManager();
-
-            $diceScore = rand(1, $action->getDice());
-
-            $action->setDiceScore($diceScore);
-
-            $entityManager->persist($action);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('info_action', ['id' => $action->getId()]);
-        }
-
+        if ($this->isGranted('ROLE_ADMIN') == true) {
+            // Créer une action     
+            $actionForm = $this->createForm(ActionType::class);
+            $actionForm->handleRequest($request);
             
-        return $this->render('action/add.html.twig', [
-            'formAction' => $actionForm->createView(),
-        ]);
+            // Validation du formulaire:
+            if ($actionForm->isSubmitted() && $actionForm->isValid()) {
+                // On récupère les donnees du formulaire
+                $action = $actionForm->getData();
+                // On prépare l'entity Manager
+                $entityManager = $doctrine->getManager();
+    
+                $diceScore = rand(1, $action->getDice());
+    
+                $action->setDiceScore($diceScore);
+    
+                $entityManager->persist($action);
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('info_action', ['id' => $action->getId()]);
+            } 
+            return $this->render('action/add.html.twig', [
+                'formAction' => $actionForm->createView(),
+            ]);
+        }else {
+            return $this->redirectToRoute('app_home');
+        }      
     }
 
     #[Route('/action/{id}/', name: 'info_action')]

@@ -235,7 +235,7 @@ main>h2 {
 }
 .userForm>form, .persoForm>form {
     position: relative;
-    padding: 1.3%;
+    padding: 4.3%;
     border-radius: 4px;
     height: fit-content;
     display: flex;

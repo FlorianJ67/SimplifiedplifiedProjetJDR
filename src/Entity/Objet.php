@@ -117,6 +117,6 @@ class Objet
 
     public function __toString()
     {
-        return ucfirst($this->nom . "(+" . $this->valeur . "dgt)");
+        return ucfirst($this->nom . "(dégats:" . $this->valeur . ")");
     }
 }
